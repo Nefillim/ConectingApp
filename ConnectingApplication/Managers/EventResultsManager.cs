@@ -21,7 +21,6 @@ namespace ConnectingApplication.Managers
 
 		public static void OnNewAvailableDialog(string dialogId)
 		{
-			Dialog d = new Dialog();
 			d.id = dialogId;
 			d.selectableNodes = Core.CoreController.DialogueManager.GetNodesForDialogue(dialogId, 0,  (Core.Dialogues.DialogueBlock.BlockType)(d.currentBlock) , Core.Dialogues.EGetDialogueNodeType.actual);
 		}

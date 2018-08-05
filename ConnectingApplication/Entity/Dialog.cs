@@ -2,6 +2,7 @@
 using ConnectingApplication.Entity.Characters;
 using ConnectingApplication.Managers;
 using Core;
+using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
@@ -11,14 +12,25 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Entity
 {
-	public class Dialog
+	public class Dialog : Core.Dialogues.Dialogue
 	{
 		public List<DialogueNode> selectableNodes;
-		public List<Character> characters;
+		public List<string> characters;
 		public DialogueNode currentNode;
 		public bool multiusage;
 		public Core.Dialogues.DialogueBlock.BlockType currentBlock;
 		public string id;
+
+
+		public Dialog(Dialogue dialgoue)
+		{
+			id = dialgoue.Id;
+			characters.AddRange(dialgoue.Participants);
+			selectableNodes = new List<DialogueNode>();
+			multiusage = dialgoue.Reusable;
+
+		}
+
 		public List<DialogueNode> TakeNextNodes(int nodeId)
 		{
 			List<DialogueNode> newNodes = new List<DialogueNode>();

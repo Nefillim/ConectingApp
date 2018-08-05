@@ -40,7 +40,6 @@ namespace ConnectingApplication.Managers
 			
 		public static void StartDialog(string dialogId)
 		{
-			Dialog newOne = new Dialog();
 			newOne.id = dialogId;
 			if (ActiveDialogs.Count() > 0)
 			{

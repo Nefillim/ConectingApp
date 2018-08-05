@@ -49,7 +49,6 @@
     <Compile Include="Entity\Characters\NPC.cs" />
     <Compile Include="Entity\Characters\Player.cs" />
     <Compile Include="Entity\Dialog.cs" />
-    <Compile Include="Entity\DialogNode.cs" />
     <Compile Include="Managers\BusinessManager.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
     <Compile Include="Managers\DialogManager.cs" />
