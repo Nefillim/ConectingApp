@@ -13,8 +13,6 @@ namespace ConnectingApplication.Managers
 	}
 	public static class FlagManager
 	{
-		private static Queue<Flag> saveQueue = new Queue<Flag>();
-		
 		public static int GetFlag(string flagName)
 		{
 			return Core.CoreController.FlagsManager.Get(flagName);
@@ -27,7 +25,7 @@ namespace ConnectingApplication.Managers
 				Flag flag;
 				flag.name = flagName;
 				flag.value = value;
-				saveQueue.Enqueue(flag);
+				DownloadManager.EnqueueFlag(flag);
 				return true;
 			}
 			return false;
