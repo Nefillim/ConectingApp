@@ -13,8 +13,8 @@ namespace ConnectingApplication.Managers
 	public static class DialogManager
 	{
 		public static Stack<Dialog> ActiveDialogs;
-		public static Stack<Dialog> Discussions;
-		public static List<Dialog > TextMessages;
+		public static List<Dialog> Discussions;
+		public static List<Dialog> TextMessages;
 
 		public static Player player;
 
@@ -29,24 +29,29 @@ namespace ConnectingApplication.Managers
 				ActiveDialogs.Pop();
 				if (!curDialog.multiusage)
 				{
-					foreach (Character ch in curDialog.characters)
+					foreach (string ch in curDialog.characters)
 					{
-						ch.AvailableDialogs.Remove(curDialog);
+						CharacterManager.Characters.Find(c => c.id == ch).AvailableDialogs.Remove(curDialog);
 					}
 				}
 				return ContinueDialog(0);
 			}
 		}
 			
-		public static void StartDialog(string dialogId)
+		public static void StartDialog(string dialogId, string charId)
 		{
-			newOne.id = dialogId;
+			Dialog newOne = CharacterManager.GetDialog(charId, dialogId);
 			if (ActiveDialogs.Count() > 0)
 			{
 				newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
 			}
 			newOne.selectableNodes = Core.CoreController.DialogueManager.GetNodesForDialogue(dialogId, 0, newOne.currentBlock ,Core.Dialogues.EGetDialogueNodeType.actual);
 			ActiveDialogs.Push(newOne);
+		}
+
+		public static List<DialogueNode> ContinueDisscussion(string dialogId)
+		{
+			return Discussions.Find(d => d.id == dialogId).TakeNextNodes();
 		}
 
 

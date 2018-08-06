@@ -16,9 +16,18 @@ namespace ConnectingApplication.Managers
 		{
 			character.AddDialog(dialog);
 		}
-		public static List<Dialog> GetDialogs(NPC character)
+		public static List<Dialog> GetDialogs(string character)
 		{
-			return character.GetDialogs();
+			if (Characters.Find(ch => ch.id == character) is NPC)
+				return ((NPC)Characters.Find(ch => ch.id == character)).GetDialogs();
+			else
+				return null;
 		}
+
+		public static Dialog GetDialog(string characterId, string dialogId)
+		{
+			return GetDialogs(characterId).Find(d => d.id == dialogId);
+		}
+
 	}
 }
