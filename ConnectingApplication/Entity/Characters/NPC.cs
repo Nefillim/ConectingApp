@@ -10,7 +10,9 @@ namespace ConnectingApplication.Characters
 {
 	public class NPC : Character
 	{
-		public void AddDialog(Dialog d)
+        public List<Dialog> AvailableDialogs = new List<Dialog>();
+
+        public void AddDialog(Dialog d)
 		{
 			AvailableDialogs.Add(d);
 		}

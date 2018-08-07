@@ -33,7 +33,7 @@ namespace ConnectingApplication.Managers
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
                 Dialog dialog = new Dialog(dialogue);
                 dialog.selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(d, 0, BlockType.hi, EGetDialogueNodeType.actual);
-                //TODO: че-нить доделать.
+                CharacterManager.AddDialog(dialog, dialog.selectableNodes.First().Role);
             }
         }
 

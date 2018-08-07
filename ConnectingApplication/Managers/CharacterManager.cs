@@ -11,15 +11,19 @@ namespace ConnectingApplication.Managers
 {
 	public static class CharacterManager
 	{
-		public static List<Character> Characters = new List<Character>();
-		public static void AddDialog(Dialog dialog, NPC character)
+        public static Dictionary<string, Character> Characters = new Dictionary<string, Character>();
+
+
+		public static void AddDialog(Dialog dialog, string character)
 		{
-			character.AddDialog(dialog);
+            if (Characters.ContainsKey(character) && Characters[character] is NPC)
+                ((NPC)Characters[character]).AddDialog(dialog);
 		}
+
 		public static List<Dialog> GetDialogs(string character)
 		{
-			if (Characters.Find(ch => ch.id == character) is NPC)
-				return ((NPC)Characters.Find(ch => ch.id == character)).GetDialogs();
+			if (Characters.ContainsKey(character) && Characters[character] is NPC)
+				return ((NPC)Characters[character]).GetDialogs();
 			else
 				return null;
 		}
