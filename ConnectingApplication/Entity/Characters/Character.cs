@@ -9,7 +9,6 @@ namespace ConnectingApplication.Entity.Characters
 {
 	public class Character
 	{
-		public List<Dialog> AvailableDialogs = new List<Dialog>();
 		public string id;
 		public virtual void Say(DialogueNode phrase) { }
 		public int[] position;
