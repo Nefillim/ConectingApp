@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Core">
-      <HintPath>..\..\Silicon Valley\Assets\Libraries\Core.dll</HintPath>
+      <HintPath>..\..\Startaper_Core\CoreTest\bin\Debug\Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -55,6 +55,7 @@
     <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Managers\EventResultsManager.cs" />
     <Compile Include="Managers\FlagManager.cs" />
+    <Compile Include="Managers\ViewManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

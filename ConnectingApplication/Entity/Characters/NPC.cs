@@ -18,5 +18,7 @@ namespace ConnectingApplication.Characters
 		{
 			return AvailableDialogs;
 		}
+
+
 	}
 }

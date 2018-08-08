@@ -11,6 +11,7 @@ namespace ConnectingApplication.Characters
 {
 	public class Player : Character
 	{
-		public static List<DialogueNode> textMessages;
+		public Queue<DialogueNode> textMessages;
+		public List<string> PhoneContacts; 
 	}
 }
