@@ -20,5 +20,15 @@ namespace ConnectingApplication.Managers
         {
             iteratorPosition = saveQueue.Count;
         }
+
+		public static void Download()
+		{
+
+		}
+
+		public static void Save()
+		{
+
+		}
     }
 }

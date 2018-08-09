@@ -1,4 +1,5 @@
-﻿using ConnectingApplication.Entity;
+﻿using ConnectingApplication.Characters;
+using ConnectingApplication.Entity;
 using Core;
 using Core.Dialogues;
 using Core.Dialogues.DialogueBlock;
@@ -44,5 +45,11 @@ namespace ConnectingApplication.Managers
             var business = BusinessManager.GetBusinessInfo(businesses.First());
             DownloadManager.SetNewIteratorPosition();
         }
+
+		public static void OnNewCharacterFact(List<string> facts)
+		{
+			NPC character = (NPC)CharacterManager.Characters[facts.First()];
+			character.CharacterInfo.Add(facts.Last());
+		}
     }
 }
