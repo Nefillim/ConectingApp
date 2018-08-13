@@ -33,5 +33,9 @@ namespace ConnectingApplication.Managers
 			return GetDialogs(characterId).Find(d => d.id == dialogId);
 		}
 
+		public static List<string> GetCharacterInfo(string charId)
+		{
+			return ((NPC)Characters[charId]).CharacterInfo;
+		}
 	}
 }

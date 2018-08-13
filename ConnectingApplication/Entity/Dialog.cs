@@ -46,13 +46,13 @@ namespace ConnectingApplication.Entity
 				{
 					case Core.Dialogues.DialogueBlock.BlockType.hi:
 						currentBlock++;
-						break;
+						return TakeNextNodes(0);
 					case Core.Dialogues.DialogueBlock.BlockType.body:
 						if (DialogManager.ActiveDialogs.Count == 1)
 							currentBlock++;
 						else
 							currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-						break;
+						return TakeNextNodes(0);
 					case Core.Dialogues.DialogueBlock.BlockType.next:
 
 						break;
@@ -77,15 +77,14 @@ namespace ConnectingApplication.Entity
 				{
 					case Core.Dialogues.DialogueBlock.BlockType.hi:
 						currentBlock++;
-						break;
+						return TakeNextNodes(0);
 					case Core.Dialogues.DialogueBlock.BlockType.body:
 						if (DialogManager.ActiveDialogs.Count == 1)
 							currentBlock++;
 						else
 							currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-						break;
+						return TakeNextNodes(0);
 					case Core.Dialogues.DialogueBlock.BlockType.next:
-
 						break;
 					default:
 						break;

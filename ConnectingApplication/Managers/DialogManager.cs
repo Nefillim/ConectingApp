@@ -13,6 +13,7 @@ namespace ConnectingApplication.Managers
 	public static class DialogManager
 	{
 		public static Stack<Dialog> ActiveDialogs;
+		public static Dictionary<string, Dialog> ActiveMessageDialogs;
 		public static List<Dialog> Discussions;
 		public static List<Dialog> TextMessages;
 
@@ -31,13 +32,30 @@ namespace ConnectingApplication.Managers
 				{
 					foreach (string ch in curDialog.characters)
 					{
-						CharacterManager.Characters.Find(c => c.id == ch).AvailableDialogs.Remove(curDialog);
+						((NPC)CharacterManager.Characters[ch]).AvailableDialogs.Remove(curDialog);
 					}
 				}
 				return ContinueDialog(0);
 			}
 		}
-			
+
+		public static List<DialogueNode> ContinueMessangerDialog(int nodeId, string dialogId, string charId)
+		{
+			Dialog curDialog = ActiveMessageDialogs[dialogId];
+			curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
+			Player player = (Player)CharacterManager.Characters.Values.ToList().Find(p => p is Player);
+			if (curDialog.TakeNextNodes(nodeId) != null)
+			{
+				player.textMessages[dialogId].Enqueue(curDialog.currentNode);
+				return curDialog.TakeNextNodes(nodeId);
+			}
+			else
+			{
+				ActiveMessageDialogs.Remove(dialogId);
+				return null;
+			}
+		}
+
 		public static void StartDialog(string dialogId, string charId)
 		{
 			Dialog newOne = CharacterManager.GetDialog(charId, dialogId);
