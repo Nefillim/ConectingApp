@@ -1,6 +1,7 @@
 ﻿using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
+using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,20 +18,18 @@ namespace ConnectingApplication.Managers
 		public static void AddDialog(Dialog dialog, string character)
 		{
             if (Characters.ContainsKey(character) && Characters[character] is NPC)
-                ((NPC)Characters[character]).AddDialog(dialog);
+            {
+                if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
+                {
+                    DialogManager.Discussions.Add(dialog);
+                }
+                else ((NPC)Characters[character]).AddDialog(dialog);
+            }
 		}
 
-		public static List<Dialog> GetDialogs(string character)
+		public static Dialog GetDialog(string characterId, DialogueMode mode)
 		{
-			if (Characters.ContainsKey(character) && Characters[character] is NPC)
-				return ((NPC)Characters[character]).GetDialogs();
-			else
-				return null;
-		}
-
-		public static Dialog GetDialog(string characterId, string dialogId)
-		{
-			return GetDialogs(characterId).Find(d => d.id == dialogId);
+            return ((NPC)Characters[characterId]).GetActualDialog(mode);
 		}
 
 		public static List<string> GetCharacterInfo(string charId)

@@ -32,14 +32,14 @@ namespace ConnectingApplication.Managers
 				{
 					foreach (string ch in curDialog.characters)
 					{
-						((NPC)CharacterManager.Characters[ch]).AvailableDialogs.Remove(curDialog);
+						((NPC)CharacterManager.Characters[ch]).AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
 					}
 				}
 				return ContinueDialog(0);
 			}
 		}
 
-		public static List<DialogueNode> ContinueMessangerDialog(int nodeId, string dialogId, string charId)
+		public static List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId)
 		{
 			Dialog curDialog = ActiveMessageDialogs[dialogId];
 			curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
@@ -56,14 +56,14 @@ namespace ConnectingApplication.Managers
 			}
 		}
 
-		public static void StartDialog(string dialogId, string charId)
+		public static void StartDialog(string charId, DialogueMode dialogueMode)
 		{
-			Dialog newOne = CharacterManager.GetDialog(charId, dialogId);
+			Dialog newOne = CharacterManager.GetDialog(charId, dialogueMode);
 			if (ActiveDialogs.Count() > 0)
 			{
 				newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
 			}
-			newOne.selectableNodes = Core.CoreController.DialogueManager.GetNodesForDialogue(dialogId, 0, newOne.currentBlock ,Core.Dialogues.EGetDialogueNodeType.actual);
+			newOne.selectableNodes = Core.CoreController.DialogueManager.GetNodesForDialogue(newOne.id, 0, newOne.currentBlock ,Core.Dialogues.EGetDialogueNodeType.actual);
 			ActiveDialogs.Push(newOne);
 		}
 

@@ -1,5 +1,6 @@
 ﻿using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
+using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,41 +9,56 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Characters
 {
-	public enum Emotion
-	{
-		kind,
-		angry,
-		bored,
-		interested,
-		scared
-	}
+    public enum Emotion
+    {
+        kind,
+        angry,
+        bored,
+        interested,
+        scared
+    }
 
-	public enum Relationship
-	{
-		friend,
-		normal,
-		opposition,
-		enemy,
-	}
+    public enum Relationship
+    {
+        friend,
+        normal,
+        opposition,
+        enemy,
+    }
 
-	public class NPC : Character
-	{
-        public List<Dialog> AvailableDialogs = new List<Dialog>();
+    public class NPC : Character
+    {
+        public Dictionary<DialogueMode, List<Dialog>> AvailableDialogs = new Dictionary<DialogueMode, List<Dialog>>();
+
+
+        private void TryToStartDialog(Dialog d)
+        {
+            // TODO: подрубить шнягу из треугольника про проверку возможности активации диалога.
+        }
 
         public void AddDialog(Dialog d)
-		{
-            AvailableDialogs.Add(d);
-		}
-		public List<Dialog> GetDialogs()
-		{
-			return AvailableDialogs;
-		}
+        {
+            if (!AvailableDialogs.ContainsKey(d.DialogueMode))
+                AvailableDialogs.Add(d.DialogueMode, new List<Dialog>());
 
-		public List<string> CharacterInfo;
+            if (d.CharacterDialogue == NatureOfTheDialogue.express)
+                AvailableDialogs[d.DialogueMode].Insert(0, d);
+            else AvailableDialogs[d.DialogueMode].Add(d);
 
-		public Emotion state;
+            if (d.Outgoing)
+                TryToStartDialog(d);
+        }
 
-		public Dictionary<string, Relationship> Relationships;
-			
-	}
-} 
+        public Dialog GetActualDialog(DialogueMode dialogueMode)
+        {
+            return AvailableDialogs[dialogueMode].First();
+        }
+
+        public List<string> CharacterInfo;
+
+        public Emotion state;
+
+        public Dictionary<string, Relationship> Relationships;
+
+    }
+}

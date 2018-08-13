@@ -31,8 +31,10 @@ namespace ConnectingApplication.Managers
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                Dialog dialog = new Dialog(dialogue);
-                dialog.selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(d, 0, BlockType.hi, EGetDialogueNodeType.actual);
+                Dialog dialog = new Dialog(dialogue)
+                {
+                    selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(d, 0, BlockType.hi, EGetDialogueNodeType.actual)
+                };
                 CharacterManager.AddDialog(dialog, dialog.selectableNodes.First().Role);
             }
         }
