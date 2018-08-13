@@ -15,7 +15,7 @@ namespace ConnectingApplication.Managers
 	{
 		public static int GetFlag(string flagName)
 		{
-			return Core.CoreController.FlagsManager.Get(flagName);
+			return Core.CoreController.FlagsManager.GetValue(flagName);
 		}
 
 		public static bool SetFlag(string flagName, int value)
@@ -31,6 +31,10 @@ namespace ConnectingApplication.Managers
 			return false;
 		}
 
+		public static bool CompareFlag(string flagname, int value)
+		{
+			return Core.CoreController.FlagsManager.GetValue(flagname) == value;
+		}
 
 	}
 }
