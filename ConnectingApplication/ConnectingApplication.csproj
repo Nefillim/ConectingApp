@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Core">
-      <HintPath>..\..\Silicon Valley\Assets\Libraries\Core.dll</HintPath>
+      <HintPath>..\..\Startaper_Source\Assets\Core\Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

@@ -14,11 +14,11 @@ namespace ConnectingApplication.Characters
 
         public void AddDialog(Dialog d)
 		{
-			AvailableDialogs.Add(d);
+            AvailableDialogs.Add(d);
 		}
 		public List<Dialog> GetDialogs()
 		{
 			return AvailableDialogs;
 		}
 	}
-}
+} 
