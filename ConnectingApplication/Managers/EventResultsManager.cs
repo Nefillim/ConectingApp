@@ -21,10 +21,9 @@ namespace ConnectingApplication.Managers
                 { (ResultFuncsEnum)2, OnChangeBusiness },
             };
 
-        public static void Init()
+        public static void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
         {
-
-            ResultFuncs.Add((ResultFuncsEnum)1, OnNewAvailableDialog);
+            ResultFuncs[enumerator].Invoke(fields);
         }
 
         public static void OnNewAvailableDialog(List<string> dialogues)

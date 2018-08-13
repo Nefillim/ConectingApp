@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +11,7 @@ namespace ConnectingApplication.Managers
     {
         private static Queue<Flag> saveQueue = new Queue<Flag>();
         private static int iteratorPosition;
+
 
         public static void EnqueueFlag(Flag flag)
         {
