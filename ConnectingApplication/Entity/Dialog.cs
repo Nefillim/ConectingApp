@@ -12,85 +12,53 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Entity
 {
-	public class Dialog : Core.Dialogues.Dialogue
-	{
-		public List<DialogueNode> selectableNodes;
-		public List<string> characters;
-		public DialogueNode currentNode;
-		public bool multiusage;
-		public Core.Dialogues.DialogueBlock.BlockType currentBlock;
-		public string id;
+    public class Dialog : Dialogue
+    {
+        public List<DialogueNode> selectableNodes;
+        public DialogueNode currentNode;
+        public Core.Dialogues.DialogueBlock.BlockType currentBlock;
 
 
-		public Dialog(Dialogue dialgoue)
-		{
-			id = dialgoue.Id;
-			characters.AddRange(dialgoue.Participants);
-			selectableNodes = new List<DialogueNode>();
-			multiusage = dialgoue.Reusable;
+        public Dialog(Dialogue dialgoue) : base(dialgoue)
+        {
+            selectableNodes = new List<DialogueNode>();
+        }
 
-		}
+        public List<DialogueNode> TakeNextNodes()
+        {
+            List<DialogueNode> newNodes = CoreController.DialogueManager.GetNodesForDialogue(Id.ToString(), currentBlock, EGetDialogueNodeType.next, currentNode.Id);
+            if (newNodes.Count > 0)
+                return newNodes;
+            else
+            {
+                switch (currentBlock)
+                {
+                    case Core.Dialogues.DialogueBlock.BlockType.hi:
+                        currentBlock++;
+                        return TakeNextNodes(0);
 
-		public List<DialogueNode> TakeNextNodes()
-		{
-			List<DialogueNode> newNodes = new List<DialogueNode>();
-			if (CoreController.DialogueManager.GetNodesForDialogue
-				(id.ToString(), currentNode.Id, currentBlock, EGetDialogueNodeType.next) != null)
-			{
-				newNodes = CoreController.DialogueManager.GetNodesForDialogue(id.ToString(), currentNode.Id, currentBlock, Core.Dialogues.EGetDialogueNodeType.next);
-				return newNodes;
-			}
-			else
-			{
-				switch (currentBlock)
-				{
-					case Core.Dialogues.DialogueBlock.BlockType.hi:
-						currentBlock++;
-						return TakeNextNodes(0);
-					case Core.Dialogues.DialogueBlock.BlockType.body:
-						if (DialogManager.ActiveDialogs.Count == 1)
-							currentBlock++;
-						else
-							currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-						return TakeNextNodes(0);
-					case Core.Dialogues.DialogueBlock.BlockType.next:
+                    case Core.Dialogues.DialogueBlock.BlockType.body:
+                        if (DialogManager.ActiveDialogs.Count == 1)
+                            currentBlock++;
+                        else
+                            currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
+                        return TakeNextNodes(0);
 
-						break;
-					default:
-						break;
-				}
-				return null;
-			}
-		}
+                    case Core.Dialogues.DialogueBlock.BlockType.bye:
+                    case Core.Dialogues.DialogueBlock.BlockType.next:
+                        break;
 
-		public List<DialogueNode> TakeNextNodes(int nodeId)
-		{
-			List<DialogueNode> newNodes = new List<DialogueNode>();
-			if (CoreController.DialogueManager.GetNodesForDialogue
-				(id.ToString(), nodeId, currentBlock ,EGetDialogueNodeType.next) != null)
-			{
-				newNodes = CoreController.DialogueManager.GetNodesForDialogue(id.ToString(), nodeId, currentBlock,Core.Dialogues.EGetDialogueNodeType.next);
-				return newNodes;
-			}
-			else {
-				switch (currentBlock)	
-				{
-					case Core.Dialogues.DialogueBlock.BlockType.hi:
-						currentBlock++;
-						return TakeNextNodes(0);
-					case Core.Dialogues.DialogueBlock.BlockType.body:
-						if (DialogManager.ActiveDialogs.Count == 1)
-							currentBlock++;
-						else
-							currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-						return TakeNextNodes(0);
-					case Core.Dialogues.DialogueBlock.BlockType.next:
-						break;
-					default:
-						break;
-				}
-				return null;
-			}
-		}
-	}
+                    default:
+                        break;
+                }
+                return null;
+            }
+        }
+
+        public List<DialogueNode> TakeNextNodes(int nodeId)
+        {
+            currentNode = selectableNodes.Find(n => n.Id == nodeId);
+            return TakeNextNodes();
+        }
+    }
 }

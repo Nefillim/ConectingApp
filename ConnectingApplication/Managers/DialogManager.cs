@@ -28,9 +28,9 @@ namespace ConnectingApplication.Managers
 			}
 			else {
 				ActiveDialogs.Pop();
-				if (!curDialog.multiusage)
+				if (!curDialog.Reusable)
 				{
-					foreach (string ch in curDialog.characters)
+					foreach (string ch in curDialog.Participants)
 					{
 						((NPC)CharacterManager.Characters[ch]).AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
 					}
@@ -63,15 +63,12 @@ namespace ConnectingApplication.Managers
 			{
 				newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
 			}
-			newOne.selectableNodes = Core.CoreController.DialogueManager.GetNodesForDialogue(newOne.id, 0, newOne.currentBlock ,Core.Dialogues.EGetDialogueNodeType.actual);
 			ActiveDialogs.Push(newOne);
 		}
 
 		public static List<DialogueNode> ContinueDisscussion(string dialogId)
 		{
-			return Discussions.Find(d => d.id == dialogId).TakeNextNodes();
+			return Discussions.Find(d => d.Id == dialogId).TakeNextNodes();
 		}
-
-
 	}
 }

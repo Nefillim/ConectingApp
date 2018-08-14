@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
@@ -17,12 +18,13 @@ namespace ConnectingApplication.Managers
         public static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
             {
-                { (ResultFuncsEnum)1, OnNewAvailableDialog },
-                { (ResultFuncsEnum)2, OnChangeBusiness },
+                { ResultFuncsEnum.ActivateDialogue, OnNewAvailableDialog },
+                { ResultFuncsEnum.ActivateBusiness, OnChangeBusiness },
             };
 
         public static void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
         {
+            Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
             ResultFuncs[enumerator].Invoke(fields);
         }
 
@@ -33,7 +35,7 @@ namespace ConnectingApplication.Managers
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
                 Dialog dialog = new Dialog(dialogue)
                 {
-                    selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(d, 0, BlockType.hi, EGetDialogueNodeType.actual)
+                    selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(d, BlockType.hi, EGetDialogueNodeType.firstNodes)
                 };
                 CharacterManager.AddDialog(dialog, dialog.selectableNodes.First().Role);
             }
@@ -47,10 +49,10 @@ namespace ConnectingApplication.Managers
             DownloadManager.SetNewIteratorPosition();
         }
 
-		public static void OnNewCharacterFact(List<string> facts)
-		{
-			NPC character = (NPC)CharacterManager.Characters[facts.First()];
-			character.CharacterInfo.Add(facts.Last());
-		}
+        public static void OnNewCharacterFact(List<string> facts)
+        {
+            NPC character = (NPC)CharacterManager.Characters[facts.First()];
+            character.CharacterInfo.Add(facts.Last());
+        }
     }
 }
