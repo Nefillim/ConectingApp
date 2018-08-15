@@ -11,7 +11,6 @@ namespace ConnectingApplication
 	{
 		static void Main(string[] args)
 		{
-            var BusinessManager = new BusinessManager();
 		}
 	}
 }
