@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Core">
-      <HintPath>..\..\Startaper_Core\CoreTest\bin\Debug\Core.dll</HintPath>
+      <HintPath>..\..\Core\Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -49,14 +49,15 @@
     <Compile Include="Entity\Characters\NPC.cs" />
     <Compile Include="Entity\Characters\Player.cs" />
     <Compile Include="Entity\Dialog.cs" />
+    <Compile Include="Entity\FlagState.cs" />
     <Compile Include="Managers\BusinessManager.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
+    <Compile Include="Managers\ConnectingAppManager.cs" />
     <Compile Include="Managers\DialogManager.cs" />
     <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Managers\EventResultsManager.cs" />
     <Compile Include="Managers\FlagManager.cs" />
-    <Compile Include="Managers\GameManager.cs" />
-    <Compile Include="Managers\ViewManager.cs" />
+    <Compile Include="Managers\SaveManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
