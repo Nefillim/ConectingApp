@@ -15,6 +15,7 @@ namespace ConnectingApplication.Managers
         public Dictionary<string, Character> Characters;
 
 
+        [Obsolete("Don't use outside the ConnectingApp.")]
         public CharacterManager()
         {
             Characters = new Dictionary<string, Character>();

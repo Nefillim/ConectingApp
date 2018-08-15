@@ -8,5 +8,10 @@ namespace ConnectingApplication.Managers
 {
 	public class SaveManager 
     {
-	}
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public SaveManager()
+        {
+
+        }
+    }
 }

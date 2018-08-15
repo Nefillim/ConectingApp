@@ -9,9 +9,15 @@ namespace ConnectingApplication.Managers
 {
     public class DownloadManager 
     {
-        private Queue<Flag> saveQueue = new Queue<Flag>();
+        private Queue<Flag> saveQueue;
         private static int iteratorPosition;
 
+
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public DownloadManager()
+        {
+            saveQueue = new Queue<Flag>();
+        }
 
         public void EnqueueFlag(Flag flag)
         {

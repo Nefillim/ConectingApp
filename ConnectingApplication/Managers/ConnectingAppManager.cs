@@ -15,6 +15,7 @@ namespace ConnectingApplication.Managers
 
         public static bool StartAppAndCore(string pathToConfigFiles, string stepName)
         {
+#pragma warning disable CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
             BusinessManager = new BusinessManager();
             CharacterManager = new CharacterManager();
             DialogManager = new DialogManager();
@@ -22,6 +23,8 @@ namespace ConnectingApplication.Managers
             EventResultsManager = new EventResultsManager();
             FlagManager = new FlagManager();
             SaveManager = new SaveManager();
+#pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
+
 
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;

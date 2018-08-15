@@ -19,11 +19,13 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.ActivateBusiness, OnChangeBusiness },
             };
 
-        public void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
+
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public EventResultsManager()
         {
-            //Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
-            ResultFuncs[enumerator].Invoke(fields);
+
         }
+
 
         private static void OnNewAvailableDialog(List<string> dialogues)
         {
@@ -47,6 +49,13 @@ namespace ConnectingApplication.Managers
         {
             NPC character = (NPC)ConnectingAppManager.CharacterManager.Characters[facts.First()];
             character.CharacterInfo.Add(facts.Last());
+        }
+
+
+        public void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
+        {
+            //Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
+            ResultFuncs[enumerator].Invoke(fields);
         }
     }
 }

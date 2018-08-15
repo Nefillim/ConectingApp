@@ -14,6 +14,12 @@ namespace ConnectingApplication.Managers
 
 	public class FlagManager
 	{
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public FlagManager()
+        {
+
+        }
+
 		public int GetFlag(string flagName)
 		{
 			return Core.CoreController.FlagsManager.GetValue(flagName);

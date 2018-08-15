@@ -10,7 +10,9 @@ namespace ConnectingApplication.Managers
     {
         private List<string> AvailableBusiness;
 
-        public BusinessManager() : base()
+        
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public BusinessManager()
         {
             AvailableBusiness = new List<string>();
         }

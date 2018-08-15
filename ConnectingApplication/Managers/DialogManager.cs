@@ -21,6 +21,13 @@ namespace ConnectingApplication.Managers
 
         public Player player;
 
+
+        [Obsolete("Don't use outside the ConnectingApp.")]
+        public DialogManager()
+        {
+            ActiveDialogs = new Stack<Dialog>();
+            ActiveMessageDialogs = new Dictionary<string, Dialog>();
+        }
         /// <summary>
         /// Чтобы запросить новые ноды 
         /// </summary>
