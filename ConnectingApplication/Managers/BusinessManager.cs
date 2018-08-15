@@ -6,20 +6,25 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-	public static class BusinessManager
-	{
-		private static List<string> AvailableBusiness;
+    public class BusinessManager 
+    {
+        private List<string> AvailableBusiness;
 
-        public static List<Core.Business.Business> GetBusiness(bool forCalendar)
-		{   
-			List<Core.Business.Business> active = new List<Core.Business.Business>();
-			active.AddRange(Core.CoreController.BusinessManager.GetBusinesses(AvailableBusiness, forCalendar));
-			return active;
-		}
+        public BusinessManager() : base()
+        {
+            AvailableBusiness = new List<string>();
+        }
 
-        public static Core.Business.BusinessInfo GetBusinessInfo(string businessId)
-		{
-			return Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
-		}
-	}
+        public List<Core.Business.Business> GetBusiness(bool forCalendar)
+        {
+            List<Core.Business.Business> active = new List<Core.Business.Business>();
+            active.AddRange(Core.CoreController.BusinessManager.GetBusinesses(AvailableBusiness, forCalendar));
+            return active;
+        }
+
+        public Core.Business.BusinessInfo GetBusinessInfo(string businessId)
+        {
+            return Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
+        }
+    }
 }

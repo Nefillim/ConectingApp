@@ -12,6 +12,5 @@ namespace ConnectingApplication.Entity.Characters
 		public string id;
 		public virtual void Say(DialogueNode phrase) { }
 		public int[] position;
-
 	}
 }

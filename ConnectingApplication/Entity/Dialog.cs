@@ -26,7 +26,7 @@ namespace ConnectingApplication.Entity
 
         public List<DialogueNode> TakeNextNodes()
         {
-            List<DialogueNode> newNodes = CoreController.DialogueManager.GetNodesForDialogue(Id.ToString(), currentBlock, EGetDialogueNodeType.next, currentNode.Id);
+            List<DialogueNode> newNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.next, currentNode.Id);
             if (newNodes.Count > 0)
                 return newNodes;
             else
@@ -35,14 +35,14 @@ namespace ConnectingApplication.Entity
                 {
                     case Core.Dialogues.DialogueBlock.BlockType.hi:
                         currentBlock++;
-                        return TakeNextNodes(0);
+                        return TakeNextNodes(-1);
 
                     case Core.Dialogues.DialogueBlock.BlockType.body:
-                        if (DialogManager.ActiveDialogs.Count == 1)
+                        if (ConnectingAppManager.DialogManager.ActiveDialogs.Count == 1)
                             currentBlock++;
                         else
                             currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-                        return TakeNextNodes(0);
+                        return TakeNextNodes(-1);
 
                     case Core.Dialogues.DialogueBlock.BlockType.bye:
                     case Core.Dialogues.DialogueBlock.BlockType.next:
@@ -55,10 +55,23 @@ namespace ConnectingApplication.Entity
             }
         }
 
+        /// <summary>
+        /// Если nodeId==-1, то запрашиваем первые ноды для диалога.
+        /// </summary>
+        /// <param name="nodeId"></param>
+        /// <returns></returns>
         public List<DialogueNode> TakeNextNodes(int nodeId)
         {
-            currentNode = selectableNodes.Find(n => n.Id == nodeId);
-            return TakeNextNodes();
+            if (nodeId == -1)
+            {
+                selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes);
+                return selectableNodes;
+            }
+            else
+            {
+                currentNode = selectableNodes.Find(n => n.Id == nodeId);
+                return TakeNextNodes();
+            }
         }
     }
 }

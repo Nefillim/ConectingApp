@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-	class SaveManager
-	{
+	public class SaveManager 
+    {
 	}
 }

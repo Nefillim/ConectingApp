@@ -7,28 +7,28 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-    public static class DownloadManager
+    public class DownloadManager 
     {
-        private static Queue<Flag> saveQueue = new Queue<Flag>();
+        private Queue<Flag> saveQueue = new Queue<Flag>();
         private static int iteratorPosition;
 
 
-        public static void EnqueueFlag(Flag flag)
+        public void EnqueueFlag(Flag flag)
         {
             saveQueue.Enqueue(flag);
         }
 
-        public static void SetNewIteratorPosition()
+        public void SetNewIteratorPosition()
         {
             iteratorPosition = saveQueue.Count;
         }
 
-		public static void Download()
+		public void Download()
 		{
 
 		}
 
-		public static void Save()
+		public void Save()
 		{
 
 		}

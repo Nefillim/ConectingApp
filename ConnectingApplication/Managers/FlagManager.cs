@@ -6,32 +6,33 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-	public struct Flag
-	{
+	public struct Flag 
+    {
 		public string name;
 		public int value;
 	}
-	public static class FlagManager
+
+	public class FlagManager
 	{
-		public static int GetFlag(string flagName)
+		public int GetFlag(string flagName)
 		{
 			return Core.CoreController.FlagsManager.GetValue(flagName);
 		}
 
-		public static bool SetFlag(string flagName, int value)
+		public bool SetFlag(string flagName, int value)
 		{
 			if (Core.CoreController.FlagsManager.Set(flagName, value))
 			{
 				Flag flag;
 				flag.name = flagName;
 				flag.value = value;
-				DownloadManager.EnqueueFlag(flag);
+                ConnectingAppManager.DownloadManager.EnqueueFlag(flag);
 				return true;
 			}
 			return false;
 		}
 
-		public static bool CompareFlag(string flagname, int value)
+		public bool CompareFlag(string flagname, int value)
 		{
 			return Core.CoreController.FlagsManager.GetValue(flagname) == value;
 		}

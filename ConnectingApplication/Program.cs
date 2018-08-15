@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ConnectingApplication.Managers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace ConnectingApplication
 	{
 		static void Main(string[] args)
 		{
-
+            var BusinessManager = new BusinessManager();
 		}
 	}
 }
