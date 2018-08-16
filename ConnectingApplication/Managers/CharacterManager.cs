@@ -21,7 +21,7 @@ namespace ConnectingApplication.Managers
         {
             Characters = new Dictionary<string, Character>()
             {
-                {"player", new Player() }
+                {"charPlayer", new Player() }
             };
         }
 
