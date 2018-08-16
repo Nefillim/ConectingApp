@@ -25,7 +25,6 @@ namespace ConnectingApplication.Managers
             SaveManager = new SaveManager();
 #pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
 
-
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);

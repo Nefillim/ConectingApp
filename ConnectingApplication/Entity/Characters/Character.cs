@@ -9,8 +9,21 @@ namespace ConnectingApplication.Entity.Characters
 {
 	public class Character
 	{
-		public string id;
-		public virtual void Say(DialogueNode phrase) { }
+		public readonly string Id;
 		public int[] position;
-	}
+
+
+        public Character()
+        {
+            Id = "player";
+        }
+
+        public Character(string id)
+        {
+            this.Id = id;
+        }
+
+        public virtual void Say(DialogueNode phrase) { }
+
+    }
 }

@@ -7,10 +7,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
-	public class CharacterManager 
+    public class CharacterManager
     {
         public Dictionary<string, Character> Characters;
 
@@ -18,12 +19,17 @@ namespace ConnectingApplication.Managers
         [Obsolete("Don't use outside the ConnectingApp.")]
         public CharacterManager()
         {
-            Characters = new Dictionary<string, Character>();
+            Characters = new Dictionary<string, Character>()
+            {
+                {"player", new Player() }
+            };
         }
 
-		public void AddDialog(Dialog dialog, string character)
-		{
-            if (Characters.ContainsKey(character) && Characters[character] is NPC)
+        public void AddDialog(Dialog dialog, string character)
+        {
+            if (!Characters.ContainsKey(character))
+                Characters.Add(character, new NPC(character));
+            if (Characters[character] is NPC)
             {
                 if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
                 {
@@ -31,16 +37,17 @@ namespace ConnectingApplication.Managers
                 }
                 else ((NPC)Characters[character]).AddDialog(dialog);
             }
-		}
+            else Debug.LogError("Trying to add dialog to player");
+        }
 
-		public Dialog GetDialog(string characterId, DialogueMode mode)
-		{
+        public Dialog GetDialog(string characterId, DialogueMode mode)
+        {
             return ((NPC)Characters[characterId]).GetActualDialog(mode);
-		}
+        }
 
-		public List<string> GetCharacterInfo(string charId)
-		{
-			return ((NPC)Characters[charId]).CharacterInfo;
-		}
-	}
+        public List<string> GetCharacterInfo(string charId)
+        {
+            return ((NPC)Characters[charId]).CharacterInfo;
+        }
+    }
 }

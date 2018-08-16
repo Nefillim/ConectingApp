@@ -28,7 +28,13 @@ namespace ConnectingApplication.Characters
 
     public class NPC : Character
     {
-        public Dictionary<DialogueMode, List<Dialog>> AvailableDialogs = new Dictionary<DialogueMode, List<Dialog>>();
+        public Dictionary<DialogueMode, List<Dialog>> AvailableDialogs;
+
+
+        public NPC(string id) : base(id)
+        {
+            AvailableDialogs = new Dictionary<DialogueMode, List<Dialog>>();
+        }
 
 
         private void TryToStartDialog(Dialog d)
