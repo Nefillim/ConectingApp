@@ -1,4 +1,6 @@
-﻿using ConnectingApplication.Entity;
+﻿using Assets.ConectingApp.ConnectingApplication;
+using Assets.Scripts;
+using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
 using Core.Dialogues.DialogueParameters;
 using System;
@@ -29,7 +31,9 @@ namespace ConnectingApplication.Characters
     public class NPC : Character
     {
         public Dictionary<DialogueMode, List<Dialog>> AvailableDialogs;
-
+        public List<string> CharacterInfo;
+        public Emotion state;
+        public Dictionary<string, Relationship> Relationships;
 
         public NPC(string id) : base(id)
         {
@@ -39,20 +43,23 @@ namespace ConnectingApplication.Characters
 
         private void TryToStartDialog(Dialog d)
         {
-            // TODO: подрубить шнягу из треугольника про проверку возможности активации диалога.
+            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.DialogueMode.ToString()});
         }
+
 
         public void AddDialog(Dialog d)
         {
             if (!AvailableDialogs.ContainsKey(d.DialogueMode))
                 AvailableDialogs.Add(d.DialogueMode, new List<Dialog>());
 
-            if (d.CharacterDialogue == NatureOfTheDialogue.express)
+            if (d.CharacterDialogue == NatureOfTheDialogue.express || d.Outgoing)
                 AvailableDialogs[d.DialogueMode].Insert(0, d);
             else AvailableDialogs[d.DialogueMode].Add(d);
 
             if (d.Outgoing)
                 TryToStartDialog(d);
+
+            ActivateObject(true, d.DialogueMode);
         }
 
         public Dialog GetActualDialog(DialogueMode dialogueMode)
@@ -60,11 +67,10 @@ namespace ConnectingApplication.Characters
             return AvailableDialogs[dialogueMode].First();
         }
 
-        public List<string> CharacterInfo;
-
-        public Emotion state;
-
-        public Dictionary<string, Relationship> Relationships;
-
+        public void ActivateObject(bool activate, DialogueMode dialogueMode)
+        {
+            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.ActivateObject, 
+                                                  new List<string>() { Id, activate ? "1" : "0", dialogueMode.ToString() });
+        }
     }
 }

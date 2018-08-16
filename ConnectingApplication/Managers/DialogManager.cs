@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-    public class DialogManager 
+    public class DialogManager
     {
         public Stack<Dialog> ActiveDialogs;
         public Dictionary<string, Dialog> ActiveMessageDialogs;
@@ -46,7 +46,10 @@ namespace ConnectingApplication.Managers
                 {
                     foreach (string ch in curDialog.Participants)
                     {
-                        ((NPC)ConnectingAppManager.CharacterManager.Characters[ch]).AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
+                        NPC npc = ((NPC)ConnectingAppManager.CharacterManager.Characters[ch]);
+                        npc.AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
+                        if (npc.AvailableDialogs[curDialog.DialogueMode].Count == 0)
+                            npc.ActivateObject(false, curDialog.DialogueMode);
                     }
                 }
                 return ContinueDialog(EGetDialogueNodeType.firstNodes);
