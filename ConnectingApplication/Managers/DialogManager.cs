@@ -1,14 +1,10 @@
 ﻿using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
-using ConnectingApplication.Entity.Characters;
-using Core;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {

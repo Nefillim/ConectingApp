@@ -43,7 +43,7 @@ namespace ConnectingApplication.Characters
 
         private void TryToStartDialog(Dialog d)
         {
-            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.TryToStartDialogue, new List<string>() { Id, ((int)d.DialogueMode).ToString()});
+            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.DialogueMode).ToString()});
         }
 
 
