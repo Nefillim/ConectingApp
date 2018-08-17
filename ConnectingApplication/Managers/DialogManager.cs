@@ -71,6 +71,12 @@ namespace ConnectingApplication.Managers
             }
         }
 
+        public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
+        {
+            var npc = ((NPC)ConnectingAppManager.CharacterManager.Characters[character]);
+            npc.AvailableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
+        }
+
         public List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId)
         {
             Dialog curDialog = ActiveMessageDialogs[dialogId];
