@@ -29,7 +29,10 @@ namespace ConnectingApplication.Entity
         {
             List<DialogueNode> newNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.next, currentNode.Id);
             if (newNodes.Count > 0)
+            {
+                selectableNodes = newNodes;
                 return newNodes;
+            }
             else
             {
                 switch (currentBlock)

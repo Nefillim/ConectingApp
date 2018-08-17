@@ -85,16 +85,16 @@ namespace ConnectingApplication.Managers
             }
         }
 
+        public List<DialogueNode> ContinueDisscussion(string dialogId)
+        {
+            return Discussions.Find(d => d.Id == dialogId).TakeNextNodes();
+        }
+
         public void StartDialog(string charId, DialogueMode dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
             newOne.currentBlock = ActiveDialogs.Count() > 0 ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
             ActiveDialogs.Push(newOne);
-        }
-
-        public List<DialogueNode> ContinueDisscussion(string dialogId)
-        {
-            return Discussions.Find(d => d.Id == dialogId).TakeNextNodes();
         }
     }
 }
