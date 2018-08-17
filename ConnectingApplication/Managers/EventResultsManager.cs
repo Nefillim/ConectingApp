@@ -1,4 +1,5 @@
-﻿using ConnectingApplication.Characters;
+﻿using Assets.Scripts;
+using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core;
 using Core.Dialogues;
@@ -7,6 +8,7 @@ using Core.Parser.Results.ResultFunc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
@@ -17,6 +19,10 @@ namespace ConnectingApplication.Managers
             {
                 { ResultFuncsEnum.ActivateDialogue, OnNewAvailableDialog },
                 { ResultFuncsEnum.ActivateBusiness, OnChangeBusiness },
+                { ResultFuncsEnum.playMusic, PlayMusic },
+                { ResultFuncsEnum.nextSlot, NextSlot },
+                { ResultFuncsEnum.StartMiniGame, StartMiniGame },
+                { ResultFuncsEnum.error, Error },
             };
 
 
@@ -51,10 +57,30 @@ namespace ConnectingApplication.Managers
             character.CharacterInfo.Add(facts.Last());
         }
 
+        private static void PlayMusic(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.playMusic, input);
+        }
+
+        private static void NextSlot(List<string> input)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static void Error(List<string> input)
+        {
+            Debug.LogError("Необходимо модифицировать методы в core.");
+        }
+
+        private static void StartMiniGame(List<string> input)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
         {
-            //Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
+            Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
             ResultFuncs[enumerator].Invoke(fields);
         }
     }

@@ -28,17 +28,29 @@ namespace ConnectingApplication.Managers
             ActiveDialogs = new Stack<Dialog>();
             ActiveMessageDialogs = new Dictionary<string, Dialog>();
         }
+
+
+        public void SetResultsForNode(DialogueNode dialogueNode)
+        {
+            dialogueNode.InvokeResult();
+            // TODO: сохранить 
+        }
+
         /// <summary>
         /// Чтобы запросить новые ноды 
         /// </summary>
         /// <param name="nodeId"></param>
         /// <returns></returns>
-        public List<DialogueNode> ContinueDialog(EGetDialogueNodeType nodeType, int nodeId = -1)
+        public List<DialogueNode> ContinueDialog(EGetDialogueNodeType nodeType, DialogueNode dialogueNode = null)
         {
             Dialog curDialog = ActiveDialogs.Peek();
-            if (curDialog.TakeNextNodes(nodeId) != null)
+            if (nodeType == EGetDialogueNodeType.next)
+                SetResultsForNode(dialogueNode);
+            var nodeId = nodeType == EGetDialogueNodeType.firstNodes ? -1 : dialogueNode.Id;
+            var nodes = curDialog.TakeNextNodes(nodeId);
+            if (nodes.Count != 0)
             {
-                return curDialog.TakeNextNodes(nodeId);
+                return nodes;
             }
             else
             {

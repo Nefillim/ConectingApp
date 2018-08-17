@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ConnectingApplication.Entity
 {
@@ -62,6 +63,7 @@ namespace ConnectingApplication.Entity
         /// <returns></returns>
         public List<DialogueNode> TakeNextNodes(int nodeId)
         {
+            Debug.Log($"Request to nodes with nowNodeId: {nodeId}");
             if (nodeId == -1)
             {
                 selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes);

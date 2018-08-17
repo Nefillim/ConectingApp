@@ -70,7 +70,7 @@ namespace ConnectingApplication.Characters
         public void ActivateObject(bool activate, DialogueMode dialogueMode)
         {
             TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.ActivateObject, 
-                                                  new List<string>() { Id, activate ? "1" : "0", dialogueMode.ToString() });
+                                                  new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
         }
     }
 }
