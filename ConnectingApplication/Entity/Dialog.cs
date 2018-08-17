@@ -55,7 +55,7 @@ namespace ConnectingApplication.Entity
                     default:
                         break;
                 }
-                return null;
+                return newNodes;
             }
         }
 
@@ -66,7 +66,6 @@ namespace ConnectingApplication.Entity
         /// <returns></returns>
         public List<DialogueNode> TakeNextNodes(int nodeId)
         {
-            Debug.Log($"Request to nodes with nowNodeId: {nodeId}");
             if (nodeId == -1)
             {
                 selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes);

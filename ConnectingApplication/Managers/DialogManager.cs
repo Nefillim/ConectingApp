@@ -54,6 +54,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
+                ActiveDialogs.Pop();
                 if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
@@ -64,7 +65,9 @@ namespace ConnectingApplication.Managers
                             npc.ActivateObject(false, curDialog.DialogueMode);
                     }
                 }
-                return ContinueDialog(EGetDialogueNodeType.firstNodes);
+                if (ActiveDialogs.Count == 0)
+                    return nodes;
+                else return ContinueDialog(EGetDialogueNodeType.firstNodes);
             }
         }
 
