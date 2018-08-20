@@ -42,7 +42,7 @@ namespace ConnectingApplication.Entity
                         return TakeNextNodes(-1);
 
                     case Core.Dialogues.DialogueBlock.BlockType.body:
-                        if (ConnectingAppManager.DialogManager.ActiveDialogs.Count == 1)
+                        if (ConnectingAppManager.DialogManager.IsDialogLonely(this))
                             currentBlock++;
                         else
                             currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
@@ -74,7 +74,12 @@ namespace ConnectingApplication.Entity
             else
             {
                 currentNode = selectableNodes.Find(n => n.Id == nodeId);
-                return TakeNextNodes();
+                if (currentNode == null)
+                {
+                    selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.next, nodeId);
+                    return selectableNodes;
+                }
+                else return TakeNextNodes();
             }
         }
     }

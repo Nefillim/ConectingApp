@@ -2,6 +2,7 @@
 using Assets.Scripts;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
+using ConnectingApplication.Managers;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,13 @@ namespace ConnectingApplication.Characters
                 AvailableDialogs.Add(d.DialogueMode, new List<Dialog>());
 
             if (d.CharacterDialogue == NatureOfTheDialogue.express || d.Outgoing)
+            {
                 AvailableDialogs[d.DialogueMode].Insert(0, d);
+                if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
+                {
+                    TryToStartDialog(d);
+                }
+            }
             else AvailableDialogs[d.DialogueMode].Add(d);
 
             if (d.Outgoing)

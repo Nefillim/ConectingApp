@@ -39,11 +39,25 @@ namespace ConnectingApplication.Managers
         /// <returns></returns>
         public List<DialogueNode> ContinueDialog(EGetDialogueNodeType nodeType, DialogueNode dialogueNode = null)
         {
-            Dialog curDialog = ActiveDialogs.Peek();
-            if (nodeType == EGetDialogueNodeType.next)
+            var curDialog = ActiveDialogs.Peek();
+
+            int nodeId = -1;
+
+
+            // Если фраза игрока.
+            if (dialogueNode != null)
+            {
                 SetResultsForNode(dialogueNode);
-            var nodeId = nodeType == EGetDialogueNodeType.firstNodes ? -1 : dialogueNode.Id;
+                nodeId = dialogueNode.Id;
+            }
+            else
+            {
+                if (nodeType == EGetDialogueNodeType.next)
+                    nodeId = curDialog.currentNode.Id;
+            }
+
             var nodes = curDialog.TakeNextNodes(nodeId);
+
             if (nodes.Count != 0)
             {
                 return nodes;
@@ -63,7 +77,7 @@ namespace ConnectingApplication.Managers
                 }
                 if (ActiveDialogs.Count == 0)
                     return nodes;
-                else return ContinueDialog(EGetDialogueNodeType.firstNodes);
+                else return ContinueDialog(EGetDialogueNodeType.next);
             }
         }
 
@@ -71,6 +85,11 @@ namespace ConnectingApplication.Managers
         {
             var npc = ((NPC)ConnectingAppManager.CharacterManager.Characters[character]);
             npc.AvailableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
+        }
+
+        public void BreakingDialog(EDialogueResultType breakingType)
+        {
+            ActiveDialogs.Peek().ActivateResult(breakingType);
         }
 
         public List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId)
@@ -98,8 +117,13 @@ namespace ConnectingApplication.Managers
         public void StartDialog(string charId, DialogueMode dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
-            newOne.currentBlock = ActiveDialogs.Count() > 0 ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
             ActiveDialogs.Push(newOne);
+        }
+
+        public bool IsDialogLonely(Dialog dialog)
+        {
+            return ActiveDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
         }
     }
 }
