@@ -10,7 +10,7 @@ namespace ConnectingApplication.Managers
 {
     public class DialogManager
     {
-        public Stack<Dialog> ActiveDialogs;
+        public List<Dialog> ActiveDialogs;
         public Dictionary<string, Dialog> ActiveMessageDialogs;
         public List<Dialog> Discussions;
         public List<Dialog> TextMessages;
@@ -21,7 +21,7 @@ namespace ConnectingApplication.Managers
         [Obsolete("Don't use outside the ConnectingApp.")]
         public DialogManager()
         {
-            ActiveDialogs = new Stack<Dialog>();
+            ActiveDialogs = new List<Dialog>();
             ActiveMessageDialogs = new Dictionary<string, Dialog>();
         }
 
@@ -32,19 +32,24 @@ namespace ConnectingApplication.Managers
             // TODO: сохранить 
         }
 
+        public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
+        {
+            Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
+            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+            ActiveDialogs.Add(newOne);
+            return ContinueDialog();
+        }
+
         /// <summary>
         /// Чтобы запросить новые ноды 
         /// </summary>
         /// <param name="nodeId"></param>
         /// <returns></returns>
-        public List<DialogueNode> ContinueDialog(EGetDialogueNodeType nodeType, DialogueNode dialogueNode = null)
+        public List<DialogueNode> ContinueDialog(DialogueNode dialogueNode = null)
         {
-            var curDialog = ActiveDialogs.Peek();
-
+            var curDialog = ActiveDialogs.Last();
             int nodeId = -1;
 
-
-            // Если фраза игрока.
             if (dialogueNode != null)
             {
                 SetResultsForNode(dialogueNode);
@@ -52,7 +57,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                if (nodeType == EGetDialogueNodeType.next)
+                if (curDialog.currentNode != null)
                     nodeId = curDialog.currentNode.Id;
             }
 
@@ -64,7 +69,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                ActiveDialogs.Pop();
+                ActiveDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
@@ -77,7 +82,7 @@ namespace ConnectingApplication.Managers
                 }
                 if (ActiveDialogs.Count == 0)
                     return nodes;
-                else return ContinueDialog(EGetDialogueNodeType.next);
+                else return ContinueDialog();
             }
         }
 
@@ -89,7 +94,7 @@ namespace ConnectingApplication.Managers
 
         public void BreakingDialog(EDialogueResultType breakingType)
         {
-            ActiveDialogs.Peek().ActivateResult(breakingType);
+            ActiveDialogs.Last().ActivateResult(breakingType);
         }
 
         public List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId)
@@ -112,13 +117,6 @@ namespace ConnectingApplication.Managers
         public List<DialogueNode> ContinueDisscussion(string dialogId)
         {
             return Discussions.Find(d => d.Id == dialogId).TakeNextNodes();
-        }
-
-        public void StartDialog(string charId, DialogueMode dialogueMode)
-        {
-            Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
-            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
-            ActiveDialogs.Push(newOne);
         }
 
         public bool IsDialogLonely(Dialog dialog)
