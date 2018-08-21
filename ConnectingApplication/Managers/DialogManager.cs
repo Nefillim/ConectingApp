@@ -108,9 +108,9 @@ namespace ConnectingApplication.Managers
             Dialog curDialog = activeMessageDialogs[dialogId];
             curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
             var player = ConnectingAppManager.CharacterManager.GetPlayer();
+            player.AddMessage(charId, curDialog.currentNode);
             if (curDialog.TakeNextNodes(nodeId) != null)
             {
-                player.AddMessage(charId, curDialog.currentNode);
                 return curDialog.TakeNextNodes(nodeId);
             }
             else

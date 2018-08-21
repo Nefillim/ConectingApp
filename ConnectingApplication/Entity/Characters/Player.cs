@@ -12,7 +12,6 @@ namespace ConnectingApplication.Characters
 	public class Player : Character
 	{
 		private Dictionary<string, Queue<DialogueNode>> textMessages;
-		private List<string> phoneContacts;
 
 		public Queue<DialogueNode> GetMessageHistory(string charId)
 		{
