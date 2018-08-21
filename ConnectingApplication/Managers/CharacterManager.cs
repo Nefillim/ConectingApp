@@ -13,7 +13,7 @@ namespace ConnectingApplication.Managers
 {
     public class CharacterManager
     {
-        public Dictionary<string, Character> Characters;
+        private Dictionary<string, Character> Characters;
 
 
         [Obsolete("Don't use outside the ConnectingApp.")]
@@ -21,7 +21,7 @@ namespace ConnectingApplication.Managers
         {
             Characters = new Dictionary<string, Character>()
             {
-                {"charPlayer", new Player() }
+                {ConnectingAppManager.PLAYER_ID, new Player() }
             };
         }
 
@@ -48,6 +48,16 @@ namespace ConnectingApplication.Managers
         public List<string> GetCharacterInfo(string charId)
         {
             return ((NPC)Characters[charId]).CharacterInfo;
+        }
+
+        public Player GetPlayer()
+        {
+            return Characters[ConnectingAppManager.PLAYER_ID] as Player;
+        }
+
+        public NPC GetNPC(string characterId)
+        {
+            return Characters[characterId] as NPC;
         }
     }
 }

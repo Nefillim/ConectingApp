@@ -53,7 +53,7 @@ namespace ConnectingApplication.Managers
 
         private static void OnNewCharacterFact(List<string> facts)
         {
-            NPC character = (NPC)ConnectingAppManager.CharacterManager.Characters[facts.First()];
+            var character = ConnectingAppManager.CharacterManager.GetNPC(facts.First());
             character.CharacterInfo.Add(facts.Last());
         }
 

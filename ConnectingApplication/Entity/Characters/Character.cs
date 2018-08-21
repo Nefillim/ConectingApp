@@ -15,7 +15,7 @@ namespace ConnectingApplication.Entity.Characters
 
         public Character()
         {
-            Id = "player";
+
         }
 
         public Character(string id)

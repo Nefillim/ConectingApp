@@ -10,12 +10,10 @@ namespace ConnectingApplication.Managers
 {
     public class DialogManager
     {
-        public List<Dialog> ActiveDialogs;
-        public Dictionary<string, Dialog> ActiveMessageDialogs;
-        public List<Dialog> Discussions;
-        public List<Dialog> TextMessages;
-
-        public Player player;
+        private List<Dialog> ActiveDialogs;
+        private Dictionary<string, Dialog> ActiveMessageDialogs;
+        private List<Dialog> Discussions;
+        private List<Dialog> TextMessages;
 
 
         [Obsolete("Don't use outside the ConnectingApp.")]
@@ -26,11 +24,12 @@ namespace ConnectingApplication.Managers
         }
 
 
-        public void SetResultsForNode(DialogueNode dialogueNode)
+        private void SetResultsForNode(DialogueNode dialogueNode)
         {
             dialogueNode.InvokeResult();
             // TODO: сохранить 
         }
+
 
         public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
         {
@@ -74,7 +73,7 @@ namespace ConnectingApplication.Managers
                 {
                     foreach (string ch in curDialog.Participants)
                     {
-                        NPC npc = ((NPC)ConnectingAppManager.CharacterManager.Characters[ch]);
+                        var npc = ConnectingAppManager.CharacterManager.GetNPC(ch);
                         npc.AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
                         if (npc.AvailableDialogs[curDialog.DialogueMode].Count == 0)
                             npc.ActivateObject(false, curDialog.DialogueMode);
@@ -88,7 +87,7 @@ namespace ConnectingApplication.Managers
 
         public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
         {
-            var npc = ((NPC)ConnectingAppManager.CharacterManager.Characters[character]);
+            var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             npc.AvailableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
         }
 
@@ -101,10 +100,10 @@ namespace ConnectingApplication.Managers
         {
             Dialog curDialog = ActiveMessageDialogs[dialogId];
             curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
-            Player player = (Player)ConnectingAppManager.CharacterManager.Characters.Values.ToList().Find(p => p is Player);
+            var player = ConnectingAppManager.CharacterManager.GetPlayer();
             if (curDialog.TakeNextNodes(nodeId) != null)
             {
-                player.textMessages[dialogId].Enqueue(curDialog.currentNode);
+                player.AddMessage(charId, curDialog.currentNode);
                 return curDialog.TakeNextNodes(nodeId);
             }
             else
