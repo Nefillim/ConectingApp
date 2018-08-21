@@ -28,7 +28,10 @@ namespace ConnectingApplication.Managers
         public void AddDialog(Dialog dialog, string character)
         {
             if (!Characters.ContainsKey(character))
+            {
                 Characters.Add(character, new NPC(character));
+                GetPlayer().AddContact(character);
+            }
             if (Characters[character] is NPC)
             {
                 if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
