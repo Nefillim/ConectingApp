@@ -32,19 +32,22 @@ namespace ConnectingApplication.Characters
 
 		public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
 		{
-			if (mode == DialogueMode.sms)
-			{
-				if (!textMessages.ContainsKey(charId))
-					textMessages.Add(charId, new Queue<DialogueNode>());
-				textMessages[charId].Enqueue(dialogueNode);
-			}
-			if (mode == DialogueMode.email)
-			{
-				if (!emailMessages.ContainsKey(charId))
-					emailMessages.Add(charId, new Queue<DialogueNode>());
-				emailMessages[charId].Enqueue(dialogueNode);
-			}
-		}
+            Dictionary<string, Queue<DialogueNode>> temp = new Dictionary<string, Queue<DialogueNode>>();
+
+            temp = mode == DialogueMode.sms ? textMessages : emailMessages;
+			
+            if (!temp.ContainsKey(charId))
+                temp.Add(charId, new Queue<DialogueNode>());
+            DialogueNode tempNode = temp[charId].Dequeue();
+            if (tempNode.Id != dialogueNode.Id)
+            {
+                temp[charId].Enqueue(tempNode);
+                temp[charId].Enqueue(dialogueNode);
+            }
+            else {
+                temp[charId].Enqueue(tempNode);
+            }
+        }
 
 		public IList<string> GetPhoneContacts()
 		{

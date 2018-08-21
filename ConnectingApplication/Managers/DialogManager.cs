@@ -33,26 +33,24 @@ namespace ConnectingApplication.Managers
 			// TODO: сохранить 
 		}
 
+        private List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId, DialogueMode mode)
+        {
+            Dialog curDialog = activeMessageDialogs[dialogId];
+            curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
+            var player = ConnectingAppManager.CharacterManager.GetPlayer();
+            player.AddMessage(charId, curDialog.currentNode, mode);
+            if (curDialog.TakeNextNodes(nodeId) != null)
+            {
+                return curDialog.TakeNextNodes(nodeId);
+            }
+            else
+            {
+                activeMessageDialogs.Remove(dialogId);
+                return null;
+            }
+        }
 
-		public void AddDiscussion(Dialog dialog)
-		{
-			discussions.Add(dialog);
-		}
-
-		public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
-		{
-			Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
-			newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
-			activeDialogs.Add(newOne);
-			return ContinueDialog();
-		}
-
-		/// <summary>
-		/// Чтобы запросить новые ноды 
-		/// </summary>
-		/// <param name="nodeId"></param>
-		/// <returns></returns>
-		public List<DialogueNode> ContinueDialog(DialogueNode dialogueNode = null)
+        private List<DialogueNode> ContinueDialog(DialogueNode dialogueNode = null)
 		{
 			var curDialog = activeDialogs.Last();
 			int nodeId = -1;
@@ -93,7 +91,21 @@ namespace ConnectingApplication.Managers
 			}
 		}
 
-		public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
+
+        public void AddDiscussion(Dialog dialog)
+        {
+            discussions.Add(dialog);
+        }
+
+        public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
+        {
+            Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
+            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+            activeDialogs.Add(newOne);
+            return ContinueDialog();
+        }
+
+        public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
 		{
 			var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
 			npc.AvailableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
@@ -102,23 +114,6 @@ namespace ConnectingApplication.Managers
 		public void BreakingDialog(EDialogueResultType breakingType)
 		{
 			activeDialogs.Last().ActivateResult(breakingType);
-		}
-
-		public List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId, DialogueMode mode)
-		{
-			Dialog curDialog = activeMessageDialogs[dialogId];
-			curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
-			var player = ConnectingAppManager.CharacterManager.GetPlayer();
-			player.AddMessage(charId, curDialog.currentNode, mode);
-			if (curDialog.TakeNextNodes(nodeId) != null)
-			{
-				return curDialog.TakeNextNodes(nodeId);
-			}
-			else
-			{
-				activeMessageDialogs.Remove(dialogId);
-				return null;
-			}
 		}
 
 		public List<DialogueNode> ContinueDisscussion(string dialogId)
@@ -131,7 +126,7 @@ namespace ConnectingApplication.Managers
 			return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
 		}
 
-		public List<DialogueNode> ContinueDialog(DialogueMode mode, int nodeId = -1, string dialogId = "", string charId = "", DialogueNode dialogueNode = null)
+		public List<DialogueNode> ContinueDialog(DialogueMode mode, DialogueNode dialogueNode = null, int nodeId = -1, string dialogId = "", string charId = "")
 		{
 			switch (mode)
 			{
@@ -154,6 +149,5 @@ namespace ConnectingApplication.Managers
 					return ContinueDialog(dialogueNode);
 			}
 		}
-
 	}
 }
