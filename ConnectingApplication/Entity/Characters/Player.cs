@@ -30,22 +30,28 @@ namespace ConnectingApplication.Characters
 			return textMessages[charId];
 		}
 
-		public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
-		{
+        public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
+        {
             Dictionary<string, Queue<DialogueNode>> temp = new Dictionary<string, Queue<DialogueNode>>();
 
             temp = mode == DialogueMode.sms ? textMessages : emailMessages;
-			
+
             if (!temp.ContainsKey(charId))
-                temp.Add(charId, new Queue<DialogueNode>());
-            DialogueNode tempNode = temp[charId].Dequeue();
-            if (tempNode.Id != dialogueNode.Id)
             {
-                temp[charId].Enqueue(tempNode);
+                temp.Add(charId, new Queue<DialogueNode>());
                 temp[charId].Enqueue(dialogueNode);
             }
-            else {
-                temp[charId].Enqueue(tempNode);
+            else { 
+                DialogueNode tempNode = temp[charId].Dequeue();
+                if (tempNode.Id != dialogueNode.Id)
+                {
+                    temp[charId].Enqueue(tempNode);
+                    temp[charId].Enqueue(dialogueNode);
+                }
+                else
+                {
+                    temp[charId].Enqueue(tempNode);
+                }
             }
         }
 
