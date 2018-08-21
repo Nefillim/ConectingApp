@@ -24,7 +24,9 @@ namespace ConnectingApplication.Characters
 
 		public Queue<DialogueNode> GetMessageHistory(string charId)
 		{
-			return textMessages[charId];
+            if (!textMessages.ContainsKey(charId))
+                return new Queue<DialogueNode>();
+            return textMessages[charId];
 		}
 
         public void AddMessage(string charId, DialogueNode dialogueNode)
