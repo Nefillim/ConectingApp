@@ -10,17 +10,19 @@ namespace ConnectingApplication.Managers
 {
     public class DialogManager
     {
-        private List<Dialog> ActiveDialogs;
-        private Dictionary<string, Dialog> ActiveMessageDialogs;
-        private List<Dialog> Discussions;
-        private List<Dialog> TextMessages;
+        private List<Dialog> activeDialogs;
+        private Dictionary<string, Dialog> activeMessageDialogs;
+        private List<Dialog> discussions;
+        private List<Dialog> textMessages;
 
+        public int ActiveDialogsCount { get { return activeDialogs.Count; } }
+        public IList<Dialog> ActiveDialogs { get { return activeDialogs.AsReadOnly(); } }
 
         [Obsolete("Don't use outside the ConnectingApp.")]
         public DialogManager()
         {
-            ActiveDialogs = new List<Dialog>();
-            ActiveMessageDialogs = new Dictionary<string, Dialog>();
+            activeDialogs = new List<Dialog>();
+            activeMessageDialogs = new Dictionary<string, Dialog>();
         }
 
 
@@ -31,11 +33,16 @@ namespace ConnectingApplication.Managers
         }
 
 
+        public void AddDiscussion(Dialog dialog)
+        {
+            discussions.Add(dialog);
+        }
+
         public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
             newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
-            ActiveDialogs.Add(newOne);
+            activeDialogs.Add(newOne);
             return ContinueDialog();
         }
 
@@ -46,7 +53,7 @@ namespace ConnectingApplication.Managers
         /// <returns></returns>
         public List<DialogueNode> ContinueDialog(DialogueNode dialogueNode = null)
         {
-            var curDialog = ActiveDialogs.Last();
+            var curDialog = activeDialogs.Last();
             int nodeId = -1;
 
             if (dialogueNode != null)
@@ -68,7 +75,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                ActiveDialogs.Remove(curDialog);
+                activeDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
@@ -79,7 +86,7 @@ namespace ConnectingApplication.Managers
                             npc.ActivateObject(false, curDialog.DialogueMode);
                     }
                 }
-                if (ActiveDialogs.Count == 0)
+                if (activeDialogs.Count == 0)
                     return nodes;
                 else return ContinueDialog();
             }
@@ -93,12 +100,12 @@ namespace ConnectingApplication.Managers
 
         public void BreakingDialog(EDialogueResultType breakingType)
         {
-            ActiveDialogs.Last().ActivateResult(breakingType);
+            activeDialogs.Last().ActivateResult(breakingType);
         }
 
         public List<DialogueNode> ContinueMessengerDialog(int nodeId, string dialogId, string charId)
         {
-            Dialog curDialog = ActiveMessageDialogs[dialogId];
+            Dialog curDialog = activeMessageDialogs[dialogId];
             curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
             var player = ConnectingAppManager.CharacterManager.GetPlayer();
             if (curDialog.TakeNextNodes(nodeId) != null)
@@ -108,19 +115,19 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                ActiveMessageDialogs.Remove(dialogId);
+                activeMessageDialogs.Remove(dialogId);
                 return null;
             }
         }
 
         public List<DialogueNode> ContinueDisscussion(string dialogId)
         {
-            return Discussions.Find(d => d.Id == dialogId).TakeNextNodes();
+            return discussions.Find(d => d.Id == dialogId).TakeNextNodes();
         }
 
         public bool IsDialogLonely(Dialog dialog)
         {
-            return ActiveDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
+            return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
         }
     }
 }

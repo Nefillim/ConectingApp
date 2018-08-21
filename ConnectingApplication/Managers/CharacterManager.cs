@@ -33,7 +33,7 @@ namespace ConnectingApplication.Managers
             {
                 if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
                 {
-                    ConnectingAppManager.DialogManager.Discussions.Add(dialog);
+                    ConnectingAppManager.DialogManager.AddDiscussion(dialog);
                 }
                 else ((NPC)Characters[character]).AddDialog(dialog);
             }
