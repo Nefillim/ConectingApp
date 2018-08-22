@@ -1,10 +1,10 @@
-﻿using Assets.Scripts;
+﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+using Assets.Scripts;
 using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core;
 using Core.Dialogues;
 using Core.Dialogues.DialogueBlock;
-using Core.Parser.Results.ResultFunc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +14,17 @@ namespace ConnectingApplication.Managers
 {
     public class EventResultsManager 
     {
+        private static readonly Dictionary<string, ResultFuncsEnum> funcs = new Dictionary<string, ResultFuncsEnum>()
+        {
+            {"NextSlot",            ResultFuncsEnum.NextSlot },
+            {"ActivateBusiness",    ResultFuncsEnum.ActivateBusiness },
+            {"ActivateDialogue",    ResultFuncsEnum.ActivateDialogue },
+            {"StartMiniGame",       ResultFuncsEnum.StartMiniGame },
+            {"PlayMusic",           ResultFuncsEnum.PlayMusic },
+            {"OpenFile",            ResultFuncsEnum.OpenFile},
+            {"OpenFact",            ResultFuncsEnum.OpenFact},
+            {"ChangeIIitiative",    ResultFuncsEnum.ChangeInitiative},
+        };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
             {
@@ -22,7 +33,7 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.PlayMusic, PlayMusic },
                 { ResultFuncsEnum.NextSlot, NextSlot },
                 { ResultFuncsEnum.StartMiniGame, StartMiniGame },
-                { ResultFuncsEnum.error, Error },
+                { ResultFuncsEnum.Error, Error },
             };
 
 
@@ -32,6 +43,18 @@ namespace ConnectingApplication.Managers
 
         }
 
+
+        private static ResultFuncsEnum Build(string func)
+        {
+            if (!funcs.ContainsKey(func))
+            {
+                Debug.LogError($"Среди предписанных методов не найден метод: {func}.");
+                return ResultFuncsEnum.Error;
+            }
+
+            ResultFuncsEnum enumerator = funcs[func];
+            return enumerator;
+        }
 
         private static void OnNewAvailableDialog(List<string> dialogues)
         {
@@ -78,10 +101,10 @@ namespace ConnectingApplication.Managers
         }
 
 
-        public void CoreEventsResult(ResultFuncsEnum enumerator, List<string> fields)
+        public void CoreEventsResult(string enumerator, List<string> fields)
         {
             Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
-            ResultFuncs[enumerator].Invoke(fields);
+            ResultFuncs[Build(enumerator)].Invoke(fields);
         }
     }
 }
