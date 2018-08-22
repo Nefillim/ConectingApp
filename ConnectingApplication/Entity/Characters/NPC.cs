@@ -71,7 +71,9 @@ namespace ConnectingApplication.Characters
 
         public Dialog GetActualDialog(DialogueMode dialogueMode)
         {
-            return AvailableDialogs[dialogueMode].First();
+            if (AvailableDialogs.ContainsKey(dialogueMode) && AvailableDialogs[dialogueMode].Count > 0)
+                return AvailableDialogs[dialogueMode].First();
+            else return null;
         }
 
         public void ActivateObject(bool activate, DialogueMode dialogueMode)
