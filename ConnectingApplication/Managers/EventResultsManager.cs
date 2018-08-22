@@ -33,8 +33,10 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.PlayMusic,            PlayMusic },
                 { ResultFuncsEnum.NextSlot,             NextSlot },
                 { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
-                { ResultFuncsEnum.Error,                Error },
                 { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
+                { ResultFuncsEnum.OpenFact,             OpenFact},
+                { ResultFuncsEnum.OpenFile,             OpenFile},
+                { ResultFuncsEnum.Error,                Error},
             };
 
 
@@ -88,22 +90,32 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            throw new NotImplementedException();
-        }
-
-        private static void Error(List<string> input)
-        {
-            Debug.LogError("Необходимо модифицировать методы в core.");
+            Debug.LogError("Метод не реализован.");
         }
 
         private static void StartMiniGame(List<string> input)
         {
-            throw new NotImplementedException();
+            Debug.LogError("Метод не реализован.");
         }
 
         private static void ChangeInitiative(List<string> input)
         {
-            throw new NotImplementedException();
+            Debug.LogError("Метод не реализован.");
+        }
+
+        private static void OpenFact(List<string> input)
+        {
+            Debug.LogError("Метод не реализован.");
+        }
+
+        private static void OpenFile(List<string> input)
+        {
+            Debug.LogError("Метод не реализован.");
+        }
+
+        private static void Error(List<string> input)
+        {
+            Debug.LogError("Необходимо реализовать новый метод для ивентов.");
         }
 
 
