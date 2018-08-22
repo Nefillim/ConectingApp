@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
-    public class EventResultsManager 
+    public class EventResultsManager
     {
         private static readonly Dictionary<string, ResultFuncsEnum> funcs = new Dictionary<string, ResultFuncsEnum>()
         {
@@ -28,12 +28,13 @@ namespace ConnectingApplication.Managers
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
             {
-                { ResultFuncsEnum.ActivateDialogue, OnNewAvailableDialog },
-                { ResultFuncsEnum.ActivateBusiness, OnChangeBusiness },
-                { ResultFuncsEnum.PlayMusic, PlayMusic },
-                { ResultFuncsEnum.NextSlot, NextSlot },
-                { ResultFuncsEnum.StartMiniGame, StartMiniGame },
-                { ResultFuncsEnum.Error, Error },
+                { ResultFuncsEnum.ActivateDialogue,     OnNewAvailableDialog },
+                { ResultFuncsEnum.ActivateBusiness,     OnChangeBusiness },
+                { ResultFuncsEnum.PlayMusic,            PlayMusic },
+                { ResultFuncsEnum.NextSlot,             NextSlot },
+                { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
+                { ResultFuncsEnum.Error,                Error },
+                { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
             };
 
 
@@ -100,11 +101,22 @@ namespace ConnectingApplication.Managers
             throw new NotImplementedException();
         }
 
+        private static void ChangeInitiative(List<string> input)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public void CoreEventsResult(string enumerator, List<string> fields)
         {
             Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
-            ResultFuncs[Build(enumerator)].Invoke(fields);
+            var func = Build(enumerator);
+            if (!ResultFuncs.ContainsKey(func))
+            {
+                Debug.LogError($"Среди предписанных методов не найден метод: {func}.");
+                return;
+            }
+            ResultFuncs[func].Invoke(fields);
         }
     }
 }
