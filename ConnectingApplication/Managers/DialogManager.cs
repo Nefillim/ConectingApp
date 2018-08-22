@@ -110,6 +110,9 @@ namespace ConnectingApplication.Managers
             {
                 newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
                 var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
+                if (!dialogs.ContainsKey(charId))
+                    dialogs.Add(charId, new List<Dialog>());
+                dialogs[charId].Add(newOne);
                 return ContinueMessengerDialog(charId, dialogueMode);
             }
             newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
