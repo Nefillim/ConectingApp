@@ -19,8 +19,8 @@ namespace ConnectingApplication.Managers
             {
                 { ResultFuncsEnum.ActivateDialogue, OnNewAvailableDialog },
                 { ResultFuncsEnum.ActivateBusiness, OnChangeBusiness },
-                { ResultFuncsEnum.playMusic, PlayMusic },
-                { ResultFuncsEnum.nextSlot, NextSlot },
+                { ResultFuncsEnum.PlayMusic, PlayMusic },
+                { ResultFuncsEnum.NextSlot, NextSlot },
                 { ResultFuncsEnum.StartMiniGame, StartMiniGame },
                 { ResultFuncsEnum.error, Error },
             };
@@ -59,7 +59,7 @@ namespace ConnectingApplication.Managers
 
         private static void PlayMusic(List<string> input)
         {
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.playMusic, input);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.PlayMusic, input);
         }
 
         private static void NextSlot(List<string> input)
