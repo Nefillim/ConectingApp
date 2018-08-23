@@ -27,7 +27,7 @@ namespace ConnectingApplication.Characters
 		{
 			if (!textMessages.ContainsKey(charId))
 				return new Queue<DialogueNode>();
-			return textMessages[charId];
+			return new Queue<DialogueNode>(textMessages[charId]);
 		}
 
         public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
