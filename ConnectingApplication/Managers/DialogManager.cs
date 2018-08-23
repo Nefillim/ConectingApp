@@ -5,6 +5,7 @@ using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
@@ -141,25 +142,36 @@ namespace ConnectingApplication.Managers
             return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
         }
 
-        public List<DialogueNode> ContinueDialog(DialogueMode mode, DialogueNode dialogueNode = null, string charId = "")
+
+        /// <summary>
+        /// Для продолжения уже начатого диалога.
+        /// </summary>
+        /// <param name="mode">Тип диалога.</param>
+        /// <param name="dialogueNode">Последняя выработанная нода диалога.</param>
+        /// <param name="charId">Id персонажа с которым идет переписка.</param>
+        /// <returns></returns>
+        public List<DialogueNode> ContinueDialog(DialogueMode mode, DialogueNode dialogueNode, string charId = "")
         {
             switch (mode)
             {
                 case DialogueMode.call:
                     return ContinueDialog(dialogueNode);
+
                 case DialogueMode.email:
                 case DialogueMode.sms:
                     if (charId != "")
                     {
                         return ContinueMessengerDialog(charId, mode, dialogueNode);
                     }
-                    else { return null; }
+                    else
+                    {
+                        Debug.LogError("При попытке продолжить диалог не указан charId.");
+                        return null;
+                    }
+
                 case DialogueMode.videocall:
-                    return ContinueDialog(dialogueNode);
                 case DialogueMode.meet:
-                    return ContinueDialog(dialogueNode);
                 case DialogueMode.dialogueInterface:
-                    return ContinueDialog(dialogueNode);
                 default:
                     return ContinueDialog(dialogueNode);
             }
