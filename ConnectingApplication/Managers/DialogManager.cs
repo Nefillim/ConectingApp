@@ -39,13 +39,15 @@ namespace ConnectingApplication.Managers
         {
             var dialogs = mode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
             int nodeId = -1;
+
+            if (!dialogs.ContainsKey(charId) || dialogs[charId].Count == 0)
+                return new List<DialogueNode>();
             Dialog curDialog = dialogs[charId].Last();
             if (dialogueNode != null)
             {
                 SetResultsForNode(dialogueNode);
                 nodeId = dialogueNode.Id;
 
-                curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
                 player.AddMessage(charId, dialogueNode, mode);
             }
