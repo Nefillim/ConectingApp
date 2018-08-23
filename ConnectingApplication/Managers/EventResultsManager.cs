@@ -95,7 +95,7 @@ namespace ConnectingApplication.Managers
 
         private static void StartMiniGame(List<string> input)
         {
-            Debug.LogError("Метод StartMiniGame не реализован.");
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartMiniGame, input);
         }
 
         private static void ChangeInitiative(List<string> input)
