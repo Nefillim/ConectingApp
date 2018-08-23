@@ -30,30 +30,27 @@ namespace ConnectingApplication.Characters
 			return new Queue<DialogueNode>(textMessages[charId]);
 		}
 
-        public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
-        {
-            Dictionary<string, Queue<DialogueNode>> temp = new Dictionary<string, Queue<DialogueNode>>();
+		public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
+		{
+			Dictionary<string, Queue<DialogueNode>> temp = new Dictionary<string, Queue<DialogueNode>>();
 
-            temp = mode == DialogueMode.sms ? textMessages : emailMessages;
+			temp = mode == DialogueMode.sms ? textMessages : emailMessages;
 
-            if (!temp.ContainsKey(charId))
-            {
-                temp.Add(charId, new Queue<DialogueNode>());
-                temp[charId].Enqueue(dialogueNode);
-            }
-            else { 
-                DialogueNode tempNode = temp[charId].Dequeue();
-                if (tempNode.Id != dialogueNode.Id)
-                {
-                    temp[charId].Enqueue(tempNode);
-                    temp[charId].Enqueue(dialogueNode);
-                }
-                else
-                {
-                    temp[charId].Enqueue(tempNode);
-                }
-            }
-        }
+			if (!temp.ContainsKey(charId))
+			{
+				temp.Add(charId, new Queue<DialogueNode>());
+				temp[charId].Enqueue(dialogueNode);
+			}
+			else
+			{
+				Queue<DialogueNode> tempQ = new Queue<DialogueNode>(temp[charId].Reverse());
+				DialogueNode tempNode = tempQ.Peek();
+				if (tempNode.Id != dialogueNode.Id)
+				{
+					temp[charId].Enqueue(dialogueNode);
+				}
+			}
+		}
 
 		public IList<string> GetPhoneContacts()
 		{
