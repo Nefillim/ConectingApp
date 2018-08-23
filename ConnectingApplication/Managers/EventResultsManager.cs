@@ -90,27 +90,27 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            Debug.LogError("Метод не реализован.");
+            Debug.LogError("Метод NextSlot не реализован.");
         }
 
         private static void StartMiniGame(List<string> input)
         {
-            Debug.LogError("Метод не реализован.");
+            Debug.LogError("Метод StartMiniGame не реализован.");
         }
 
         private static void ChangeInitiative(List<string> input)
         {
-            Debug.LogError("Метод не реализован.");
+            Debug.LogError("Метод ChangeInitiative не реализован.");
         }
 
         private static void OpenFact(List<string> input)
         {
-            Debug.LogError("Метод не реализован.");
+            Debug.LogError("Метод OpenFact не реализован.");
         }
 
         private static void OpenFile(List<string> input)
         {
-            Debug.LogError("Метод не реализован.");
+            Debug.LogError("Метод OpenFile не реализован.");
         }
 
         private static void Error(List<string> input)
