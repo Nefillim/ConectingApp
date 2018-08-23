@@ -47,7 +47,7 @@ namespace ConnectingApplication.Managers
 
                 curDialog.currentNode = curDialog.selectableNodes.Find(n => n.Id == nodeId);
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
-                player.AddMessage(charId, curDialog.currentNode, mode);
+                player.AddMessage(charId, dialogueNode, mode);
             }
 
             var nextNodes = curDialog.TakeNextNodes(nodeId);
