@@ -44,6 +44,7 @@ namespace ConnectingApplication.Characters
         public NPC(string id) : base(id)
         {
             availableDialogs = new Dictionary<DialogueMode, List<Dialog>>();
+            characterInfo = new List<string>();
         }
 
 
