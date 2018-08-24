@@ -24,6 +24,7 @@ namespace ConnectingApplication.Managers
             {"OpenFile",            ResultFuncsEnum.OpenFile},
             {"OpenFact",            ResultFuncsEnum.OpenFact},
             {"ChangeIIitiative",    ResultFuncsEnum.ChangeInitiative},
+            {"ActivateObject",      ResultFuncsEnum.ActivateObject},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
@@ -37,6 +38,7 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.OpenFact,             OpenFact},
                 { ResultFuncsEnum.OpenFile,             OpenFile},
                 { ResultFuncsEnum.Error,                Error},
+                { ResultFuncsEnum.ActivateObject,       ActivateObject},
             };
 
 
@@ -67,6 +69,11 @@ namespace ConnectingApplication.Managers
                 Dialog dialog = new Dialog(dialogue);
                 ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
             }
+        }
+
+        private static void ActivateObject(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateObject, input);
         }
 
         private static void ActivateBusiness(List<string> businesses)

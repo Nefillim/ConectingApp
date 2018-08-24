@@ -85,7 +85,7 @@ namespace ConnectingApplication.Characters
 
         public void ActivateObject(bool activate, DialogueMode dialogueMode)
         {
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateObject,
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateCharacter,
                                                   new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
         }
 
