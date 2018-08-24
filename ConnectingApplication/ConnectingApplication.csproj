@@ -50,7 +50,6 @@
     <Compile Include="Entity\Characters\Player.cs" />
     <Compile Include="Entity\Dialog.cs" />
     <Compile Include="Entity\FlagState.cs" />
-    <Compile Include="Enums\ConnectingFuncsEnum.cs" />
     <Compile Include="Enums\ResultFuncsEnum.cs" />
     <Compile Include="Managers\BusinessManager.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
