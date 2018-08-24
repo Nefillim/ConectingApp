@@ -123,7 +123,14 @@ namespace ConnectingApplication.Managers
 
         public void CoreEventsResult(string enumerator, List<string> fields)
         {
-            Debug.Log($"ResultType: {enumerator.ToString()}, inputFields: {string.Concat(fields)}");
+            string inputFields = string.Empty;
+            foreach(var i in fields)
+            {
+                inputFields = string.Concat(inputFields, i, ", ");
+            }
+            inputFields = inputFields.Remove(inputFields.Length - 2);
+            Debug.Log($"ResultType: {enumerator.ToString()}({inputFields})");
+
             var func = Build(enumerator);
             if (!ResultFuncs.ContainsKey(func))
             {
