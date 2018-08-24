@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Business;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +9,29 @@ namespace ConnectingApplication.Managers
 {
     public class BusinessManager 
     {
-        private List<string> AvailableBusiness;
+        private List<string> availableBusiness;
 
         
         [Obsolete("Don't use outside the ConnectingApp.")]
         public BusinessManager()
         {
-            AvailableBusiness = new List<string>();
+            availableBusiness = new List<string>();
         }
 
-        public List<Core.Business.Business> GetBusiness(bool forCalendar)
+
+        public IList<Business> GetBusiness(bool forCalendar)
         {
-            List<Core.Business.Business> active = new List<Core.Business.Business>();
-            active.AddRange(Core.CoreController.BusinessManager.GetBusinesses(AvailableBusiness, forCalendar));
-            return active;
+            return Core.CoreController.BusinessManager.GetBusinesses(availableBusiness, forCalendar).AsReadOnly();
         }
 
-        public Core.Business.BusinessInfo GetBusinessInfo(string businessId)
+        public BusinessInfo GetBusinessInfo(string businessId)
         {
             return Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
+        }
+
+        public void AddAvailableBusiness(string business)
+        {
+            availableBusiness.Add(business);
         }
     }
 }

@@ -29,7 +29,7 @@ namespace ConnectingApplication.Managers
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
             {
                 { ResultFuncsEnum.ActivateDialogue,     OnNewAvailableDialog },
-                { ResultFuncsEnum.ActivateBusiness,     OnChangeBusiness },
+                { ResultFuncsEnum.ActivateBusiness,     ActivateBusiness },
                 { ResultFuncsEnum.PlayMusic,            PlayMusic },
                 { ResultFuncsEnum.NextSlot,             NextSlot },
                 { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
@@ -67,6 +67,12 @@ namespace ConnectingApplication.Managers
                 Dialog dialog = new Dialog(dialogue);
                 ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
             }
+        }
+
+        private static void ActivateBusiness(List<string> businesses)
+        {
+            foreach (var b in businesses)
+                ConnectingAppManager.BusinessManager.AddAvailableBusiness(b);
         }
 
         private static void OnChangeBusiness(List<string> businesses)
@@ -124,7 +130,7 @@ namespace ConnectingApplication.Managers
         public void CoreEventsResult(string enumerator, List<string> fields)
         {
             string inputFields = string.Empty;
-            foreach(var i in fields)
+            foreach (var i in fields)
             {
                 inputFields = string.Concat(inputFields, i, ", ");
             }
