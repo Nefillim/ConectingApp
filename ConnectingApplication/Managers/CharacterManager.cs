@@ -27,11 +27,7 @@ namespace ConnectingApplication.Managers
 
         public void AddDialog(Dialog dialog, string character)
         {
-            if (!Characters.ContainsKey(character))
-            {
-                Characters.Add(character, new NPC(character));
-                GetPlayer().AddContact(character);
-            }
+            AddContact(character);
             if (Characters[character] is NPC)
             {
                 if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
@@ -48,7 +44,7 @@ namespace ConnectingApplication.Managers
             return ((NPC)Characters[characterId]).GetActualDialog(mode);
         }
 
-        public List<string> GetCharacterInfo(string charId)
+        public IList<string> GetCharacterInfo(string charId)
         {
             return ((NPC)Characters[charId]).CharacterInfo;
         }
@@ -61,6 +57,16 @@ namespace ConnectingApplication.Managers
         public NPC GetNPC(string characterId)
         {
             return Characters[characterId] as NPC;
+        }
+
+
+        public void AddContact(string charId)
+        {
+            if (!Characters.ContainsKey(charId))
+            {
+                Characters.Add(charId, new NPC(charId));
+                GetPlayer().AddContact(charId);
+            }
         }
     }
 }

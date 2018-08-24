@@ -12,10 +12,10 @@ namespace ConnectingApplication.Managers
 
     public class DialogManager
     {
-        private List<Dialog> activeDialogs;
-        private Dictionary<string, List<Dialog>> activeMessageDialogs;
-        private Dictionary<string, List<Dialog>> activeEmailDialogs;
-        private List<Dialog> discussions;
+        private readonly List<Dialog> activeDialogs;
+        private readonly Dictionary<string, List<Dialog>> activeMessageDialogs;
+        private readonly Dictionary<string, List<Dialog>> activeEmailDialogs;
+        private readonly List<Dialog> discussions;
 
         public int ActiveDialogsCount { get { return activeDialogs.Count; } }
         public IList<Dialog> ActiveDialogs { get { return activeDialogs.AsReadOnly(); } }
@@ -26,6 +26,7 @@ namespace ConnectingApplication.Managers
             activeDialogs = new List<Dialog>();
             activeMessageDialogs = new Dictionary<string, List<Dialog>>();
             activeEmailDialogs = new Dictionary<string, List<Dialog>>();
+            discussions = new List<Dialog>();
         }
 
 
@@ -89,8 +90,8 @@ namespace ConnectingApplication.Managers
                     foreach (string ch in curDialog.Participants)
                     {
                         var npc = ConnectingAppManager.CharacterManager.GetNPC(ch);
-                        npc.AvailableDialogs[curDialog.DialogueMode].Remove(curDialog);
-                        if (npc.AvailableDialogs[curDialog.DialogueMode].Count == 0)
+                        npc.RemoveDialog(curDialog.DialogueMode, curDialog);
+                        if (npc.GetAvailableDialogs(curDialog.DialogueMode).Count == 0)
                             npc.ActivateObject(false, curDialog.DialogueMode);
                     }
                 }
@@ -126,7 +127,7 @@ namespace ConnectingApplication.Managers
         public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
-            npc.AvailableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
+            npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)

@@ -105,11 +105,13 @@ namespace ConnectingApplication.Managers
 
         private static void OpenFact(List<string> input)
         {
+            ConnectingAppManager.CharacterManager.GetNPC(input.First()).AddFact(input[1]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFact, input);
         }
 
         private static void OpenFile(List<string> input)
         {
+            ConnectingAppManager.CharacterManager.AddContact(input.First());
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
         }
 
