@@ -105,12 +105,12 @@ namespace ConnectingApplication.Managers
 
         private static void OpenFact(List<string> input)
         {
-            Debug.LogError("Метод OpenFact не реализован.");
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFact, input);
         }
 
         private static void OpenFile(List<string> input)
         {
-            Debug.LogError("Метод OpenFile не реализован.");
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
         }
 
         private static void Error(List<string> input)
