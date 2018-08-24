@@ -1,4 +1,5 @@
 ﻿using Assets.ConectingApp.ConnectingApplication;
+using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
@@ -50,7 +51,7 @@ namespace ConnectingApplication.Characters
 
         private void TryToStartDialog(Dialog d)
         {
-            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.DialogueMode).ToString() });
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.DialogueMode).ToString() });
         }
 
 
@@ -84,7 +85,7 @@ namespace ConnectingApplication.Characters
 
         public void ActivateObject(bool activate, DialogueMode dialogueMode)
         {
-            TriangleManager.InvokeConnectionFuncs(ConnectingFuncsEnum.ActivateObject,
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateObject,
                                                   new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
         }
 
