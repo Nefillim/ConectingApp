@@ -1,4 +1,6 @@
-﻿using ConnectingApplication.Characters;
+﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+using Assets.Scripts;
+using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
@@ -84,6 +86,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.DialogueMode.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
