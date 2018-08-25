@@ -23,8 +23,11 @@ namespace ConnectingApplication.Managers
             {"PlayMusic",           ResultFuncsEnum.PlayMusic },
             {"OpenFile",            ResultFuncsEnum.OpenFile},
             {"OpenFact",            ResultFuncsEnum.OpenFact},
-            {"ChangeIIitiative",    ResultFuncsEnum.ChangeInitiative},
+            {"ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
             {"ActivateObject",      ResultFuncsEnum.ActivateObject},
+            {"StartBusiness",       ResultFuncsEnum.StartBusiness},
+            {"GetChoose",           ResultFuncsEnum.GetChoose},
+
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
@@ -39,6 +42,8 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.OpenFile,             OpenFile},
                 { ResultFuncsEnum.Error,                Error},
                 { ResultFuncsEnum.ActivateObject,       ActivateObject},
+                { ResultFuncsEnum.StartBusiness,        StartBusiness},
+                { ResultFuncsEnum.GetChoose,            GetChoose},
             };
 
 
@@ -69,6 +74,17 @@ namespace ConnectingApplication.Managers
                 Dialog dialog = new Dialog(dialogue);
                 ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
             }
+        }
+
+        private static void GetChoose(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.GetChoose, input);
+        }
+
+        private static void StartBusiness(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartBusiness, input);
+
         }
 
         private static void ActivateObject(List<string> input)
