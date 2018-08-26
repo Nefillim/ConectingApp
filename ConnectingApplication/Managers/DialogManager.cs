@@ -130,7 +130,8 @@ namespace ConnectingApplication.Managers
         public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
-            npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
+            var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
+            dialog.ActivateResult(breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)
