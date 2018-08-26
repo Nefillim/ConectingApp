@@ -119,7 +119,7 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            Debug.LogError("Метод NextSlot не реализован.");
+            CoreController.TimeModule.MoveSlot(int.Parse(input.First()));
         }
 
         private static void StartMiniGame(List<string> input)
