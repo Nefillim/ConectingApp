@@ -95,7 +95,10 @@ namespace ConnectingApplication.Managers
         private static void ActivateBusiness(List<string> businesses)
         {
             foreach (var b in businesses)
+            {
                 ConnectingAppManager.BusinessManager.AddAvailableBusiness(b);
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateBusiness, businesses);
+            }
         }
 
         private static void OnChangeBusiness(List<string> businesses)
