@@ -113,18 +113,22 @@ namespace ConnectingApplication.Managers
         public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
-            if (dialogueMode == DialogueMode.sms || dialogueMode == DialogueMode.email)
+            if (newOne != null)
             {
-                newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
-                var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
-                if (!dialogs.ContainsKey(charId))
-                    dialogs.Add(charId, new List<Dialog>());
-                dialogs[charId].Add(newOne);
-                return ContinueMessengerDialog(charId, dialogueMode);
+                if (dialogueMode == DialogueMode.sms || dialogueMode == DialogueMode.email)
+                {
+                    newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
+                    var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
+                    if (!dialogs.ContainsKey(charId))
+                        dialogs.Add(charId, new List<Dialog>());
+                    dialogs[charId].Add(newOne);
+                    return ContinueMessengerDialog(charId, dialogueMode);
+                }
+                newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+                activeDialogs.Add(newOne);
+                return ContinueDialog();
             }
-            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
-            activeDialogs.Add(newOne);
-            return ContinueDialog();
+            else return new List<DialogueNode>();
         }
 
         public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
