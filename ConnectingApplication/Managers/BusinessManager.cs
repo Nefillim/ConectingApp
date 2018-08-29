@@ -33,5 +33,10 @@ namespace ConnectingApplication.Managers
         {
             availableBusiness.Add(business);
         }
+
+        public void SetFlagsWhenBusinessStart(BusinessInfo business)
+        {
+            business.SetFlags();
+        }
     }
 }

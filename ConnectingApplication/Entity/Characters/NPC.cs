@@ -85,7 +85,7 @@ namespace ConnectingApplication.Characters
 
         public void ActivateObject(bool activate, DialogueMode dialogueMode)
         {
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateObject,
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateCharacter,
                                                   new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
         }
 
@@ -96,14 +96,14 @@ namespace ConnectingApplication.Characters
 
         public IList<Dialog> GetAvailableDialogs(DialogueMode dialogueMode)
         {
-            if (!availableDialogs.ContainsKey(dialogueMode))
+            if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].AsReadOnly();
             else return new List<Dialog>();
         }
 
         public bool RemoveDialog(DialogueMode dialogueMode, Dialog dialog)
         {
-            if (!availableDialogs.ContainsKey(dialogueMode))
+            if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].Remove(dialog);
             else return false;
         }

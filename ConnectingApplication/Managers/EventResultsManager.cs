@@ -23,7 +23,11 @@ namespace ConnectingApplication.Managers
             {"PlayMusic",           ResultFuncsEnum.PlayMusic },
             {"OpenFile",            ResultFuncsEnum.OpenFile},
             {"OpenFact",            ResultFuncsEnum.OpenFact},
-            {"ChangeIIitiative",    ResultFuncsEnum.ChangeInitiative},
+            {"ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
+            {"ActivateObject",      ResultFuncsEnum.ActivateObject},
+            {"StartBusiness",       ResultFuncsEnum.StartBusiness},
+            {"GetChoose",           ResultFuncsEnum.GetChoose},
+
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
@@ -37,6 +41,9 @@ namespace ConnectingApplication.Managers
                 { ResultFuncsEnum.OpenFact,             OpenFact},
                 { ResultFuncsEnum.OpenFile,             OpenFile},
                 { ResultFuncsEnum.Error,                Error},
+                { ResultFuncsEnum.ActivateObject,       ActivateObject},
+                { ResultFuncsEnum.StartBusiness,        StartBusiness},
+                { ResultFuncsEnum.GetChoose,            GetChoose},
             };
 
 
@@ -69,10 +76,29 @@ namespace ConnectingApplication.Managers
             }
         }
 
+        private static void GetChoose(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.GetChoose, input);
+        }
+
+        private static void StartBusiness(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartBusiness, input);
+
+        }
+
+        private static void ActivateObject(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateObject, input);
+        }
+
         private static void ActivateBusiness(List<string> businesses)
         {
             foreach (var b in businesses)
+            {
                 ConnectingAppManager.BusinessManager.AddAvailableBusiness(b);
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateBusiness, businesses);
+            }
         }
 
         private static void OnChangeBusiness(List<string> businesses)
@@ -96,7 +122,7 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            Debug.LogError("Метод NextSlot не реализован.");
+            CoreController.TimeModule.MoveSlot(int.Parse(input.First()));
         }
 
         private static void StartMiniGame(List<string> input)

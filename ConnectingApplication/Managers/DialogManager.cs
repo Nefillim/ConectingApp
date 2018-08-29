@@ -1,4 +1,6 @@
-﻿using ConnectingApplication.Characters;
+﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+using Assets.Scripts;
+using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
@@ -84,6 +86,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.DialogueMode.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
@@ -110,24 +113,29 @@ namespace ConnectingApplication.Managers
         public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
-            if (dialogueMode == DialogueMode.sms || dialogueMode == DialogueMode.email)
+            if (newOne != null)
             {
-                newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
-                var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
-                if (!dialogs.ContainsKey(charId))
-                    dialogs.Add(charId, new List<Dialog>());
-                dialogs[charId].Add(newOne);
-                return ContinueMessengerDialog(charId, dialogueMode);
+                if (dialogueMode == DialogueMode.sms || dialogueMode == DialogueMode.email)
+                {
+                    newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
+                    var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
+                    if (!dialogs.ContainsKey(charId))
+                        dialogs.Add(charId, new List<Dialog>());
+                    dialogs[charId].Add(newOne);
+                    return ContinueMessengerDialog(charId, dialogueMode);
+                }
+                newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+                activeDialogs.Add(newOne);
+                return ContinueDialog();
             }
-            newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
-            activeDialogs.Add(newOne);
-            return ContinueDialog();
+            else return new List<DialogueNode>();
         }
 
         public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
-            npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId)).ActivateResult(breakingType);
+            var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
+            dialog.ActivateResult(breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)

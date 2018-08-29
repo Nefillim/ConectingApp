@@ -10,6 +10,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Enums
     {
         NextSlot, ActivateBusiness, ActivateDialogue, StartMiniGame,
         PlayMusic, OpenFile, OpenFact, ChangeInitiative, Error,
-        ActivateObject, TryToStartDialogue
-	}
+        ActivateCharacter, TryToStartDialogue, ActivateObject,
+        EndOfDialog, StartBusiness, GetChoose
+    }
 }

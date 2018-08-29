@@ -56,6 +56,7 @@ namespace ConnectingApplication.Managers
 
         public NPC GetNPC(string characterId)
         {
+            AddContact(characterId);
             return Characters[characterId] as NPC;
         }
 

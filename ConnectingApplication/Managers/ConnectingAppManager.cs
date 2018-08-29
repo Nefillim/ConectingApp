@@ -14,6 +14,7 @@ namespace ConnectingApplication.Managers
         public static EventResultsManager EventResultsManager { get; private set; }
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
+        public static int Date { get { return CoreController.TimeModule.GetDate(); } }
 
 		private static bool _saveMode = false;
 		[Obsolete("Don't use outside the DownloadManager.")]
