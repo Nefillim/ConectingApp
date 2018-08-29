@@ -12,7 +12,7 @@ using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
-    public class EventResultsManager
+    public class EventResultsManager //TODO: for all methods using view methods make if(!saveMode) condition
     {
         private static readonly Dictionary<string, ResultFuncsEnum> funcs = new Dictionary<string, ResultFuncsEnum>()
         {

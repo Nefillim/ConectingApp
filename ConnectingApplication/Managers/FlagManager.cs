@@ -1,15 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
+	[Serializable]
 	public struct Flag 
     {
 		public string name;
 		public int value;
+		public void Download(BinaryReader reader)
+		{
+			name = reader.ReadString();
+			value = reader.ReadInt32();
+		}
 	}
 
 	public class FlagManager

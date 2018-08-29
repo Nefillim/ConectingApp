@@ -15,6 +15,9 @@ namespace ConnectingApplication.Managers
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
 
+		private static bool _saveMode = false;
+		[Obsolete("Don't use outside the DownloadManager.")]
+		public static bool saveMode { get; set; }
 
         private static void ExceptionListener(string message)
         {
