@@ -16,6 +16,9 @@ namespace ConnectingApplication.Managers
         public static SaveManager SaveManager { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
 
+		private static bool _saveMode = false;
+		[Obsolete("Don't use outside the DownloadManager.")]
+		public static bool saveMode { get; set; }
 
         private static void ExceptionListener(string message)
         {
