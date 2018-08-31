@@ -38,6 +38,15 @@ namespace ConnectingApplication.Managers
 			return false;
 		}
 
+        public bool SetFlags(Dictionary<string, int> flags)
+        {
+            foreach (var item in flags)
+            {
+                SetFlag(item.Key, item.Value);
+            }
+            return true;
+        }
+
 		public bool CompareFlag(string flagname, int value)
 		{
 			return Core.CoreController.FlagsManager.GetValue(flagname) == value;

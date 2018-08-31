@@ -34,8 +34,7 @@ namespace ConnectingApplication.Managers
 
         private void SetResultsForNode(DialogueNode dialogueNode)
         {
-            dialogueNode.InvokeResult();
-            // TODO: сохранить 
+            ConnectingAppManager.FlagManager.SetFlags(dialogueNode.Results);
         }
 
         private List<DialogueNode> ContinueMessengerDialog(string charId, DialogueMode mode, DialogueNode dialogueNode = null)
@@ -104,6 +103,12 @@ namespace ConnectingApplication.Managers
             }
         }
 
+        private void ActivateResultsForDialog(Dialog dialog, EDialogueResultType eDialogueResultType)
+        {
+            var resultFlags = dialog.GetResult(eDialogueResultType);
+            ConnectingAppManager.FlagManager.SetFlags(resultFlags);
+        }
+
 
         public void AddDiscussion(Dialog dialog)
         {
@@ -135,12 +140,12 @@ namespace ConnectingApplication.Managers
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
-            dialog.ActivateResult(breakingType);
+            ActivateResultsForDialog(dialog, breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)
         {
-            activeDialogs.Last().ActivateResult(breakingType);
+            ActivateResultsForDialog(activeDialogs.Last(), breakingType);
         }
 
         public List<DialogueNode> ContinueDisscussion(string dialogId)

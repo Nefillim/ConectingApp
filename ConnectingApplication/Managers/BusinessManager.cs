@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Managers
 {
-    public class BusinessManager 
+    public class BusinessManager
     {
         private List<string> availableBusiness;
 
-        
+
         [Obsolete("Don't use outside the ConnectingApp.")]
         public BusinessManager()
         {
@@ -36,7 +36,7 @@ namespace ConnectingApplication.Managers
 
         public void SetFlagsWhenBusinessStart(BusinessInfo business)
         {
-            business.SetFlags();
+            ConnectingAppManager.FlagManager.SetFlags(business.ResultFlags);
         }
     }
 }
