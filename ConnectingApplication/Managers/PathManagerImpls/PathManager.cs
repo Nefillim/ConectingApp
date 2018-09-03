@@ -9,17 +9,25 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
 {
     public static class PathManager
     {
-        private static readonly string PATH_TO_LOCALIZATION_FILES = string.Concat(Application.dataPath, "/Localizations/");
-        private static readonly string PATH_TO_CONFIG_FILES = string.Concat(Application.dataPath, "/ConfigFiles/");
+        private static readonly string PATH_TO_LOCALIZATION_FILES = "/Localizations/";
+        private static readonly string PATH_TO_REPLICS_FILES = "/Replics/";
+        private static readonly string PATH_TO_CHARACTER_FILES = "/CharacterFiles/";
+        private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
+        private static readonly string PATH_TO_DATA = Application.dataPath;
 
-        public static string GetPathToLocalizationFiles(ELanguage eLanguage)
+        public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
         {
-            return string.Concat(PATH_TO_LOCALIZATION_FILES, eLanguage == ELanguage.en ? "EN/" : "RU/");
+            return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_REPLICS_FILES);
+        }
+
+        public static string GetPathToLocalizationCharacterFiles(ELanguage eLanguage)
+        {
+            return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_CHARACTER_FILES);
         }
 
         public static string GetPathToConfigFiles()
         {
-            return PATH_TO_CONFIG_FILES;
+            return string.Concat(PATH_TO_DATA, PATH_TO_CONFIG_FILES);
         }
     }
 }
