@@ -35,7 +35,10 @@ namespace ConnectingApplication.Managers
 		{
 			using (FileStream stream = new FileStream($"/path/to/save/{ConnectingAppManager.PLAYER_ID}", FileMode.Open))
 			{
+				var player = ConnectingAppManager.CharacterManager.GetPlayer();
+#pragma warning disable CS0618 // Type or member is obsolete
 				ConnectingAppManager.saveMode = true;
+#pragma warning restore CS0618 // Type or member is obsolete
 				using (BinaryReader reader = new BinaryReader(stream))
 				{
 					iteratorPosition = reader.ReadInt32();
@@ -47,7 +50,9 @@ namespace ConnectingApplication.Managers
 						saveQueue.Enqueue(flag);
 						ConnectingAppManager.FlagManager.SetFlag(flag.name, flag.value);
 					}
+#pragma warning disable CS0618 // Type or member is obsolete
 					ConnectingAppManager.saveMode = false;
+#pragma warning restore CS0618 // Type or member is obsolete
 					for (int i = 0; i < iterationsCount; i++)
 					{
 						Flag flag = new Flag();
@@ -55,6 +60,12 @@ namespace ConnectingApplication.Managers
 						saveQueue.Enqueue(flag);
 						ConnectingAppManager.FlagManager.SetFlag(flag.name, flag.value);
 					}
+					int contactsCount = reader.ReadInt32();
+					for (int i = 0; i < contactsCount; i++)
+					{
+						player.AddContact(reader.ReadString());
+					}
+					player.DownloadMessageHistory(reader);
 				}
 				//TODO: smth else to download?
 			}
@@ -75,6 +86,13 @@ namespace ConnectingApplication.Managers
 						writer.Write(saveQueue.Dequeue().value);
 					}
 					//TODO: smth else to save?
+					var playerContacts = ConnectingAppManager.CharacterManager.GetPlayer().GetPhoneContacts();
+					writer.Write(playerContacts.Count);
+					foreach (string contact in playerContacts)
+					{
+						writer.Write(contact);
+					}
+					ConnectingAppManager.CharacterManager.GetPlayer().SaveMessageHistory(writer);
 				}
 			}
 		}
