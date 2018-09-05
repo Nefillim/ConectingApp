@@ -59,6 +59,10 @@
     <Compile Include="Managers\EventResultsManager.cs" />
     <Compile Include="Managers\FlagManager.cs" />
     <Compile Include="Managers\SaveManager.cs" />
+    <Compile Include="Navigation\AStarAI.cs" />
+    <Compile Include="Navigation\AStarAIManager.cs" />
+    <Compile Include="Navigation\Point.cs" />
+    <Compile Include="Navigation\PointsManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
