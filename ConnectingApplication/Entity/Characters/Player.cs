@@ -3,6 +3,7 @@ using ConnectingApplication.Entity.Characters;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,60 @@ namespace ConnectingApplication.Characters
 			if (!textMessages.ContainsKey(charId))
 				return new Queue<DialogueNode>();
 			return new Queue<DialogueNode>(textMessages[charId]);
+		}
+
+		public void SaveMessageHistory(BinaryWriter writer)
+		{
+			writer.Write(textMessages.Count);
+			foreach (string name in textMessages.Keys)
+			{
+				writer.Write(name);
+				writer.Write(textMessages[name].Count);
+				foreach(DialogueNode mes in textMessages[name])
+				{
+					writer.Write(mes.nodeID);
+				}
+			}
+			writer.Write(emailMessages.Count);
+			foreach (string name in emailMessages.Keys)
+			{
+				writer.Write(name);
+				writer.Write(emailMessages[name].Count);
+				foreach (DialogueNode mes in emailMessages[name])
+				{
+					writer.Write(mes.nodeID);
+				}
+			}
+		}
+
+		public void DownloadMessageHistory(BinaryReader reader)
+		{
+			int smsCount = reader.ReadInt32();
+			for (int j = 0; j < smsCount; j++)
+			{
+				string contact = reader.ReadString();
+				int smsQueueCount = reader.ReadInt32();
+				textMessages.Add(contact, new Queue<DialogueNode>());
+				for (int i = 0; i < smsQueueCount; i++)
+				{
+					int nodeId = reader.ReadInt32();
+					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.actual, nodeId);
+					textMessages[contact].Enqueue(nodes.Find(n => n.nodeID == nodeId));
+				}
+			}
+			int emailCount = reader.ReadInt32();
+			for (int j = 0; j < smsCount; j++)
+			{
+				string contact = reader.ReadString();
+				int emailQueueCount = reader.ReadInt32();
+				emailMessages.Add(contact, new Queue<DialogueNode>());
+				for (int i = 0; i < emailQueueCount; i++)
+				{
+					int nodeId = reader.ReadInt32();
+					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.actual, nodeId);
+					emailMessages[contact].Enqueue(nodes.Find(n => n.nodeID == nodeId));
+				}
+			}
 		}
 
 		public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
