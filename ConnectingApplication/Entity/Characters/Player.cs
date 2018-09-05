@@ -1,5 +1,8 @@
 ﻿using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
+using Core;
+using Core.Dialogues;
+using Core.Dialogues.DialogueBlock;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
@@ -40,7 +43,7 @@ namespace ConnectingApplication.Characters
 				writer.Write(textMessages[name].Count);
 				foreach(DialogueNode mes in textMessages[name])
 				{
-					writer.Write(mes.nodeID);
+					writer.Write(mes.Id);
 				}
 			}
 			writer.Write(emailMessages.Count);
@@ -50,7 +53,7 @@ namespace ConnectingApplication.Characters
 				writer.Write(emailMessages[name].Count);
 				foreach (DialogueNode mes in emailMessages[name])
 				{
-					writer.Write(mes.nodeID);
+					writer.Write(mes.Id);
 				}
 			}
 		}
@@ -66,8 +69,8 @@ namespace ConnectingApplication.Characters
 				for (int i = 0; i < smsQueueCount; i++)
 				{
 					int nodeId = reader.ReadInt32();
-					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.actual, nodeId);
-					textMessages[contact].Enqueue(nodes.Find(n => n.nodeID == nodeId));
+					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.next, nodeId);
+					textMessages[contact].Enqueue(nodes.Find(n => n.Id == nodeId));
 				}
 			}
 			int emailCount = reader.ReadInt32();
@@ -79,8 +82,8 @@ namespace ConnectingApplication.Characters
 				for (int i = 0; i < emailQueueCount; i++)
 				{
 					int nodeId = reader.ReadInt32();
-					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.actual, nodeId);
-					emailMessages[contact].Enqueue(nodes.Find(n => n.nodeID == nodeId));
+					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.next, nodeId);
+					emailMessages[contact].Enqueue(nodes.Find(n => n.Id == nodeId));
 				}
 			}
 		}
