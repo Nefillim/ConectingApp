@@ -27,7 +27,12 @@ namespace ConnectingApplication.Managers
             {"ActivateObject",      ResultFuncsEnum.ActivateObject},
             {"StartBusiness",       ResultFuncsEnum.StartBusiness},
             {"GetChoose",           ResultFuncsEnum.GetChoose},
-
+            {"AddToContactList",    ResultFuncsEnum.AddToContactList},
+            {"AddToFlype",          ResultFuncsEnum.AddToFlype},
+            {"AddToFF",             ResultFuncsEnum.AddToFF},
+            {"DeleteContact",       ResultFuncsEnum.DeleteContact},
+            {"DeleteContactFF",     ResultFuncsEnum.DeleteContactFF},
+            {"DeactivateBusiness",  ResultFuncsEnum.DeactivateBusiness},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
             new Dictionary<ResultFuncsEnum, Action<List<string>>>()
@@ -143,7 +148,7 @@ namespace ConnectingApplication.Managers
 
         private static void OpenFile(List<string> input)
         {
-            ConnectingAppManager.CharacterManager.AddContact(input[0]);
+            ConnectingAppManager.CharacterManager.CreateCharacter(input[0]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
         }
 
