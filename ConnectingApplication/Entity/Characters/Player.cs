@@ -18,11 +18,13 @@ namespace ConnectingApplication.Characters
 		private Dictionary<string, Queue<DialogueNode>> textMessages;
 		private Dictionary<string, Queue<DialogueNode>> emailMessages;
 		private List<string> phoneContacts;
+		private List<string> files;
 
 
 		public Player()
 		{
 			phoneContacts = new List<string>();
+            files = new List<string>();
 			textMessages = new Dictionary<string, Queue<DialogueNode>>();
 		}
 
@@ -115,9 +117,19 @@ namespace ConnectingApplication.Characters
 			return phoneContacts.AsReadOnly();
 		}
 
-		public void AddContact(string character)
+        public IList<string> GetFiles()
+        {
+            return files.AsReadOnly();
+        }
+
+        public void AddContact(string character)
 		{
 			phoneContacts.Add(character);
 		}
-	}
+
+        public void AddFile(string character)
+        {
+            files.Add(character);
+        }
+    }
 }

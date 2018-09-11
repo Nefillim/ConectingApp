@@ -148,7 +148,7 @@ namespace ConnectingApplication.Managers
 
         private static void OpenFile(List<string> input)
         {
-            ConnectingAppManager.CharacterManager.CreateCharacter(input[0]);
+            ConnectingAppManager.CharacterManager.CreateFile(input[0]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
         }
 
