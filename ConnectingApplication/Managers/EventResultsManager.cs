@@ -127,7 +127,9 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            CoreController.TimeModule.MoveSlot(int.Parse(input.First()));
+            int slotsCount = 0;
+            slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
+            CoreController.TimeModule.MoveSlot(slotsCount);
         }
 
         private static void StartMiniGame(List<string> input)
