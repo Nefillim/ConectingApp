@@ -50,6 +50,7 @@
     <Compile Include="Entity\Characters\Player.cs" />
     <Compile Include="Entity\Dialog.cs" />
     <Compile Include="Entity\FlagState.cs" />
+    <Compile Include="Enums\EBlockState.cs" />
     <Compile Include="Enums\ResultFuncsEnum.cs" />
     <Compile Include="Managers\BusinessManager.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
@@ -58,6 +59,9 @@
     <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Managers\EventResultsManager.cs" />
     <Compile Include="Managers\FlagManager.cs" />
+    <Compile Include="Managers\PathManagerImpls\ELanguage.cs" />
+    <Compile Include="Managers\PathManagerImpls\EMiniGamesType.cs" />
+    <Compile Include="Managers\PathManagerImpls\PathManager.cs" />
     <Compile Include="Managers\SaveManager.cs" />
     <Compile Include="Navigation\AStarAI.cs" />
     <Compile Include="Navigation\AStarAIManager.cs" />
