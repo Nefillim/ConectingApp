@@ -13,6 +13,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Enums
         ActivateCharacter, TryToStartDialogue, ActivateObject,
         EndOfDialog, StartBusiness, GetChoose, MoveCharacter,
         AddToContactList, AddToFlype, AddToFF, DeleteContact,
-        DeleteContactFF, DeactivateBusiness
+        DeleteContactFF, DeactivateBusiness, ActivateMiniGame,
+        DeactivateMiniGame
     }
 }
