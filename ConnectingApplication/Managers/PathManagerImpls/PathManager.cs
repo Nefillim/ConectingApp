@@ -29,5 +29,10 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_CONFIG_FILES);
         }
+
+        public static string GetPathToMiniGamesConfigFile(EMiniGamesType eMiniGamesType, string miniGameId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
