@@ -9,15 +9,24 @@ namespace Assets.ConectingApp.ConnectingApplication.PathFinder
 {
     public class AStarAI
     {
-		private double[][][] Map;
 
 		public Queue<Point> FindPath(Point start,Point finish)
 		{
 			Queue<Point> path = new Queue<Point>();
 			Point temp = new Point();
-			while (temp)
+			temp = start;
+			while (temp.Coordinates != finish.Coordinates)
+			{
+				temp = temp.Neighbors.Values.OrderBy(p => p.Weight).First();
+				path.Enqueue(temp);
+			}
+			return path;
 		}
 
-
+		 
     }
 }
+
+
+
+

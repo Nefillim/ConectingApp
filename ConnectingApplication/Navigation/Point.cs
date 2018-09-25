@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace Assets.ConectingApp.ConnectingApplication.PathFinder
 {
-    class Point
+    public class Point
     {
         public Vector3 Coordinates;
         public Dictionary<EDirection, Point> Neighbors;

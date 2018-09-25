@@ -60,15 +60,18 @@ namespace ConnectingApplication.Characters
             if (!availableDialogs.ContainsKey(d.DialogueMode))
                 availableDialogs.Add(d.DialogueMode, new List<Dialog>());
 
-            if (d.CharacterDialogue == NatureOfTheDialogue.express || d.Outgoing)
-            {
-                availableDialogs[d.DialogueMode].Insert(0, d);
-                if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
-                {
-                    TryToStartDialog(d);
-                }
-            }
-            else availableDialogs[d.DialogueMode].Add(d);
+			if (d.CharacterDialogue == NatureOfTheDialogue.express || d.Outgoing)
+			{
+				if (!availableDialogs[d.DialogueMode].Contains(d))
+				{
+					availableDialogs[d.DialogueMode].Insert(0, d);
+					if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
+					{
+						TryToStartDialog(d);
+					}
+				}
+			}
+			else if (!availableDialogs[d.DialogueMode].Contains(d)) { availableDialogs[d.DialogueMode].Add(d); }
 
             if (d.Outgoing)
                 TryToStartDialog(d);
