@@ -33,7 +33,7 @@ namespace ConnectingApplication.Characters
     public class NPC : Character
     {
         private List<string> characterInfo;
-        private Dictionary<DialogueMode, List<Dialog>> availableDialogs;
+        private Dictionary<FormatDialogue, List<Dialog>> availableDialogs;
 
 
         public Emotion state;
@@ -44,49 +44,49 @@ namespace ConnectingApplication.Characters
 
         public NPC(string id) : base(id)
         {
-            availableDialogs = new Dictionary<DialogueMode, List<Dialog>>();
+            availableDialogs = new Dictionary<FormatDialogue, List<Dialog>>();
             characterInfo = new List<string>();
         }
 
 
         private void TryToStartDialog(Dialog d)
         {
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.DialogueMode).ToString() });
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.Format).ToString() });
         }
 
 
         public void AddDialog(Dialog d)
         {
-            if (!availableDialogs.ContainsKey(d.DialogueMode))
-                availableDialogs.Add(d.DialogueMode, new List<Dialog>());
+            if (!availableDialogs.ContainsKey(d.Format))
+                availableDialogs.Add(d.Format, new List<Dialog>());
 
-			if (d.CharacterDialogue == NatureOfTheDialogue.express || d.Outgoing)
+			if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
 			{
-				if (!availableDialogs[d.DialogueMode].Contains(d))
+				if (!availableDialogs[d.Format].Contains(d))
 				{
-					availableDialogs[d.DialogueMode].Insert(0, d);
+					availableDialogs[d.Format].Insert(0, d);
 					if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
 					{
 						TryToStartDialog(d);
 					}
 				}
 			}
-			else if (!availableDialogs[d.DialogueMode].Contains(d)) { availableDialogs[d.DialogueMode].Add(d); }
+			else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
 
             if (d.Outgoing)
                 TryToStartDialog(d);
 
-            ActivateObject(true, d.DialogueMode);
+            ActivateObject(true, d.Format);
         }
 
-        public Dialog GetActualDialog(DialogueMode dialogueMode)
+        public Dialog GetActualDialog(FormatDialogue dialogueMode)
         {
             if (availableDialogs.ContainsKey(dialogueMode) && availableDialogs[dialogueMode].Count > 0)
                 return availableDialogs[dialogueMode].First();
             else return null;
         }
 
-        public void ActivateObject(bool activate, DialogueMode dialogueMode)
+        public void ActivateObject(bool activate, FormatDialogue dialogueMode)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateCharacter,
                                                   new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
@@ -97,14 +97,14 @@ namespace ConnectingApplication.Characters
             characterInfo.Add(factId);
         }
 
-        public IList<Dialog> GetAvailableDialogs(DialogueMode dialogueMode)
+        public IList<Dialog> GetAvailableDialogs(FormatDialogue dialogueMode)
         {
             if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].AsReadOnly();
             else return new List<Dialog>();
         }
 
-        public bool RemoveDialog(DialogueMode dialogueMode, Dialog dialog)
+        public bool RemoveDialog(FormatDialogue dialogueMode, Dialog dialog)
         {
             if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].Remove(dialog);
