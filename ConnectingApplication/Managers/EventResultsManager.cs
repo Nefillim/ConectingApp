@@ -27,24 +27,32 @@ namespace ConnectingApplication.Managers
             {"ActivateObject",      ResultFuncsEnum.ActivateObject},
             {"StartBusiness",       ResultFuncsEnum.StartBusiness},
             {"GetChoose",           ResultFuncsEnum.GetChoose},
-
+            {"AddToContactList",    ResultFuncsEnum.AddToContactList},
+            {"AddToFlype",          ResultFuncsEnum.AddToFlype},
+            {"AddToFF",             ResultFuncsEnum.AddToFF},
+            {"DeleteContact",       ResultFuncsEnum.DeleteContact},
+            {"DeleteContactFF",     ResultFuncsEnum.DeleteContactFF},
+            {"DeactivateBusiness",  ResultFuncsEnum.DeactivateBusiness},
+            {"ActivateMiniGame",    ResultFuncsEnum.ActivateMiniGame},
+            {"DeactivateMiniGame",  ResultFuncsEnum.DeactivateMiniGame},
         };
-        private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs =
-            new Dictionary<ResultFuncsEnum, Action<List<string>>>()
-            {
-                { ResultFuncsEnum.ActivateDialogue,     OnNewAvailableDialog },
-                { ResultFuncsEnum.ActivateBusiness,     ActivateBusiness },
-                { ResultFuncsEnum.PlayMusic,            PlayMusic },
-                { ResultFuncsEnum.NextSlot,             NextSlot },
-                { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
-                { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
-                { ResultFuncsEnum.OpenFact,             OpenFact},
-                { ResultFuncsEnum.OpenFile,             OpenFile},
-                { ResultFuncsEnum.Error,                Error},
-                { ResultFuncsEnum.ActivateObject,       ActivateObject},
-                { ResultFuncsEnum.StartBusiness,        StartBusiness},
-                { ResultFuncsEnum.GetChoose,            GetChoose},
-            };
+        private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
+        {
+            { ResultFuncsEnum.ActivateDialogue,     OnNewAvailableDialog },
+            { ResultFuncsEnum.ActivateBusiness,     ActivateBusiness },
+            { ResultFuncsEnum.PlayMusic,            PlayMusic },
+            { ResultFuncsEnum.NextSlot,             NextSlot },
+            { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
+            { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
+            { ResultFuncsEnum.OpenFact,             OpenFact},
+            { ResultFuncsEnum.OpenFile,             OpenFile},
+            { ResultFuncsEnum.Error,                Error},
+            { ResultFuncsEnum.ActivateObject,       ActivateObject},
+            { ResultFuncsEnum.StartBusiness,        StartBusiness},
+            { ResultFuncsEnum.GetChoose,            GetChoose},
+            { ResultFuncsEnum.ActivateMiniGame,     ActivateMiniGame},
+            { ResultFuncsEnum.DeactivateMiniGame,   DeactivateMiniGame},
+        };
 
 
         [Obsolete("Don't use outside the ConnectingApp.")]
@@ -64,6 +72,16 @@ namespace ConnectingApplication.Managers
 
             ResultFuncsEnum enumerator = funcs[func];
             return enumerator;
+        }
+
+        private static void ActivateMiniGame(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateMiniGame, input);
+        }
+
+        private static void DeactivateMiniGame(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateMiniGame, input);
         }
 
         private static void OnNewAvailableDialog(List<string> dialogues)
@@ -122,7 +140,9 @@ namespace ConnectingApplication.Managers
 
         private static void NextSlot(List<string> input)
         {
-            CoreController.TimeModule.MoveSlot(int.Parse(input.First()));
+            int slotsCount = 0;
+            slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
+            CoreController.TimeModule.MoveSlot(slotsCount);
         }
 
         private static void StartMiniGame(List<string> input)
@@ -143,7 +163,7 @@ namespace ConnectingApplication.Managers
 
         private static void OpenFile(List<string> input)
         {
-            ConnectingAppManager.CharacterManager.AddContact(input[0]);
+            ConnectingAppManager.CharacterManager.CreateFile(input[0]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
         }
 

@@ -13,7 +13,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         private static readonly string PATH_TO_REPLICS_FILES = "/Replics/";
         private static readonly string PATH_TO_CHARACTER_FILES = "/CharacterFiles/";
         private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
-        private static readonly string PATH_TO_DATA = Application.dataPath;
+        private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
 
         public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
         {
@@ -28,6 +28,11 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         public static string GetPathToConfigFiles()
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_CONFIG_FILES);
+        }
+
+        public static string GetPathToMiniGamesConfigFile(EMiniGamesType eMiniGamesType, string miniGameId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

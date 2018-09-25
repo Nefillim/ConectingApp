@@ -16,6 +16,14 @@ namespace ConnectingApplication.Managers
         private Dictionary<string, Character> Characters;
 
 
+        private void CreateCharacter(string charId)
+        {
+            if (!Characters.ContainsKey(charId))
+            {
+                Characters.Add(charId, new NPC(charId));
+            }
+        }
+
         [Obsolete("Don't use outside the ConnectingApp.")]
         public CharacterManager()
         {
@@ -27,7 +35,7 @@ namespace ConnectingApplication.Managers
 
         public void AddDialog(Dialog dialog, string character)
         {
-            AddContact(character);
+            CreateCharacter(character);
             if (Characters[character] is NPC)
             {
                 if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
@@ -41,11 +49,13 @@ namespace ConnectingApplication.Managers
 
         public Dialog GetDialog(string characterId, DialogueMode mode)
         {
+            CreateCharacter(characterId);
             return ((NPC)Characters[characterId]).GetActualDialog(mode);
         }
 
         public IList<string> GetCharacterInfo(string charId)
         {
+            CreateCharacter(charId);
             return ((NPC)Characters[charId]).CharacterInfo;
         }
 
@@ -56,18 +66,20 @@ namespace ConnectingApplication.Managers
 
         public NPC GetNPC(string characterId)
         {
-            AddContact(characterId);
+            CreateCharacter(characterId);
             return Characters[characterId] as NPC;
         }
 
-
         public void AddContact(string charId)
         {
-            if (!Characters.ContainsKey(charId))
-            {
-                Characters.Add(charId, new NPC(charId));
-                GetPlayer().AddContact(charId);
-            }
+            CreateCharacter(charId);
+            GetPlayer().AddContact(charId);
+        }
+
+        public void CreateFile(string character)
+        {
+            CreateCharacter(character);
+            GetPlayer().AddFile(character);
         }
     }
 }

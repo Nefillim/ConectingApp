@@ -1,4 +1,5 @@
-﻿using ConnectingApplication.Entity;
+﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
 using Core;
 using Core.Dialogues;
@@ -18,14 +19,28 @@ namespace ConnectingApplication.Characters
 		private Dictionary<string, Queue<DialogueNode>> textMessages;
 		private Dictionary<string, Queue<DialogueNode>> emailMessages;
 		private List<string> phoneContacts;
+		private List<string> files;
+        private EBlockState actualBlockState;
+        private EBlockState previusBlockState;
 
 
 		public Player()
 		{
 			phoneContacts = new List<string>();
+            files = new List<string>();
 			textMessages = new Dictionary<string, Queue<DialogueNode>>();
 		}
 
+
+        public void SetBlockState(EBlockState blockState)
+        {
+            //TODO: realize;
+        }
+
+        public EBlockState GetBlockState()
+        {
+            return actualBlockState;
+        }
 
 		public Queue<DialogueNode> GetMessageHistory(string charId)
 		{
@@ -115,9 +130,19 @@ namespace ConnectingApplication.Characters
 			return phoneContacts.AsReadOnly();
 		}
 
-		public void AddContact(string character)
+        public IList<string> GetFiles()
+        {
+            return files.AsReadOnly();
+        }
+
+        public void AddContact(string character)
 		{
 			phoneContacts.Add(character);
 		}
-	}
+
+        public void AddFile(string character)
+        {
+            files.Add(character);
+        }
+    }
 }

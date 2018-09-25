@@ -10,6 +10,7 @@ namespace ConnectingApplication.Managers
     public class BusinessManager
     {
         private List<string> availableBusiness;
+        private BusinessInfo actualBusinessInfo;
 
 
         [Obsolete("Don't use outside the ConnectingApp.")]
@@ -26,7 +27,9 @@ namespace ConnectingApplication.Managers
 
         public BusinessInfo GetBusinessInfo(string businessId)
         {
-            return Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
+            if (actualBusinessInfo == null || !businessId.Equals(actualBusinessInfo.BusinessId))
+                actualBusinessInfo = Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
+            return actualBusinessInfo;
         }
 
         public void AddAvailableBusiness(string business)
@@ -37,6 +40,11 @@ namespace ConnectingApplication.Managers
         public void SetFlagsWhenBusinessStart(BusinessInfo business)
         {
             ConnectingAppManager.FlagManager.SetFlags(business.ResultFlags);
+        }
+
+        public int GetCountOfSlotsForActualBusinessInfo()
+        {
+            return actualBusinessInfo.SlotsCount;
         }
     }
 }
