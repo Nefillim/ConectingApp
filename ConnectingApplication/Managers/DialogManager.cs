@@ -37,9 +37,9 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(dialogueNode.Results);
         }
 
-        private List<DialogueNode> ContinueMessengerDialog(string charId, DialogueMode mode, DialogueNode dialogueNode = null)
+        private List<DialogueNode> ContinueMessengerDialog(string charId, FormatDialogue mode, DialogueNode dialogueNode = null)
         {
-            var dialogs = mode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
+            var dialogs = mode == FormatDialogue.sms ? activeMessageDialogs : activeEmailDialogs;
             int nodeId = -1;
 
             if (!dialogs.ContainsKey(charId) || dialogs[charId].Count == 0)
@@ -85,16 +85,16 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.DialogueMode.ToString() });
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
                     {
                         var npc = ConnectingAppManager.CharacterManager.GetNPC(ch);
-                        npc.RemoveDialog(curDialog.DialogueMode, curDialog);
-                        if (npc.GetAvailableDialogs(curDialog.DialogueMode).Count == 0)
-                            npc.ActivateObject(false, curDialog.DialogueMode);
+                        npc.RemoveDialog(curDialog.Format, curDialog);
+                        if (npc.GetAvailableDialogs(curDialog.Format).Count == 0)
+                            npc.ActivateObject(false, curDialog.Format);
                     }
                 }
                 if (activeDialogs.Count == 0)
@@ -115,15 +115,15 @@ namespace ConnectingApplication.Managers
             discussions.Add(dialog);
         }
 
-        public List<DialogueNode> StartDialog(string charId, DialogueMode dialogueMode)
+        public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
             if (newOne != null)
             {
-                if (dialogueMode == DialogueMode.sms || dialogueMode == DialogueMode.email)
+                if (dialogueMode == FormatDialogue.sms || dialogueMode == FormatDialogue.email)
                 {
                     newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
-                    var dialogs = dialogueMode == DialogueMode.sms ? activeMessageDialogs : activeEmailDialogs;
+                    var dialogs = dialogueMode == FormatDialogue.sms ? activeMessageDialogs : activeEmailDialogs;
                     if (!dialogs.ContainsKey(charId))
                         dialogs.Add(charId, new List<Dialog>());
                     dialogs[charId].Add(newOne);
@@ -136,7 +136,7 @@ namespace ConnectingApplication.Managers
             else return new List<DialogueNode>();
         }
 
-        public void BreakingDialog(string character, string dialogId, DialogueMode dialogueMode, EDialogueResultType breakingType)
+        public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EDialogueResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
@@ -166,15 +166,15 @@ namespace ConnectingApplication.Managers
         /// <param name="dialogueNode">Последняя выработанная нода диалога.</param>
         /// <param name="charId">Id персонажа с которым идет переписка.</param>
         /// <returns></returns>
-        public List<DialogueNode> ContinueDialog(DialogueMode mode, DialogueNode dialogueNode, string charId = "")
+        public List<DialogueNode> ContinueDialog(FormatDialogue mode, DialogueNode dialogueNode, string charId = "")
         {
             switch (mode)
             {
-                case DialogueMode.call:
+                case FormatDialogue.call:
                     return ContinueDialog(dialogueNode);
 
-                case DialogueMode.email:
-                case DialogueMode.sms:
+                case FormatDialogue.email:
+                case FormatDialogue.sms:
                     if (charId != "")
                     {
                         return ContinueMessengerDialog(charId, mode, dialogueNode);
@@ -185,9 +185,9 @@ namespace ConnectingApplication.Managers
                         return null;
                     }
 
-                case DialogueMode.videocall:
-                case DialogueMode.meet:
-                case DialogueMode.dialogueInterface:
+                case FormatDialogue.videocall:
+                case FormatDialogue.meet:
+                case FormatDialogue.dialogueInterface:
                 default:
                     return ContinueDialog(dialogueNode);
             }

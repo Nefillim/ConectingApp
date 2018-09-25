@@ -38,7 +38,7 @@ namespace ConnectingApplication.Managers
             CreateCharacter(character);
             if (Characters[character] is NPC)
             {
-                if (dialog.CharacterDialogue == NatureOfTheDialogue.discuss)
+                if (dialog.CharacterOfDialogue == CharacterOfDialogue.discuss)
                 {
                     ConnectingAppManager.DialogManager.AddDiscussion(dialog);
                 }
@@ -47,7 +47,7 @@ namespace ConnectingApplication.Managers
             else Debug.LogError("Trying to add dialog to player");
         }
 
-        public Dialog GetDialog(string characterId, DialogueMode mode)
+        public Dialog GetDialog(string characterId, FormatDialogue mode)
         {
             CreateCharacter(characterId);
             return ((NPC)Characters[characterId]).GetActualDialog(mode);

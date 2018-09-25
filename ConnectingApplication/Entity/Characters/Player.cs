@@ -103,11 +103,11 @@ namespace ConnectingApplication.Characters
 			}
 		}
 
-		public void AddMessage(string charId, DialogueNode dialogueNode, DialogueMode mode)
+		public void AddMessage(string charId, DialogueNode dialogueNode, FormatDialogue mode)
 		{
 			Dictionary<string, Queue<DialogueNode>> temp = new Dictionary<string, Queue<DialogueNode>>();
 
-			temp = mode == DialogueMode.sms ? textMessages : emailMessages;
+			temp = mode == FormatDialogue.sms ? textMessages : emailMessages;
 
 			if (!temp.ContainsKey(charId))
 			{
