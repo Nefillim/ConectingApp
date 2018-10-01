@@ -24,6 +24,7 @@ namespace ConnectingApplication.Managers
             }
         }
 
+
         [Obsolete("Don't use outside the ConnectingApp.")]
         public CharacterManager()
         {
@@ -45,6 +46,11 @@ namespace ConnectingApplication.Managers
                 else ((NPC)Characters[character]).AddDialog(dialog);
             }
             else Debug.LogError("Trying to add dialog to player");
+        }
+
+        public void RemoveDialog(Dialog dialog, string character)
+        {
+            ((NPC)Characters[character]).RemoveDialog(dialog);
         }
 
         public Dialog GetDialog(string characterId, FormatDialogue mode)
@@ -70,10 +76,15 @@ namespace ConnectingApplication.Managers
             return Characters[characterId] as NPC;
         }
 
-        public void AddContact(string charId)
+        public void AddContact(string charId, Player.ContactType contactType)
         {
             CreateCharacter(charId);
-            GetPlayer().AddContact(charId);
+            GetPlayer().AddContact(charId, contactType);
+        }
+
+        public void RemoveContact(string charId, Player.ContactType contactType)
+        {
+            GetPlayer().RemoveContact(charId, contactType);
         }
 
         public void CreateFile(string character)

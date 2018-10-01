@@ -16,31 +16,30 @@ namespace ConnectingApplication.Characters
 {
 	public class Player : Character
 	{
-		private Dictionary<string, Queue<DialogueNode>> textMessages;
+        public enum ContactType
+        {
+            Phone, Flype, FF
+        }
+
+
+        private Dictionary<string, Queue<DialogueNode>> textMessages;
 		private Dictionary<string, Queue<DialogueNode>> emailMessages;
-		private List<string> phoneContacts;
+        private Dictionary<ContactType, List<string>> contacts;
 		private List<string> files;
-        private EBlockState actualBlockState;
-        private EBlockState previusBlockState;
 
 
 		public Player()
 		{
-			phoneContacts = new List<string>();
+            contacts = new Dictionary<ContactType, List<string>>()
+            {
+                { ContactType.Phone,    new List<string>()},
+                { ContactType.Flype,    new List<string>()},
+                { ContactType.FF,       new List<string>()},
+            };
             files = new List<string>();
 			textMessages = new Dictionary<string, Queue<DialogueNode>>();
 		}
 
-
-        public void SetBlockState(EBlockState blockState)
-        {
-            //TODO: realize;
-        }
-
-        public EBlockState GetBlockState()
-        {
-            return actualBlockState;
-        }
 
 		public Queue<DialogueNode> GetMessageHistory(string charId)
 		{
@@ -125,20 +124,20 @@ namespace ConnectingApplication.Characters
 			}
 		}
 
-		public IList<string> GetPhoneContacts()
+		public IList<string> GetContacts(ContactType contactType)
 		{
-			return phoneContacts.AsReadOnly();
+			return contacts[contactType].AsReadOnly();
 		}
 
-        public IList<string> GetFiles()
+        public void AddContact(string character, ContactType contactType)
+		{
+            contacts[contactType].Add(character);
+		}
+
+        public void RemoveContact(string character, ContactType contactType)
         {
-            return files.AsReadOnly();
+            contacts[contactType].Remove(character);
         }
-
-        public void AddContact(string character)
-		{
-			phoneContacts.Add(character);
-		}
 
         public void AddFile(string character)
         {

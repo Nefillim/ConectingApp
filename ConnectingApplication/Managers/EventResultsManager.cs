@@ -16,42 +16,75 @@ namespace ConnectingApplication.Managers
     {
         private static readonly Dictionary<string, ResultFuncsEnum> funcs = new Dictionary<string, ResultFuncsEnum>()
         {
-            {"NextSlot",            ResultFuncsEnum.NextSlot },
-            {"ActivateBusiness",    ResultFuncsEnum.ActivateBusiness },
-            {"ActivateDialogue",    ResultFuncsEnum.ActivateDialogue },
-            {"StartMiniGame",       ResultFuncsEnum.StartMiniGame },
-            {"PlayMusic",           ResultFuncsEnum.PlayMusic },
-            {"OpenFile",            ResultFuncsEnum.OpenFile},
-            {"OpenFact",            ResultFuncsEnum.OpenFact},
-            {"ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
-            {"ActivateObject",      ResultFuncsEnum.ActivateObject},
-            {"StartBusiness",       ResultFuncsEnum.StartBusiness},
-            {"GetChoose",           ResultFuncsEnum.GetChoose},
-            {"AddToContactList",    ResultFuncsEnum.AddToContactList},
-            {"AddToFlype",          ResultFuncsEnum.AddToFlype},
-            {"AddToFF",             ResultFuncsEnum.AddToFF},
-            {"DeleteContact",       ResultFuncsEnum.DeleteContact},
-            {"DeleteContactFF",     ResultFuncsEnum.DeleteContactFF},
-            {"DeactivateBusiness",  ResultFuncsEnum.DeactivateBusiness},
-            {"ActivateMiniGame",    ResultFuncsEnum.ActivateMiniGame},
-            {"DeactivateMiniGame",  ResultFuncsEnum.DeactivateMiniGame},
+            { "NextSlot",            ResultFuncsEnum.NextSlot},
+            { "ActivateBusiness",    ResultFuncsEnum.ActivateBusiness},
+            { "ActivateDialogue",    ResultFuncsEnum.ActivateDialogue},
+            { "StartMiniGame",       ResultFuncsEnum.StartMiniGame},
+            { "PlayMusic",           ResultFuncsEnum.PlayMusic},
+            { "OpenFile",            ResultFuncsEnum.OpenFile},
+            { "OpenFact",            ResultFuncsEnum.OpenFact},
+            { "ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
+
+            { "ActivateObject",      ResultFuncsEnum.ActivateObject},
+
+            { "StartBusiness",       ResultFuncsEnum.StartBusiness},
+            { "GetChoose",           ResultFuncsEnum.GetChoose},
+
+            { "AddToContactList",    ResultFuncsEnum.AddToContactList},
+            { "AddToFlype",          ResultFuncsEnum.AddToFlype},
+            { "AddToFF",             ResultFuncsEnum.AddToFF},
+            { "DeleteContact",       ResultFuncsEnum.DeleteContact},
+            { "DeleteContactFF",     ResultFuncsEnum.DeleteContactFF},
+            { "DeactivateBusiness",  ResultFuncsEnum.DeactivateBusiness},
+            { "ActivateMiniGame",    ResultFuncsEnum.ActivateMiniGame},
+            { "DeactivateMiniGame",  ResultFuncsEnum.DeactivateMiniGame},
+            { "DeactivateDialogue",  ResultFuncsEnum.DeactivateDialogue},
+            { "StartDialogue",       ResultFuncsEnum.StartDialogue},
+            { "AddChar",             ResultFuncsEnum.AddChar},
+            { "GoTo",                ResultFuncsEnum.GoTo},
+            { "AddTask ",            ResultFuncsEnum.AddTask},
+            { "SayReplic ",          ResultFuncsEnum.SayReplic},
+            { "Fade ",               ResultFuncsEnum.Fade},
+            { "ChangeLocState ",     ResultFuncsEnum.ChangeLocState},
+            { "Change ",             ResultFuncsEnum.Change},
+            { "Teleport ",           ResultFuncsEnum.Teleport},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
-            { ResultFuncsEnum.ActivateDialogue,     OnNewAvailableDialog },
-            { ResultFuncsEnum.ActivateBusiness,     ActivateBusiness },
-            { ResultFuncsEnum.PlayMusic,            PlayMusic },
-            { ResultFuncsEnum.NextSlot,             NextSlot },
-            { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
-            { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
-            { ResultFuncsEnum.OpenFact,             OpenFact},
-            { ResultFuncsEnum.OpenFile,             OpenFile},
             { ResultFuncsEnum.Error,                Error},
+            { ResultFuncsEnum.NextSlot,             NextSlot },
+            { ResultFuncsEnum.ActivateBusiness,     ActivateBusiness },
+            { ResultFuncsEnum.ActivateDialogue,     ActivateDialogue },
+            { ResultFuncsEnum.StartMiniGame,        StartMiniGame },
+            { ResultFuncsEnum.PlayMusic,            PlayMusic },
+            { ResultFuncsEnum.OpenFile,             OpenFile},
+            { ResultFuncsEnum.OpenFact,             OpenFact},
+            { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
+
             { ResultFuncsEnum.ActivateObject,       ActivateObject},
+
             { ResultFuncsEnum.StartBusiness,        StartBusiness},
             { ResultFuncsEnum.GetChoose,            GetChoose},
+
+            { ResultFuncsEnum.AddToContactList,     AddToContactList},
+            { ResultFuncsEnum.AddToFlype,           AddToFlype},
+            { ResultFuncsEnum.AddToFF,              AddToFF},
+            { ResultFuncsEnum.DeleteContact,        DeleteContact},
+            { ResultFuncsEnum.DeleteContactFF,      DeleteFF},
+
+            { ResultFuncsEnum.DeactivateBusiness,   DeactivateBusiness},
             { ResultFuncsEnum.ActivateMiniGame,     ActivateMiniGame},
             { ResultFuncsEnum.DeactivateMiniGame,   DeactivateMiniGame},
+            { ResultFuncsEnum.DeactivateDialogue,   DeactivateDialogue},
+            { ResultFuncsEnum.StartDialogue,        StartDialogue},
+            { ResultFuncsEnum.AddChar,              AddChar},
+            { ResultFuncsEnum.GoTo,                 GoTo},
+            { ResultFuncsEnum.AddTask,              AddTask},
+            { ResultFuncsEnum.SayReplic,            SayReplic},
+            { ResultFuncsEnum.Fade,                 Fade},
+            { ResultFuncsEnum.ChangeLocState,       ChangeLocState},
+            { ResultFuncsEnum.Change,               Change},
+            { ResultFuncsEnum.Teleport,             Teleport},
         };
 
 
@@ -74,6 +107,76 @@ namespace ConnectingApplication.Managers
             return enumerator;
         }
 
+        private static void Error(List<string> input)
+        {
+            Debug.LogError("Необходимо реализовать новый метод для ивентов.");
+        }
+
+        private static void AddChar(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.AddChar, input);
+        }
+
+        private static void GoTo(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.GoTo, input);
+        }
+
+        private static void SayReplic(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.SayReplic, input);
+        }
+
+        private static void Fade(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.Fade, input);
+        }
+
+        private static void ChangeLocState(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeLocState, input);
+        }
+
+        private static void Change(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.Change, input);
+        }
+
+        private static void Teleport(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.Teleport, input);
+        }
+
+        private static void AddTask(List<string> input)
+        {
+            // TODO: реализовать.
+        }
+
+        private static void AddToContactList(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.AddContact(input[0], Player.ContactType.Phone);
+        }
+
+        private static void AddToFlype(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.AddContact(input[0], Player.ContactType.Flype);
+        }
+
+        private static void AddToFF(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.AddContact(input[0], Player.ContactType.FF);
+        }
+
+        private static void DeleteFF(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.RemoveContact(input[0], Player.ContactType.FF);
+        }
+
+        private static void DeleteContact(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.RemoveContact(input[0], Player.ContactType.Phone);
+        }
+
         private static void ActivateMiniGame(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateMiniGame, input);
@@ -84,7 +187,7 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateMiniGame, input);
         }
 
-        private static void OnNewAvailableDialog(List<string> dialogues)
+        private static void ActivateDialogue(List<string> dialogues)
         {
             foreach (var d in dialogues)
             {
@@ -92,6 +195,23 @@ namespace ConnectingApplication.Managers
                 Dialog dialog = new Dialog(dialogue);
                 ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
             }
+        }
+
+        private static void DeactivateDialogue(List<string> dialogues)
+        {
+            foreach (var d in dialogues)
+            {
+                var dialogue = CoreController.DialogueManager.GetDialogue(d);
+                Dialog dialog = new Dialog(dialogue);
+                ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
+            }
+        }
+
+        private static void StartDialogue(List<string> input)
+        {
+            var dialogue = CoreController.DialogueManager.GetDialogue(input[0]);
+            Dialog d = new Dialog(dialogue);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartDialogue, new List<string>() { d.Participants.First(), d.Id, ((int)d.Format).ToString() });
         }
 
         private static void GetChoose(List<string> input)
@@ -102,7 +222,6 @@ namespace ConnectingApplication.Managers
         private static void StartBusiness(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartBusiness, input);
-
         }
 
         private static void ActivateObject(List<string> input)
@@ -116,6 +235,15 @@ namespace ConnectingApplication.Managers
             {
                 ConnectingAppManager.BusinessManager.AddAvailableBusiness(b);
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateBusiness, businesses);
+            }
+        }
+
+        private static void DeactivateBusiness(List<string> businesses)
+        {
+            foreach (var b in businesses)
+            {
+                ConnectingAppManager.BusinessManager.RemoveAvailableBusiness(b);
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateBusiness, businesses);
             }
         }
 
@@ -152,7 +280,7 @@ namespace ConnectingApplication.Managers
 
         private static void ChangeInitiative(List<string> input)
         {
-            Debug.LogError("Метод ChangeInitiative не реализован.");
+            // TODO: реализовать
         }
 
         private static void OpenFact(List<string> input)
@@ -165,11 +293,6 @@ namespace ConnectingApplication.Managers
         {
             ConnectingAppManager.CharacterManager.CreateFile(input[0]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFile, input);
-        }
-
-        private static void Error(List<string> input)
-        {
-            Debug.LogError("Необходимо реализовать новый метод для ивентов.");
         }
 
 

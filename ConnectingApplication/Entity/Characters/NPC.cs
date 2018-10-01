@@ -79,6 +79,11 @@ namespace ConnectingApplication.Characters
             ActivateObject(true, d.Format);
         }
 
+        public void RemoveDialog(Dialog d)
+        {
+            availableDialogs[d.Format].Remove(d);
+        }
+
         public Dialog GetActualDialog(FormatDialogue dialogueMode)
         {
             if (availableDialogs.ContainsKey(dialogueMode) && availableDialogs[dialogueMode].Count > 0)

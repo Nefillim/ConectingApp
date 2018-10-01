@@ -37,6 +37,11 @@ namespace ConnectingApplication.Managers
             availableBusiness.Add(business);
         }
 
+        public void RemoveAvailableBusiness(string business)
+        {
+            availableBusiness.Remove(business);
+        }
+
         public void SetFlagsWhenBusinessStart(BusinessInfo business)
         {
             ConnectingAppManager.FlagManager.SetFlags(business.ResultFlags);
