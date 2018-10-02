@@ -149,7 +149,7 @@ namespace ConnectingApplication.Managers
 
         private static void AddTask(List<string> input)
         {
-            // TODO: реализовать.
+            CoreController.EventsManager.ActivateTask(input[0]);
         }
 
         private static void AddToContactList(List<string> input)
@@ -280,7 +280,8 @@ namespace ConnectingApplication.Managers
 
         private static void ChangeInitiative(List<string> input)
         {
-            // TODO: реализовать
+            CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
+            ActivateDialogue(new List<string> { input[0] });
         }
 
         private static void OpenFact(List<string> input)

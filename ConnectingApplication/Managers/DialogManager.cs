@@ -192,5 +192,10 @@ namespace ConnectingApplication.Managers
                     return ContinueDialog(dialogueNode);
             }
         }
+
+        public void UpdateDialog(string dialogId)
+        {
+
+        }
     }
 }

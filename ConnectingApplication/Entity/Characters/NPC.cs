@@ -60,6 +60,9 @@ namespace ConnectingApplication.Characters
             if (!availableDialogs.ContainsKey(d.Format))
                 availableDialogs.Add(d.Format, new List<Dialog>());
 
+            if (availableDialogs[d.Format].Exists(s => s.Id.Equals(d.Id)))
+                availableDialogs[d.Format].RemoveAll(s => s.Id.Equals(d.Id));
+
 			if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
 			{
 				if (!availableDialogs[d.Format].Contains(d))
