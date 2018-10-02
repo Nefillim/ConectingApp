@@ -63,7 +63,7 @@ namespace ConnectingApplication.Managers
 					int contactsCount = reader.ReadInt32();
 					for (int i = 0; i < contactsCount; i++)
 					{
-						player.AddContact(reader.ReadString());
+						player.AddContact(reader.ReadString(), Characters.Player.ContactType.Phone);
 					}
 					player.DownloadMessageHistory(reader);
 				}
@@ -86,7 +86,7 @@ namespace ConnectingApplication.Managers
 						writer.Write(saveQueue.Dequeue().value);
 					}
 					//TODO: smth else to save?
-					var playerContacts = ConnectingAppManager.CharacterManager.GetPlayer().GetPhoneContacts();
+					var playerContacts = ConnectingAppManager.CharacterManager.GetPlayer().GetContacts(Characters.Player.ContactType.Phone);
 					writer.Write(playerContacts.Count);
 					foreach (string contact in playerContacts)
 					{
