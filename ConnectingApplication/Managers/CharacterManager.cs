@@ -53,10 +53,10 @@ namespace ConnectingApplication.Managers
             ((NPC)Characters[character]).RemoveDialog(dialog);
         }
 
-        public Dialog GetDialog(string characterId, FormatDialogue mode)
+        public Dialog GetDialog(string characterId, FormatDialogue mode, string dialogId = "")
         {
             CreateCharacter(characterId);
-            return ((NPC)Characters[characterId]).GetActualDialog(mode);
+            return ((NPC)Characters[characterId]).GetDialog(mode, dialogId);
         }
 
         public IList<string> GetCharacterInfo(string charId)

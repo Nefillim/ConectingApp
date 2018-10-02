@@ -87,10 +87,14 @@ namespace ConnectingApplication.Characters
             availableDialogs[d.Format].Remove(d);
         }
 
-        public Dialog GetActualDialog(FormatDialogue dialogueMode)
+        public Dialog GetDialog(FormatDialogue dialogueMode, string dialogId)
         {
             if (availableDialogs.ContainsKey(dialogueMode) && availableDialogs[dialogueMode].Count > 0)
-                return availableDialogs[dialogueMode].First();
+            {
+                if (dialogId.Equals(""))
+                    return availableDialogs[dialogueMode].First();
+                else return availableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId));
+            }
             else return null;
         }
 

@@ -42,12 +42,14 @@ namespace ConnectingApplication.Managers
             { "StartDialogue",       ResultFuncsEnum.StartDialogue},
             { "AddChar",             ResultFuncsEnum.AddChar},
             { "GoTo",                ResultFuncsEnum.GoTo},
-            { "AddTask ",            ResultFuncsEnum.AddTask},
-            { "SayReplic ",          ResultFuncsEnum.SayReplic},
-            { "Fade ",               ResultFuncsEnum.Fade},
-            { "ChangeLocState ",     ResultFuncsEnum.ChangeLocState},
-            { "Change ",             ResultFuncsEnum.Change},
-            { "Teleport ",           ResultFuncsEnum.Teleport},
+            { "AddTask",             ResultFuncsEnum.AddTask},
+            { "SayReplic",           ResultFuncsEnum.SayReplic},
+            { "Fade",                ResultFuncsEnum.Fade},
+            { "ChangeLocState",      ResultFuncsEnum.ChangeLocState},
+            { "Change",              ResultFuncsEnum.Change},
+            { "Teleport",            ResultFuncsEnum.Teleport},
+            { "ShowTask",            ResultFuncsEnum.Teleport},
+            { "CloseTask",           ResultFuncsEnum.Teleport},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
@@ -85,6 +87,8 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ChangeLocState,       ChangeLocState},
             { ResultFuncsEnum.Change,               Change},
             { ResultFuncsEnum.Teleport,             Teleport},
+            { ResultFuncsEnum.ShowTask,             ShowTask},
+            { ResultFuncsEnum.CloseTask,            CloseTask},
         };
 
 
@@ -110,6 +114,16 @@ namespace ConnectingApplication.Managers
         private static void Error(List<string> input)
         {
             Debug.LogError("Необходимо реализовать новый метод для ивентов.");
+        }
+
+        private static void CloseTask(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.CloseTask, input);
+        }
+
+        private static void ShowTask(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowTask, input);
         }
 
         private static void AddChar(List<string> input)

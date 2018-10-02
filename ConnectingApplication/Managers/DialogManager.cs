@@ -115,9 +115,9 @@ namespace ConnectingApplication.Managers
             discussions.Add(dialog);
         }
 
-        public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode)
+        public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode, string dialogId = "")
         {
-            Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode);
+            Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode, dialogId);
             if (newOne != null)
             {
                 if (dialogueMode == FormatDialogue.sms || dialogueMode == FormatDialogue.email)
