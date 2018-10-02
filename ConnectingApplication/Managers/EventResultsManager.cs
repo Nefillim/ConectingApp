@@ -48,8 +48,8 @@ namespace ConnectingApplication.Managers
             { "ChangeLocState",      ResultFuncsEnum.ChangeLocState},
             { "Change",              ResultFuncsEnum.Change},
             { "Teleport",            ResultFuncsEnum.Teleport},
-            { "ShowTask",            ResultFuncsEnum.Teleport},
-            { "CloseTask",           ResultFuncsEnum.Teleport},
+            { "ShowTask",            ResultFuncsEnum.ShowTask},
+            { "CloseTask",           ResultFuncsEnum.CloseTask},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
