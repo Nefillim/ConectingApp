@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         private static readonly string PATH_TO_REPLICS_FILES = "/Replics/";
         private static readonly string PATH_TO_CHARACTER_FILES = "/CharacterFiles/";
         private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
+        private static readonly string PATH_TO_MINI_GAME_FILES = "MiniGames/";
         private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
 
         public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
@@ -30,9 +32,12 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
             return string.Concat(PATH_TO_DATA, PATH_TO_CONFIG_FILES);
         }
 
-        public static string GetPathToMiniGamesConfigFile(EMiniGamesType eMiniGamesType, string miniGameId)
+        public static string GetPathToMiniGamesConfigFile(string miniGameId)
         {
-            throw new NotImplementedException();
+            var directory = string.Concat(GetPathToConfigFiles(), PATH_TO_MINI_GAME_FILES);
+            string dir = string.Empty;
+            dir = Directory.GetFiles(directory).ToList().Find(s => s.Contains(miniGameId) && !s.Contains(".meta"));
+            return dir;
         }
     }
 }

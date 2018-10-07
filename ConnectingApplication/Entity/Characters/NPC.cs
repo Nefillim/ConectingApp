@@ -38,6 +38,15 @@ namespace ConnectingApplication.Characters
 
         public Emotion state;
         public Dictionary<string, Relationship> Relationships;
+        public readonly Dictionary<FormatDialogue, bool> Availability = new Dictionary<FormatDialogue, bool>()
+        {
+            { FormatDialogue.call,              false },
+            { FormatDialogue.dialogueInterface, false },
+            { FormatDialogue.sms,               false },
+            { FormatDialogue.email,             false },
+            { FormatDialogue.meet,              false },
+            { FormatDialogue.videocall,         false },
+        };
 
         public IList<string> CharacterInfo { get { return characterInfo.AsReadOnly(); } }
 
@@ -54,6 +63,12 @@ namespace ConnectingApplication.Characters
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, new List<string>() { Id, d.Id, ((int)d.Format).ToString() });
         }
 
+        private void ActivateObject(bool activate, FormatDialogue format)
+        {
+            //TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateCharacter, new List<string>() { Id, activate ? "1" : "0", ((int)format).ToString() });
+            Availability[format] = activate;
+        }
+
 
         public void AddDialog(Dialog d)
         {
@@ -63,18 +78,18 @@ namespace ConnectingApplication.Characters
             if (availableDialogs[d.Format].Exists(s => s.Id.Equals(d.Id)))
                 availableDialogs[d.Format].RemoveAll(s => s.Id.Equals(d.Id));
 
-			if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
-			{
-				if (!availableDialogs[d.Format].Contains(d))
-				{
-					availableDialogs[d.Format].Insert(0, d);
-					if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
-					{
-						TryToStartDialog(d);
-					}
-				}
-			}
-			else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
+            if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
+            {
+                if (!availableDialogs[d.Format].Contains(d))
+                {
+                    availableDialogs[d.Format].Insert(0, d);
+                    if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
+                    {
+                        TryToStartDialog(d);
+                    }
+                }
+            }
+            else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
 
             if (d.Outgoing)
                 TryToStartDialog(d);
@@ -85,6 +100,8 @@ namespace ConnectingApplication.Characters
         public void RemoveDialog(Dialog d)
         {
             availableDialogs[d.Format].Remove(d);
+            if (GetAvailableDialogs(d.Format).Count == 0)
+                ActivateObject(false, d.Format);
         }
 
         public Dialog GetDialog(FormatDialogue dialogueMode, string dialogId)
@@ -98,12 +115,6 @@ namespace ConnectingApplication.Characters
             else return null;
         }
 
-        public void ActivateObject(bool activate, FormatDialogue dialogueMode)
-        {
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateCharacter,
-                                                  new List<string>() { Id, activate ? "1" : "0", ((int)dialogueMode).ToString() });
-        }
-
         public void AddFact(string factId)
         {
             characterInfo.Add(factId);
@@ -114,13 +125,6 @@ namespace ConnectingApplication.Characters
             if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].AsReadOnly();
             else return new List<Dialog>();
-        }
-
-        public bool RemoveDialog(FormatDialogue dialogueMode, Dialog dialog)
-        {
-            if (availableDialogs.ContainsKey(dialogueMode))
-                return availableDialogs[dialogueMode].Remove(dialog);
-            else return false;
         }
     }
 }

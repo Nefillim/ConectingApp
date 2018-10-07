@@ -92,9 +92,7 @@ namespace ConnectingApplication.Managers
                     foreach (string ch in curDialog.Participants)
                     {
                         var npc = ConnectingAppManager.CharacterManager.GetNPC(ch);
-                        npc.RemoveDialog(curDialog.Format, curDialog);
-                        if (npc.GetAvailableDialogs(curDialog.Format).Count == 0)
-                            npc.ActivateObject(false, curDialog.Format);
+                        npc.RemoveDialog(curDialog);
                     }
                 }
                 if (activeDialogs.Count == 0)

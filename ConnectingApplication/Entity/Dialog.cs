@@ -25,6 +25,33 @@ namespace ConnectingApplication.Entity
             selectableNodes = new List<DialogueNode>();
         }
 
+
+        private List<DialogueNode> MakeDecision(List<DialogueNode> newNodes)
+        {
+            switch (currentBlock)
+            {
+                case Core.Dialogues.DialogueBlock.BlockType.hi:
+                    currentBlock++;
+                    return TakeNextNodes(-1);
+
+                case Core.Dialogues.DialogueBlock.BlockType.body:
+                    if (ConnectingAppManager.DialogManager.IsDialogLonely(this))
+                        currentBlock++;
+                    else
+                        currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
+                    return TakeNextNodes(-1);
+
+                case Core.Dialogues.DialogueBlock.BlockType.bye:
+                case Core.Dialogues.DialogueBlock.BlockType.next:
+                    break;
+
+                default:
+                    break;
+            }
+            return newNodes;
+        }
+
+
         public List<DialogueNode> TakeNextNodes()
         {
             List<DialogueNode> newNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.next, currentNode.Id);
@@ -35,27 +62,7 @@ namespace ConnectingApplication.Entity
             }
             else
             {
-                switch (currentBlock)
-                {
-                    case Core.Dialogues.DialogueBlock.BlockType.hi:
-                        currentBlock++;
-                        return TakeNextNodes(-1);
-
-                    case Core.Dialogues.DialogueBlock.BlockType.body:
-                        if (ConnectingAppManager.DialogManager.IsDialogLonely(this))
-                            currentBlock++;
-                        else
-                            currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
-                        return TakeNextNodes(-1);
-
-                    case Core.Dialogues.DialogueBlock.BlockType.bye:
-                    case Core.Dialogues.DialogueBlock.BlockType.next:
-                        break;
-
-                    default:
-                        break;
-                }
-                return newNodes;
+                return MakeDecision(newNodes);
             }
         }
 
@@ -68,8 +75,11 @@ namespace ConnectingApplication.Entity
         {
             if (nodeId == -1)
             {
+                // Существует проблема, если сюда попадают из блока hi, и блок body пуст(даже если по ошибке), а блок next или bye не пусты, они все равно не обработаются.
                 selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes);
-                return selectableNodes;
+                if (selectableNodes.Count > 0)
+                    return selectableNodes;
+                else return MakeDecision(selectableNodes);
             }
             else
             {
