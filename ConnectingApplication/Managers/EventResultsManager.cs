@@ -307,18 +307,12 @@ namespace ConnectingApplication.Managers
 
         private static void ChangeInitiative(List<string> input)
         {
-			string dialogId = input[0];
-			int init = int.Parse(input[1]);
-			CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
-			if (init == 1)
-			{
-				Dialogue d = CoreController.DialogueManager.GetDialog(dialogId);
-				if (d != null)
-				{
-					ConnectingAppManager.CharacterManager.GetNPC(d.Participants.First()).AddDialog(d);
-				}
-			}
-		}
+            string dialogId = input[0];
+            int init = int.Parse(input[1]);
+            CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
+            if (init == 1)
+                ActivateDialogue(new List<string>() { input[1] });
+        }
 
         private static void OpenFact(List<string> input)
         {
