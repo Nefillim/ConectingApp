@@ -100,13 +100,13 @@ namespace ConnectingApplication.Characters
         {
             foreach (var formatListPair in one)
             {
+                if (!two.ContainsKey(formatListPair.Key))
+                    two.Add(formatListPair.Key, new List<Dialog>());
+
                 for (int j = 0; j < formatListPair.Value.Count; ++j)
                 {
                     if (formatListPair.Value[j].BusinessId.Equals(formatter))
                     {
-                        if (!two.ContainsKey(formatListPair.Key))
-                            two.Add(formatListPair.Key, new List<Dialog>());
-
                         two[formatListPair.Key].Add(formatListPair.Value[j]);
                         one[formatListPair.Key].Remove(formatListPair.Value[j]);
                     }

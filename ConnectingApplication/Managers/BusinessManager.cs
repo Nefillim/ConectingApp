@@ -76,7 +76,8 @@ namespace ConnectingApplication.Managers
             if (actualBusinessInfo == null || !businessId.Equals(actualBusinessInfo.BusinessId))
             {
                 var newBusinessInfo = Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
-                NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
+                if (actualBusinessInfo != null)
+                    NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
                 actualBusinessInfo = newBusinessInfo;
             }
             return actualBusinessInfo;
