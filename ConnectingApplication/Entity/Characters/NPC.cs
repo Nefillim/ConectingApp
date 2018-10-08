@@ -130,13 +130,14 @@ namespace ConnectingApplication.Characters
             {
                 if (!availableDialogs[d.Format].Contains(d))
                 {
-                    availableDialogs[d.Format].Insert(0, d);
-                    if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().Find(s => s.Participants.Contains(Id)) != null)
-                    {
-                        TryToStartDialog(d);
-                    }
+                    availableDialogs[d.Format].Insert(0, d);   
                 }
-            }
+				if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().
+						Find(s => s.Participants.Contains(Id)) != null)
+				{
+					TryToStartDialog(d);
+				}
+			}
             else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
 
             if (d.Outgoing)
