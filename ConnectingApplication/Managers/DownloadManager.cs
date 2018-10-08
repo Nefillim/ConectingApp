@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls;
+using Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,7 +34,7 @@ namespace ConnectingApplication.Managers
 
 		public void Download()
 		{
-			using (FileStream stream = new FileStream($"/path/to/save/{ConnectingAppManager.PLAYER_ID}", FileMode.Open))
+			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{ConnectingAppManager.PLAYER_ID}", FileMode.Open))
 			{
 				var player = ConnectingAppManager.CharacterManager.GetPlayer();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -74,7 +75,7 @@ namespace ConnectingApplication.Managers
 		public void Save()
 		{
 
-			using (FileStream stream = new FileStream($"/path/to/save{ConnectingAppManager.PLAYER_ID}", FileMode.OpenOrCreate))
+			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{ConnectingAppManager.PLAYER_ID}", FileMode.OpenOrCreate))
 			{
 				using (BinaryWriter writer = new BinaryWriter(stream))
 				{
