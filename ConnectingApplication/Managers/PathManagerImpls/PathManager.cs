@@ -16,8 +16,9 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
         private static readonly string PATH_TO_MINI_GAME_FILES = "MiniGames/";
         private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
+		private static readonly string PATH_TO_SAVE = "/GameProgress/";
 
-        public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
+		public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_REPLICS_FILES);
         }
@@ -39,5 +40,10 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
             dir = Directory.GetFiles(directory).ToList().Find(s => s.Contains(miniGameId) && !s.Contains(".meta"));
             return dir;
         }
+
+		public static string GetPathToSaveFilesDirectory()
+		{
+			return string.Concat(PATH_TO_DATA, PATH_TO_SAVE);
+		}
     }
 }
