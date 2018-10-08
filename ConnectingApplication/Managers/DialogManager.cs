@@ -156,7 +156,6 @@ namespace ConnectingApplication.Managers
             return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
         }
 
-
         /// <summary>
         /// Для продолжения уже начатого диалога.
         /// </summary>

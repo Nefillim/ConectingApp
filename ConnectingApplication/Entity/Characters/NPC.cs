@@ -34,6 +34,7 @@ namespace ConnectingApplication.Characters
     {
         private List<string> characterInfo;
         private Dictionary<FormatDialogue, List<Dialog>> availableDialogs;
+        private Dictionary<FormatDialogue, List<Dialog>> deactivatedDialogs;
 
 
         public Emotion state;
@@ -54,7 +55,10 @@ namespace ConnectingApplication.Characters
         public NPC(string id) : base(id)
         {
             availableDialogs = new Dictionary<FormatDialogue, List<Dialog>>();
+            deactivatedDialogs = new Dictionary<FormatDialogue, List<Dialog>>();
             characterInfo = new List<string>();
+            ConnectingAppManager.BusinessManager.ChangedBusinesses += RemoveDialogs;
+            ConnectingAppManager.BusinessManager.NewBusiness += ChangeDialogsAvailability;
         }
 
 
@@ -69,14 +73,58 @@ namespace ConnectingApplication.Characters
             Availability[format] = activate;
         }
 
+        /// <summary>
+        /// Удаляет все диалоги которые должны происходить в указанных занятиях.
+        /// </summary>
+        /// <param name="businessId"></param>
+        private void RemoveDialogs(List<string> businessesId)
+        {
+            foreach (var i in availableDialogs)
+            {
+                foreach (var j in businessesId)
+                {
+                    i.Value.RemoveAll(s => s.BusinessId.Equals(j));
+                }
+                if (GetAvailableDialogs(i.Key).Count == 0)
+                    ActivateObject(false, i.Key);
+            }
+        }
+
+        private void ChangeDialogsAvailability(string oldBusinessId, string newBusinessId)
+        {
+            ChangeDictionaryForDialog(ref availableDialogs, ref deactivatedDialogs, oldBusinessId);
+            ChangeDictionaryForDialog(ref deactivatedDialogs, ref availableDialogs, newBusinessId);
+        }
+
+        private void ChangeDictionaryForDialog(ref Dictionary<FormatDialogue, List<Dialog>> one, ref Dictionary<FormatDialogue, List<Dialog>> two, string formatter)
+        {
+            foreach (var formatListPair in one)
+            {
+                for (int j = 0; j < formatListPair.Value.Count; ++j)
+                {
+                    if (formatListPair.Value[j].BusinessId.Equals(formatter))
+                    {
+                        if (!two.ContainsKey(formatListPair.Key))
+                            two.Add(formatListPair.Key, new List<Dialog>());
+
+                        two[formatListPair.Key].Add(formatListPair.Value[j]);
+                        one[formatListPair.Key].Remove(formatListPair.Value[j]);
+                    }
+                }
+                if (GetAvailableDialogs(formatListPair.Key).Count == 0)
+                    ActivateObject(false, formatListPair.Key);
+            }
+        }
+
 
         public void AddDialog(Dialog d)
         {
             if (!availableDialogs.ContainsKey(d.Format))
                 availableDialogs.Add(d.Format, new List<Dialog>());
 
-            if (availableDialogs[d.Format].Exists(s => s.Id.Equals(d.Id)))
-                availableDialogs[d.Format].RemoveAll(s => s.Id.Equals(d.Id));
+            // Удаление такого же диалога, и запись нового(тип начать с начала).
+            //if (availableDialogs[d.Format].Exists(s => s.Id.Equals(d.Id)))
+            //availableDialogs[d.Format].RemoveAll(s => s.Id.Equals(d.Id));
 
             if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
             {

@@ -206,9 +206,22 @@ namespace ConnectingApplication.Managers
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                Dialog dialog = new Dialog(dialogue);
-                ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
+                if (dialogue == null)
+                {
+                    foreach (var dg in CoreController.DialogueManager.GetDialoguesGroup(d))
+                    {
+                        var dialog = CoreController.DialogueManager.GetDialogue(d);
+                        SaveDialog(dialog);
+                    }
+                }
+                else SaveDialog(dialogue);
             }
+        }
+
+        private static void SaveDialog(Dialogue dialogue)
+        {
+            Dialog dialog = new Dialog(dialogue);
+            ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
         }
 
         private static void DeactivateDialogue(List<string> dialogues)
@@ -295,7 +308,6 @@ namespace ConnectingApplication.Managers
         private static void ChangeInitiative(List<string> input)
         {
             CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
-            ActivateDialogue(new List<string> { input[0] });
         }
 
         private static void OpenFact(List<string> input)
