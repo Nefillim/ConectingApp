@@ -44,5 +44,10 @@ namespace ConnectingApplication.Managers
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);
             return parseResult;
         }
+
+        public bool ParseAndCheckCondition(string condition)
+        {
+            CoreController.ConditionParser.ParseAndCheckCondition(condition);
+        }
     }
 }
