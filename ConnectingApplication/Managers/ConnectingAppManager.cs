@@ -47,7 +47,7 @@ namespace ConnectingApplication.Managers
 
         public bool ParseAndCheckCondition(string condition)
         {
-            CoreController.ConditionParser.ParseAndCheckCondition(condition);
+            return CoreController.ConditionParser.ParseAndCheckCondition(condition);
         }
     }
 }
