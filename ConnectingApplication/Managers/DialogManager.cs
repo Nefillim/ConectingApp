@@ -120,7 +120,7 @@ namespace ConnectingApplication.Managers
             {
                 if (dialogueMode == FormatDialogue.sms || dialogueMode == FormatDialogue.email)
                 {
-                    newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.body;
+                    newOne.currentBlock = Core.Dialogues.DialogueBlock.BlockType.hi;
                     var dialogs = dialogueMode == FormatDialogue.sms ? activeMessageDialogs : activeEmailDialogs;
                     if (!dialogs.ContainsKey(charId))
                         dialogs.Add(charId, new List<Dialog>());
