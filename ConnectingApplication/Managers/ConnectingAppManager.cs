@@ -22,6 +22,7 @@ namespace ConnectingApplication.Managers
 		[Obsolete("Don't use outside the DownloadManager.")]
 		public static bool SaveMode { get; set; }
 
+
         private static void ExceptionListener(string message)
         {
             Debug.LogError(message);
