@@ -59,12 +59,6 @@ namespace ConnectingApplication.Managers
             return ((NPC)Characters[characterId]).GetDialog(mode, dialogId);
         }
 
-        public IList<string> GetCharacterInfo(string charId)
-        {
-            CreateCharacter(charId);
-            return ((NPC)Characters[charId]).CharacterInfo;
-        }
-
         public Player GetPlayer()
         {
             return Characters[ConnectingAppManager.PLAYER_ID] as Player;

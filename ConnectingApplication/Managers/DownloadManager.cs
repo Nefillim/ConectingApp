@@ -38,7 +38,7 @@ namespace ConnectingApplication.Managers
 			{
 				var player = ConnectingAppManager.CharacterManager.GetPlayer();
 #pragma warning disable CS0618 // Type or member is obsolete
-				ConnectingAppManager.saveMode = true;
+				ConnectingAppManager.SaveMode = true;
 #pragma warning restore CS0618 // Type or member is obsolete
 				using (BinaryReader reader = new BinaryReader(stream))
 				{
@@ -52,7 +52,7 @@ namespace ConnectingApplication.Managers
 						ConnectingAppManager.FlagManager.SetFlag(flag.name, flag.value);
 					}
 #pragma warning disable CS0618 // Type or member is obsolete
-					ConnectingAppManager.saveMode = false;
+					ConnectingAppManager.SaveMode = false;
 #pragma warning restore CS0618 // Type or member is obsolete
 					for (int i = 0; i < iterationsCount; i++)
 					{

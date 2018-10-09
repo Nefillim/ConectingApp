@@ -6,6 +6,9 @@ namespace ConnectingApplication.Managers
 {
     public static class ConnectingAppManager
     {
+        private static bool _saveMode = false;
+
+
         public static readonly string PLAYER_ID = "charPlayer";
 
         public static BusinessManager BusinessManager { get; private set; }
@@ -16,10 +19,8 @@ namespace ConnectingApplication.Managers
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
-
-		private static bool _saveMode = false;
 		[Obsolete("Don't use outside the DownloadManager.")]
-		public static bool saveMode { get; set; }
+		public static bool SaveMode { get; set; }
 
         private static void ExceptionListener(string message)
         {

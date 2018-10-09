@@ -103,7 +103,7 @@ namespace ConnectingApplication.Managers
             return actualBusinessInfo.SlotsCount;
         }
 
-        public string GetTagForActualBusiness()
+        public string GetActualBusinessId()
         {
             return actualBusinessInfo.BusinessId;
         }
