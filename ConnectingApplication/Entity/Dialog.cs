@@ -15,7 +15,9 @@ namespace ConnectingApplication.Entity
 {
     public class Dialog : Dialogue
     {
-        public List<DialogueNode> selectableNodes;
+        private List<DialogueNode> selectableNodes;
+
+
         public DialogueNode currentNode;
         public Core.Dialogues.DialogueBlock.BlockType currentBlock;
 
@@ -87,6 +89,12 @@ namespace ConnectingApplication.Entity
                 if (currentNode == null)
                 {
                     selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.next, nodeId);
+
+                    // Эта ситуация возникнет только если программа логически перешла в другой блок диалога, 
+                    // но последняя отработавшая нода принадлежит предыдущему блоку(логически предыдущему, а не по порядку).
+                    if (selectableNodes.Count == 0)
+                        selectableNodes = CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes, -1);
+
                     return selectableNodes;
                 }
                 else return TakeNextNodes();

@@ -1,6 +1,5 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
-using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
