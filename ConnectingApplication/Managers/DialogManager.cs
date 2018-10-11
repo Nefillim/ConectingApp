@@ -31,11 +31,6 @@ namespace ConnectingApplication.Managers
         }
 
 
-        private void SetResultsForNode(DialogueNode dialogueNode)
-        {
-            ConnectingAppManager.FlagManager.SetFlags(dialogueNode.Results);
-        }
-
         private List<DialogueNode> ContinueMessengerDialog(string charId, FormatDialogue mode, DialogueNode dialogueNode = null)
         {
             var dialogs = mode == FormatDialogue.sms ? activeMessageDialogs : activeEmailDialogs;
@@ -67,7 +62,7 @@ namespace ConnectingApplication.Managers
 
             if (dialogueNode != null)
             {
-                SetResultsForNode(dialogueNode);
+                //SetResultsForNode(dialogueNode);
                 nodeId = dialogueNode.Id;
             }
             else
@@ -110,6 +105,11 @@ namespace ConnectingApplication.Managers
         public void AddDiscussion(Dialog dialog)
         {
             discussions.Add(dialog);
+        }
+
+        public void SetResultsForNode(DialogueNode dialogueNode)
+        {
+            ConnectingAppManager.FlagManager.SetFlags(dialogueNode.Results);
         }
 
         public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode, string dialogId = "")
