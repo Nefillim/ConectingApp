@@ -50,6 +50,7 @@ namespace ConnectingApplication.Managers
             { "Teleport",            ResultFuncsEnum.Teleport},
             { "ShowTask",            ResultFuncsEnum.ShowTask},
             { "CloseTask",           ResultFuncsEnum.CloseTask},
+            { "ShowSubtitles",       ResultFuncsEnum.ShowSubtitles},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
@@ -89,6 +90,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.Teleport,             Teleport},
             { ResultFuncsEnum.ShowTask,             ShowTask},
             { ResultFuncsEnum.CloseTask,            CloseTask},
+            { ResultFuncsEnum.ShowSubtitles,        ShowSubtitles},
         };
 
 
@@ -114,6 +116,11 @@ namespace ConnectingApplication.Managers
         private static void Error(List<string> input)
         {
             Debug.LogError("Необходимо реализовать новый метод для ивентов.");
+        }
+
+        private static void ShowSubtitles(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowSubtitles, input);
         }
 
         private static void CloseTask(List<string> input)
@@ -230,7 +237,7 @@ namespace ConnectingApplication.Managers
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
                 Dialog dialog = new Dialog(dialogue);
-                ConnectingAppManager.CharacterManager.AddDialog(dialog, dialog.Participants.First());
+                ConnectingAppManager.CharacterManager.RemoveDialog(dialog, dialog.Participants.First());
             }
         }
 

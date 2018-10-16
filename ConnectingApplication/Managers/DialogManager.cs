@@ -79,7 +79,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Format.ToString() });
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (!curDialog.Reusable)
                 {
