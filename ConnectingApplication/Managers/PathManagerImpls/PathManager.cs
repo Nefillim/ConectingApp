@@ -14,7 +14,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         private static readonly string PATH_TO_REPLICS_FILES = "/Replics/";
         private static readonly string PATH_TO_CHARACTER_FILES = "/CharacterFiles/";
         private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
-        private static readonly string PATH_TO_MINI_GAME_FILES = "MiniGames/";
+        private static readonly string PATH_TO_MINI_GAME_FILES = "/MiniGames/";
         private static readonly string PATH_TO_TASKS_FILES = "/Tasks/";
         private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
 		private static readonly string PATH_TO_SAVE = "/GameProgress/";
@@ -50,6 +50,11 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         public static string GetPathToTasksFiles(ELanguage eLanguage)
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_TASKS_FILES);
+        }
+
+        public static string GetPathToMiniGamesFiles(ELanguage eLanguage)
+        {
+            return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_MINI_GAME_FILES);
         }
     }
 }

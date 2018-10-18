@@ -112,7 +112,7 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(dialogueNode.Results);
         }
 
-        public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode, string dialogId = "")
+        public List<DialogueNode> StartDialog(string charId, FormatDialogue dialogueMode, string dialogId)
         {
             Dialog newOne = ConnectingAppManager.CharacterManager.GetDialog(charId, dialogueMode, dialogId);
             if (newOne != null)
