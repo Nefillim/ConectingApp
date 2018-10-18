@@ -55,7 +55,7 @@ namespace ConnectingApplication.Managers
                     changedBusinesses.Add(i.BusinessId);
                 }
             }
-            ChangedBusinesses.Invoke(changedBusinesses);
+            ChangedBusinesses?.Invoke(changedBusinesses);
         }
 
 
