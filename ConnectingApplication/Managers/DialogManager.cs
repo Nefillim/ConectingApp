@@ -83,7 +83,7 @@ namespace ConnectingApplication.Managers
 				activeDialogs.Remove(curDialog);
 				if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
 				{
-					var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First().Id);
+					var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First()).Id;
 					activeDialogs.RemoveAll(d => d.Participants.Contains(npcId));
 				}
 				if (!curDialog.Reusable)
