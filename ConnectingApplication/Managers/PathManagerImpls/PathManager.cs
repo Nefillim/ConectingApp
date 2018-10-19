@@ -14,12 +14,13 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         private static readonly string PATH_TO_REPLICS_FILES = "/Replics/";
         private static readonly string PATH_TO_CHARACTER_FILES = "/CharacterFiles/";
         private static readonly string PATH_TO_CONFIG_FILES = "/ConfigFiles/";
-        private static readonly string PATH_TO_MINI_GAME_FILES = "MiniGames/";
+        private static readonly string PATH_TO_MINI_GAME_FILES = "/MiniGames/";
         private static readonly string PATH_TO_TASKS_FILES = "/Tasks/";
-        private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
 		private static readonly string PATH_TO_SAVE = "/GameProgress/";
+        private static readonly string PATH_TO_DATA = Application.streamingAssetsPath;
 
-		public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
+
+        public static string GetPathToLocalizationReplicsFiles(ELanguage eLanguage)
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_REPLICS_FILES);
         }
@@ -37,8 +38,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         public static string GetPathToMiniGamesConfigFile(string miniGameId)
         {
             var directory = string.Concat(GetPathToConfigFiles(), PATH_TO_MINI_GAME_FILES);
-            string dir = string.Empty;
-            dir = Directory.GetFiles(directory).ToList().Find(s => s.Contains(miniGameId) && !s.Contains(".meta"));
+            string dir = Directory.GetFiles(directory).ToList().Find(s => s.Contains(miniGameId) && !s.Contains(".meta"));
             return dir;
         }
 
@@ -50,6 +50,11 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
         public static string GetPathToTasksFiles(ELanguage eLanguage)
         {
             return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_TASKS_FILES);
+        }
+
+        public static string GetPathToMiniGamesFiles(ELanguage eLanguage)
+        {
+            return string.Concat(PATH_TO_DATA, PATH_TO_LOCALIZATION_FILES, eLanguage.ToString(), PATH_TO_MINI_GAME_FILES);
         }
     }
 }

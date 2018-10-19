@@ -130,14 +130,14 @@ namespace ConnectingApplication.Characters
             {
                 if (!availableDialogs[d.Format].Contains(d))
                 {
-                    availableDialogs[d.Format].Insert(0, d);   
+                    availableDialogs[d.Format].Insert(0, d);
                 }
-				if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().
-						Find(s => s.Participants.Contains(Id)) != null)
-				{
-					TryToStartDialog(d);
-				}
-			}
+                if (!d.Outgoing && ConnectingAppManager.DialogManager.ActiveDialogs.ToList().
+                        Find(s => s.Participants.Contains(Id)) != null)
+                {
+                    TryToStartDialog(d);
+                }
+            }
             else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
 
             if (d.Outgoing)
@@ -148,7 +148,8 @@ namespace ConnectingApplication.Characters
 
         public void RemoveDialog(Dialog d)
         {
-            availableDialogs[d.Format].Remove(d);
+            if (availableDialogs.ContainsKey(d.Format) && availableDialogs[d.Format].Contains(d))
+                availableDialogs[d.Format].Remove(d);
             if (GetAvailableDialogs(d.Format).Count == 0)
                 ActivateObject(false, d.Format);
         }

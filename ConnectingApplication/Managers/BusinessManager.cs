@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
@@ -54,7 +55,7 @@ namespace ConnectingApplication.Managers
                     changedBusinesses.Add(i.BusinessId);
                 }
             }
-            ChangedBusinesses.Invoke(changedBusinesses);
+            ChangedBusinesses?.Invoke(changedBusinesses);
         }
 
 
@@ -85,12 +86,16 @@ namespace ConnectingApplication.Managers
 
         public void AddAvailableBusiness(string business)
         {
-            availableBusiness.Add(business);
+            if (!availableBusiness.Contains(business))
+                availableBusiness.Add(business);
+            else
+                Debug.LogError($"Попытка добавить занятие которое уже есть: \"{business}\"");
         }
 
         public void RemoveAvailableBusiness(string business)
         {
-            availableBusiness.Remove(business);
+            if (availableBusiness.Contains(business))
+                availableBusiness.Remove(business);
         }
 
         public void SetFlagsWhenBusinessStart(BusinessInfo business)
