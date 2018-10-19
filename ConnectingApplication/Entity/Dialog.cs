@@ -50,6 +50,7 @@ namespace ConnectingApplication.Entity
 					if (dialogueNodes.Count == 0)
 					{
 						currentBlock = Core.Dialogues.DialogueBlock.BlockType.bye;
+                        return TakeNextNodes(-1);
 					}
 					break;
 

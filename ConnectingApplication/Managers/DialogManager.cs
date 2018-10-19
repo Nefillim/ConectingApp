@@ -20,6 +20,7 @@ namespace ConnectingApplication.Managers
 
         public int ActiveDialogsCount { get { return activeDialogs.Count; } }
         public IList<Dialog> ActiveDialogs { get { return activeDialogs.AsReadOnly(); } }
+        public Dialog ActualDialog { get { return (activeDialogs.Count > 0) ? activeDialogs.Last() : null; } }
 
         [Obsolete("Don't use outside the ConnectingApp.")]
         public DialogManager()
@@ -62,7 +63,6 @@ namespace ConnectingApplication.Managers
 
             if (dialogueNode != null)
             {
-                //SetResultsForNode(dialogueNode);
                 nodeId = dialogueNode.Id;
             }
             else
@@ -79,9 +79,9 @@ namespace ConnectingApplication.Managers
             }
             else
             {
+                var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First()).Id;
+                activeDialogs.RemoveAll(d => d.Participants.Contains(npcId));
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
-				var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First()).Id;
-				activeDialogs.RemoveAll(d => d.Participants.Contains(npcId));
                 if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
@@ -190,9 +190,9 @@ namespace ConnectingApplication.Managers
             }
         }
 
-        public void UpdateDialog(string dialogId)
+        public bool CheckActualDialog(Predicate<Dialog> predicate)
         {
-
+            return ActualDialog != null && predicate.Invoke(ActualDialog);
         }
     }
 }
