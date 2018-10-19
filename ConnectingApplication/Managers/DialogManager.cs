@@ -20,6 +20,7 @@ namespace ConnectingApplication.Managers
 
         public int ActiveDialogsCount { get { return activeDialogs.Count; } }
         public IList<Dialog> ActiveDialogs { get { return activeDialogs.AsReadOnly(); } }
+        public Dialog ActualDialog { get { return (activeDialogs.Count > 0) ? activeDialogs.Last() : null; } }
 
         [Obsolete("Don't use outside the ConnectingApp.")]
         public DialogManager()
@@ -194,9 +195,9 @@ namespace ConnectingApplication.Managers
             }
         }
 
-        public void UpdateDialog(string dialogId)
+        public bool CheckActualDialog(Predicate<Dialog> predicate)
         {
-
+            return ActualDialog != null && predicate.Invoke(ActualDialog);
         }
     }
 }
