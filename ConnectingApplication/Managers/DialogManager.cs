@@ -80,9 +80,13 @@ namespace ConnectingApplication.Managers
             else
             {
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
-				var npc = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First());
-				activeDialogs.RemoveAll(d => d.Participants.Contains(npc.Id));
-                if (!curDialog.Reusable)
+				activeDialogs.Remove(curDialog);
+				if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
+				{
+					var npc = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First());
+					activeDialogs.RemoveAll(d => d.Participants.Contains(npc.Id));
+				}
+				if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
                     {
