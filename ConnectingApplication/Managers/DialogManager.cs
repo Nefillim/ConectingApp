@@ -132,7 +132,7 @@ namespace ConnectingApplication.Managers
                     dialogs[charId].Add(newOne);
                     return ContinueMessengerDialog(charId, dialogueMode);
                 }
-                newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
+                newOne.currentBlock = !IsLonelyDialog(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
                 activeDialogs.Add(newOne);
                 return ContinueDialog();
             }
@@ -156,9 +156,9 @@ namespace ConnectingApplication.Managers
             return discussions.Find(d => d.Id == dialogId).TakeNextNodes();
         }
 
-        public bool IsDialogLonely(Dialog dialog)
+        public bool IsLonelyDialog(Dialog dialog)
         {
-            return !(activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0);
+            return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count <= 1;
         }
 
         /// <summary>

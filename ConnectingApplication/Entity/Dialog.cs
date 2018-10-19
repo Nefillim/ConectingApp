@@ -37,7 +37,7 @@ namespace ConnectingApplication.Entity
                     return TakeNextNodes(-1);
 
                 case Core.Dialogues.DialogueBlock.BlockType.body:
-                    if (ConnectingAppManager.DialogManager.IsDialogLonely(this))
+                    if (ConnectingAppManager.DialogManager.IsLonelyDialog(this))
                         currentBlock++;
                     else
                         currentBlock = Core.Dialogues.DialogueBlock.BlockType.next;
