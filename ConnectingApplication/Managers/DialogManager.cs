@@ -132,8 +132,8 @@ namespace ConnectingApplication.Managers
                     dialogs[charId].Add(newOne);
                     return ContinueMessengerDialog(charId, dialogueMode);
                 }
-                newOne.currentBlock = !IsLonelyDialog(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
                 activeDialogs.Add(newOne);
+                newOne.currentBlock = !IsLonelyDialog(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
                 return ContinueDialog();
             }
             else return new List<DialogueNode>();
