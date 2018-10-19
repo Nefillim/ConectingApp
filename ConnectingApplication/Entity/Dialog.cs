@@ -44,8 +44,14 @@ namespace ConnectingApplication.Entity
                     return TakeNextNodes(-1);
 
                 case Core.Dialogues.DialogueBlock.BlockType.bye:
-                case Core.Dialogues.DialogueBlock.BlockType.next:
-                    break;
+					break;
+				case Core.Dialogues.DialogueBlock.BlockType.next:
+					List<DialogueNode> dialogueNodes =  CoreController.DialogueManager.GetNodesForDialogue(Id, currentBlock, EGetDialogueNodeType.firstNodes);
+					if (dialogueNodes.Count == 0)
+					{
+						currentBlock = Core.Dialogues.DialogueBlock.BlockType.bye;
+					}
+					break;
 
                 default:
                     break;
