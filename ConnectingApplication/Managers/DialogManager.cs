@@ -158,7 +158,7 @@ namespace ConnectingApplication.Managers
 
         public bool IsDialogLonely(Dialog dialog)
         {
-            return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
+            return !(activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0);
         }
 
         /// <summary>
