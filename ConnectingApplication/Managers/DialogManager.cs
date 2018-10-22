@@ -81,13 +81,13 @@ namespace ConnectingApplication.Managers
             else
             {
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
-				activeDialogs.Remove(curDialog);
-				if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
-				{
-					var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First()).Id;
-					activeDialogs.RemoveAll(d => d.Participants.Contains(npcId));
-				}
-				if (!curDialog.Reusable)
+                activeDialogs.Remove(curDialog);
+                if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
+                {
+                    var npcId = ConnectingAppManager.CharacterManager.GetNPC(curDialog.Participants.First()).Id;
+                    activeDialogs.RemoveAll(d => d.Participants.Contains(npcId));
+                }
+                if (!curDialog.Reusable)
                 {
                     foreach (string ch in curDialog.Participants)
                     {
@@ -107,13 +107,14 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 
-		public void SetResultsForDialog(Dialog dialog)
-		{
-			var resultFlags = dialog.GetDialogueResults();
-			ConnectingAppManager.FlagManager.SetFlags(resultFlags);
-		}
 
-		public void AddDiscussion(Dialog dialog)
+        public void SetResultsForDialog(Dialog dialog)
+        {
+            var resultFlags = dialog.GetDialogueResults();
+            ConnectingAppManager.FlagManager.SetFlags(resultFlags);
+        }
+
+        public void AddDiscussion(Dialog dialog)
         {
             discussions.Add(dialog);
         }
@@ -148,12 +149,14 @@ namespace ConnectingApplication.Managers
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
-            ActivateResultsForDialogBreak(dialog, breakingType);
+            if (dialog != null)
+                ActivateResultsForDialogBreak(dialog, breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)
         {
-			ActivateResultsForDialogBreak(activeDialogs.Last(), breakingType);
+            if (ActualDialog != null)
+                ActivateResultsForDialogBreak(ActualDialog, breakingType);
         }
 
         public List<DialogueNode> ContinueDisscussion(string dialogId)
