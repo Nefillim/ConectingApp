@@ -20,6 +20,7 @@ namespace ConnectingApplication.Managers
 
         public int ActiveDialogsCount { get { return activeDialogs.Count; } }
         public IList<Dialog> ActiveDialogs { get { return activeDialogs.AsReadOnly(); } }
+        public Dialog ActualDialog { get { return (activeDialogs.Count > 0) ? activeDialogs.Last() : null; } }
 
         [Obsolete("Don't use outside the ConnectingApp.")]
         public DialogManager()
@@ -136,8 +137,8 @@ namespace ConnectingApplication.Managers
                     dialogs[charId].Add(newOne);
                     return ContinueMessengerDialog(charId, dialogueMode);
                 }
-                newOne.currentBlock = IsDialogLonely(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
                 activeDialogs.Add(newOne);
+                newOne.currentBlock = !IsLonelyDialog(newOne) ? Core.Dialogues.DialogueBlock.BlockType.body : Core.Dialogues.DialogueBlock.BlockType.hi;
                 return ContinueDialog();
             }
             else return new List<DialogueNode>();
@@ -160,9 +161,9 @@ namespace ConnectingApplication.Managers
             return discussions.Find(d => d.Id == dialogId).TakeNextNodes();
         }
 
-        public bool IsDialogLonely(Dialog dialog)
+        public bool IsLonelyDialog(Dialog dialog)
         {
-            return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count > 0;
+            return activeDialogs.ToList().FindAll(s => s.Participants.First().Equals(dialog.Participants.First())).Count <= 1;
         }
 
         /// <summary>
@@ -199,9 +200,9 @@ namespace ConnectingApplication.Managers
             }
         }
 
-        public void UpdateDialog(string dialogId)
+        public bool CheckActualDialog(Predicate<Dialog> predicate)
         {
-
+            return ActualDialog != null && predicate.Invoke(ActualDialog);
         }
     }
 }
