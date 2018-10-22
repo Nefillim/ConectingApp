@@ -100,14 +100,19 @@ namespace ConnectingApplication.Managers
             }
         }
 
-        private void ActivateResultsForDialog(Dialog dialog, EDialogueResultType eDialogueResultType)
+        private void ActivateResultsForDialogBreak(Dialog dialog, EDialogueResultType eDialogueResultType)
         {
-            var resultFlags = dialog.GetResult(eDialogueResultType);
+            var resultFlags = dialog.GetBreakingResults(eDialogueResultType);
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 
+		public void SetResultsForDialog(Dialog dialog)
+		{
+			var resultFlags = dialog.GetDialogueResults();
+			ConnectingAppManager.FlagManager.SetFlags(resultFlags);
+		}
 
-        public void AddDiscussion(Dialog dialog)
+		public void AddDiscussion(Dialog dialog)
         {
             discussions.Add(dialog);
         }
@@ -142,12 +147,12 @@ namespace ConnectingApplication.Managers
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
-            ActivateResultsForDialog(dialog, breakingType);
+            ActivateResultsForDialogBreak(dialog, breakingType);
         }
 
         public void BreakingDialog(EDialogueResultType breakingType)
         {
-            ActivateResultsForDialog(activeDialogs.Last(), breakingType);
+			ActivateResultsForDialogBreak(activeDialogs.Last(), breakingType);
         }
 
         public List<DialogueNode> ContinueDisscussion(string dialogId)
