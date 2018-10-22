@@ -103,7 +103,7 @@ namespace ConnectingApplication.Managers
 
         private void ActivateResultsForDialog(Dialog dialog, EDialogueResultType eDialogueResultType)
         {
-            var resultFlags = dialog.GetResult(eDialogueResultType);
+            var resultFlags = dialog.GetBreakingResults(eDialogueResultType);
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 

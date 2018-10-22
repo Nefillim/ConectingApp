@@ -14,6 +14,7 @@ namespace ConnectingApplication.Managers
         private List<string> impossibleBusinesses;
         private List<string> availableBusiness;
         private BusinessInfo actualBusinessInfo;
+        private System.Random random;
 
 
         public event Action<List<string>> ChangedBusinesses;
@@ -24,6 +25,7 @@ namespace ConnectingApplication.Managers
         {
             availableBusiness = new List<string>();
             impossibleBusinesses = new List<string>();
+            random = new System.Random();
         }
 
 
@@ -78,7 +80,11 @@ namespace ConnectingApplication.Managers
             {
                 var newBusinessInfo = Core.CoreController.BusinessManager.GetBusinessInfo(businessId);
                 if (actualBusinessInfo != null)
+                {
                     NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
+                    if (!actualBusinessInfo.Location.Equals(actualBusinessInfo.Location))
+                        Core.CoreController.ChangeBalance((float)random.NextDouble() * 3f + 1f);
+                }
                 actualBusinessInfo = newBusinessInfo;
             }
             return actualBusinessInfo;
