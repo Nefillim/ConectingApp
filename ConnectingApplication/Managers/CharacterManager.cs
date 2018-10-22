@@ -50,7 +50,9 @@ namespace ConnectingApplication.Managers
 
         public void RemoveDialog(Dialog dialog, string character)
         {
-            ((NPC)Characters[character]).RemoveDialog(dialog);
+            Character ch;
+            if (Characters.TryGetValue(character, out ch))
+                ((NPC)ch).RemoveDialog(dialog);
         }
 
         public Dialog GetDialog(string characterId, FormatDialogue mode, string dialogId = "")
