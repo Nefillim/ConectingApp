@@ -64,7 +64,6 @@ namespace ConnectingApplication.Managers
         public IList<Business> GetBusiness(bool forCalendar)
         {
             var businesses = availableBusiness;
-			RemoveOldAndImpossibleBusinesses();
 			if (forCalendar)
             {
                 businesses = new List<string>();
