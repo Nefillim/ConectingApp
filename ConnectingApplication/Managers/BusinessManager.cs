@@ -64,7 +64,8 @@ namespace ConnectingApplication.Managers
         public IList<Business> GetBusiness(bool forCalendar)
         {
             var businesses = availableBusiness;
-            if (forCalendar)
+			RemoveOldAndImpossibleBusinesses();
+			if (forCalendar)
             {
                 businesses = new List<string>();
                 businesses.AddRange(availableBusiness);
