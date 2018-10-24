@@ -83,7 +83,7 @@ namespace ConnectingApplication.Managers
                 {
                     NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
                     if (!actualBusinessInfo.Location.Equals(actualBusinessInfo.Location))
-                        Core.CoreController.ChangeBalance((float)random.NextDouble() * 3f + 1f);
+                        Core.CoreController.ChangeBalance((float)Math.Round(random.NextDouble() * 4 + 3, 2));
                 }
                 actualBusinessInfo = newBusinessInfo;
             }

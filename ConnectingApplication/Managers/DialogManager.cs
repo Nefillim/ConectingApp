@@ -101,7 +101,7 @@ namespace ConnectingApplication.Managers
             }
         }
 
-        private void ActivateResultsForDialogBreak(Dialog dialog, EDialogueResultType eDialogueResultType)
+        private void ActivateResultsForDialogBreak(Dialog dialog, EBreakingResultType eDialogueResultType)
         {
             var resultFlags = dialog.GetBreakingResults(eDialogueResultType);
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
@@ -145,7 +145,7 @@ namespace ConnectingApplication.Managers
             else return new List<DialogueNode>();
         }
 
-        public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EDialogueResultType breakingType)
+        public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EBreakingResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
@@ -153,7 +153,7 @@ namespace ConnectingApplication.Managers
                 ActivateResultsForDialogBreak(dialog, breakingType);
         }
 
-        public void BreakingDialog(EDialogueResultType breakingType)
+        public void BreakingDialog(EBreakingResultType breakingType)
         {
             if (ActualDialog != null)
                 ActivateResultsForDialogBreak(ActualDialog, breakingType);
