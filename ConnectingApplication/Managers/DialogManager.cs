@@ -80,6 +80,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
+				SetResultsForDialog(curDialog);
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
