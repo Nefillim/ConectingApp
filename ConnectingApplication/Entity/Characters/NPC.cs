@@ -35,6 +35,7 @@ namespace ConnectingApplication.Characters
         private List<string> characterInfo;
         private Dictionary<FormatDialogue, List<Dialog>> availableDialogs;
         private Dictionary<FormatDialogue, List<Dialog>> deactivatedDialogs;
+        private string idModificator;
 
 
         public Emotion state;
@@ -175,6 +176,16 @@ namespace ConnectingApplication.Characters
             if (availableDialogs.ContainsKey(dialogueMode))
                 return availableDialogs[dialogueMode].AsReadOnly();
             else return new List<Dialog>();
+        }
+
+        public void SetIdModificator(string newModificator)
+        {
+            idModificator = newModificator;
+        }
+
+        public string GetCurrentId()
+        {
+            return string.Concat(Id, idModificator);
         }
     }
 }

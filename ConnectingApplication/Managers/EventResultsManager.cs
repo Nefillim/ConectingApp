@@ -51,6 +51,8 @@ namespace ConnectingApplication.Managers
             { "ShowTask",            ResultFuncsEnum.ShowTask},
             { "CloseTask",           ResultFuncsEnum.CloseTask},
             { "ShowSubtitles",       ResultFuncsEnum.ShowSubtitles},
+            { "ShowNotification",    ResultFuncsEnum.ShowNotification},
+            { "ChangeState",         ResultFuncsEnum.ChangeState},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
@@ -74,7 +76,6 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.AddToFF,              AddToFF},
             { ResultFuncsEnum.DeleteContact,        DeleteContact},
             { ResultFuncsEnum.DeleteContactFF,      DeleteFF},
-
             { ResultFuncsEnum.DeactivateBusiness,   DeactivateBusiness},
             { ResultFuncsEnum.ActivateMiniGame,     ActivateMiniGame},
             { ResultFuncsEnum.DeactivateMiniGame,   DeactivateMiniGame},
@@ -91,6 +92,8 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ShowTask,             ShowTask},
             { ResultFuncsEnum.CloseTask,            CloseTask},
             { ResultFuncsEnum.ShowSubtitles,        ShowSubtitles},
+            { ResultFuncsEnum.ShowNotification,     ShowNotification},
+            { ResultFuncsEnum.ChangeState,          ChangeState},
         };
 
 
@@ -121,6 +124,17 @@ namespace ConnectingApplication.Managers
         private static void ShowSubtitles(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowSubtitles, input);
+        }
+
+        private static void ChangeState(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.GetNPC(input[0]).SetIdModificator(input[1]);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeState, input);
+        }
+
+        private static void ShowNotification(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowNotification, input);
         }
 
         private static void CloseTask(List<string> input)

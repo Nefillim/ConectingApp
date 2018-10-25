@@ -15,6 +15,6 @@ namespace Assets.ConectingApp.ConnectingApplication.Enums
         DeleteContact, DeleteContactFF, DeactivateBusiness, ActivateMiniGame,
         DeactivateMiniGame, DeactivateDialogue, StartDialogue, AddChar, GoTo,
         AddTask, SayReplic, Fade, ChangeLocState, Change, Teleport, ShowTask,
-        CloseTask, ShowSubtitles
+        CloseTask, ShowSubtitles, ShowNotification, ChangeState
     }
 }
