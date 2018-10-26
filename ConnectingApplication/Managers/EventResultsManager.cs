@@ -53,6 +53,7 @@ namespace ConnectingApplication.Managers
             { "ShowSubtitles",       ResultFuncsEnum.ShowSubtitles},
             { "ShowNotification",    ResultFuncsEnum.ShowNotification},
             { "ChangeState",         ResultFuncsEnum.ChangeState},
+            { "DeleteProfile",       ResultFuncsEnum.DeleteProfile},
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
@@ -94,6 +95,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ShowSubtitles,        ShowSubtitles},
             { ResultFuncsEnum.ShowNotification,     ShowNotification},
             { ResultFuncsEnum.ChangeState,          ChangeState},
+            { ResultFuncsEnum.DeleteProfile,        DeleteProfile},
         };
 
 
@@ -339,6 +341,12 @@ namespace ConnectingApplication.Managers
         {
             ConnectingAppManager.CharacterManager.GetNPC(input[0]).AddFact(input[1]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFact, input);
+        }
+
+        private static void DeleteProfile(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.DeleteFile(input[0]);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeleteProfile, input);
         }
 
         private static void OpenFile(List<string> input)

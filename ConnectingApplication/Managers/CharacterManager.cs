@@ -88,5 +88,11 @@ namespace ConnectingApplication.Managers
             CreateCharacter(character);
             GetPlayer().AddFile(character);
         }
+
+        public void DeleteFile(string character)
+        {
+            CreateCharacter(character);
+            GetPlayer().RemoveFile(character);
+        }
     }
 }

@@ -145,6 +145,11 @@ namespace ConnectingApplication.Characters
             files.Add(character);
         }
 
+        public void RemoveFile(string character)
+        {
+            files.Remove(character);
+        }
+
         public void RemoveContact(string character, ContactType contactType)
         {
             if (contacts[contactType].Contains(character))
