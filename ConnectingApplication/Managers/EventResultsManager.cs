@@ -1,5 +1,6 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core;
@@ -321,6 +322,7 @@ namespace ConnectingApplication.Managers
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
             CoreController.TimeModule.MoveSlot(slotsCount);
+            ShowCoreAndConnectingAppEntities.Instance.Date = ConnectingAppManager.Date;
         }
 
         private static void StartMiniGame(List<string> input)

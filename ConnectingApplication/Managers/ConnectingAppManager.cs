@@ -1,6 +1,8 @@
 ﻿using Core;
+using Core.TimeMachine;
 using System;
 using UnityEngine;
+using static Core.TimeMachine.TimeModule;
 
 namespace ConnectingApplication.Managers
 {
@@ -44,6 +46,7 @@ namespace ConnectingApplication.Managers
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);
+
             return parseResult;
         }
 
