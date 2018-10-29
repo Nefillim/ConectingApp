@@ -30,6 +30,7 @@ namespace ConnectingApplication.Characters
         enemy,
     }
 
+    [Serializable]
     public class NPC : Character
     {
         private List<string> characterInfo;

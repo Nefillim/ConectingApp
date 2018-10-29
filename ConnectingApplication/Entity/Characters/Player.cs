@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Characters
 {
+    [Serializable]
     public class Player : Character
     {
         public enum ContactType

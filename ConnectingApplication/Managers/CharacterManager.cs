@@ -1,4 +1,5 @@
-﻿using ConnectingApplication.Characters;
+﻿using Assets.Scripts.Helpers;
+using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
 using Core.Dialogues.DialogueParameters;
@@ -32,6 +33,7 @@ namespace ConnectingApplication.Managers
             {
                 {ConnectingAppManager.PLAYER_ID, new Player() }
             };
+            ShowCoreAndConnectingAppEntities.Instance.Characters = Characters.Values.ToList();
         }
 
         public void AddDialog(Dialog dialog, string character)
