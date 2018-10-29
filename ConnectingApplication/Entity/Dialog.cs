@@ -13,6 +13,7 @@ using UnityEngine;
 
 namespace ConnectingApplication.Entity
 {
+    [Serializable]
     public class Dialog : Dialogue
     {
         private List<DialogueNode> selectableNodes;

@@ -1,4 +1,5 @@
-﻿using Core.Business;
+﻿using Assets.Scripts.Helpers;
+using Core.Business;
 using Startuper.Devices.Menus;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,10 @@ namespace ConnectingApplication.Managers
         {
             availableBusiness = new List<string>();
             impossibleBusinesses = new List<string>();
+
+            ShowCoreAndConnectingAppEntities.Instance.AvailableBusiness = availableBusiness;
+            ShowCoreAndConnectingAppEntities.Instance.ImpossibleBusinesses = impossibleBusinesses;
+
             random = new System.Random();
         }
 
@@ -86,6 +91,7 @@ namespace ConnectingApplication.Managers
                         Core.CoreController.ChangeBalance((float)Math.Round(random.NextDouble() * 4 + 3, 2));
                 }
                 actualBusinessInfo = newBusinessInfo;
+                ShowCoreAndConnectingAppEntities.Instance.ActualBusinessInfo = actualBusinessInfo;
             }
             return actualBusinessInfo;
         }

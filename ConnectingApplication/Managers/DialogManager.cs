@@ -1,5 +1,6 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using ConnectingApplication.Entity;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
@@ -26,6 +27,8 @@ namespace ConnectingApplication.Managers
         public DialogManager()
         {
             activeDialogs = new List<Dialog>();
+            ShowCoreAndConnectingAppEntities.Instance.ActiveDialogues = activeDialogs;
+
             activeMessageDialogs = new Dictionary<string, List<Dialog>>();
             activeEmailDialogs = new Dictionary<string, List<Dialog>>();
             discussions = new List<Dialog>();
