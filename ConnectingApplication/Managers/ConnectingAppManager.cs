@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using Assets.Scripts.Helpers;
+using Core;
 using Core.TimeMachine;
 using System;
 using UnityEngine;
@@ -46,6 +47,7 @@ namespace ConnectingApplication.Managers
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);
+            ShowCoreAndConnectingAppEntities.Instance.Date = Date;
 
             return parseResult;
         }
