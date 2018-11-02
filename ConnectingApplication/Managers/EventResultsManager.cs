@@ -253,8 +253,12 @@ namespace ConnectingApplication.Managers
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                Dialog dialog = new Dialog(dialogue);
-                ConnectingAppManager.CharacterManager.RemoveDialog(dialog, dialog.Participants.First());
+                if (dialogue != null)
+                {
+                    Dialog dialog = new Dialog(dialogue);
+                    ConnectingAppManager.CharacterManager.RemoveDialog(dialog, dialog.Participants.First());
+                }
+                else Debug.LogError($"Попытка деактивировать несуществующий диалог с id: \"{d}\"");
             }
         }
 

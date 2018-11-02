@@ -22,13 +22,16 @@ namespace ConnectingApplication.Managers
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
-		[Obsolete("Don't use outside the DownloadManager.")]
-		public static bool SaveMode { get; set; }
+        [Obsolete("Don't use outside the DownloadManager.")]
+        public static bool SaveMode { get; set; }
 
 
-        private static void ExceptionListener(string message)
+        private static void ExceptionListener(string message, EMessageType messageType)
         {
-            Debug.LogError(message);
+            if (messageType == EMessageType.Error)
+                Debug.LogError(message);
+            else
+                Debug.Log($"{messageType.ToString()}:\n {message}");
         }
 
 

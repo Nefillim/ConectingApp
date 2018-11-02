@@ -83,7 +83,7 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-				SetResultsForDialog(curDialog);
+                SetResultsForDialog(curDialog);
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
@@ -155,7 +155,7 @@ namespace ConnectingApplication.Managers
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
             if (dialog != null)
                 ActivateResultsForDialogBreak(dialog, breakingType);
-        }
+        }  
 
         public void BreakingDialog(EBreakingResultType breakingType)
         {
