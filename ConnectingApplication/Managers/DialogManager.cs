@@ -45,7 +45,7 @@ namespace ConnectingApplication.Managers
             Dialog curDialog = dialogs[charId].Last();
             if (dialogueNode != null)
             {
-                SetResultsForNode(dialogueNode);
+                //SetResultsForNode(dialogueNode);
                 nodeId = dialogueNode.Id;
 
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
