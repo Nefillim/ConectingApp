@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Helpers;
+﻿using Assets.ConectingApp.ConnectingApplication.Managers;
+using Assets.Scripts.Helpers;
 using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
@@ -31,7 +32,7 @@ namespace ConnectingApplication.Managers
         {
             Characters = new Dictionary<string, Character>()
             {
-                {ConnectingAppManager.PLAYER_ID, new Player() }
+                {DefaultValues.PLAYER_ID, new Player() }
             };
             ShowCoreAndConnectingAppEntities.Instance.Characters = Characters.Values.ToList();
         }
@@ -65,7 +66,7 @@ namespace ConnectingApplication.Managers
 
         public Player GetPlayer()
         {
-            return Characters[ConnectingAppManager.PLAYER_ID] as Player;
+            return Characters[DefaultValues.PLAYER_ID] as Player;
         }
 
         public NPC GetNPC(string characterId)

@@ -12,8 +12,6 @@ namespace ConnectingApplication.Managers
         private static bool _saveMode = false;
 
 
-        public static readonly string PLAYER_ID = "charPlayer";
-
         public static BusinessManager BusinessManager { get; private set; }
         public static CharacterManager CharacterManager { get; private set; }
         public static DialogManager DialogManager { get; private set; }
