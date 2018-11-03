@@ -340,7 +340,7 @@ namespace ConnectingApplication.Managers
             int init = int.Parse(input[1]);
             CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
             if (init == 1)
-                ActivateDialogue(new List<string>() { input[1] });
+                ActivateDialogue(new List<string>() { input[0] });
         }
 
         private static void OpenFact(List<string> input)
