@@ -24,7 +24,7 @@ namespace ConnectingApplication.Managers
             { "PlayMusic",           ResultFuncsEnum.PlayMusic},
             { "OpenFile",            ResultFuncsEnum.OpenFile},
             { "OpenFact",            ResultFuncsEnum.OpenFact},
-            { "ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
+            { "ChangeInitiative",    ResultFuncsEnum.ChangeParameter},
 
             { "ActivateObject",      ResultFuncsEnum.ActivateObject},
 
@@ -56,6 +56,11 @@ namespace ConnectingApplication.Managers
             { "ChangeState",         ResultFuncsEnum.ChangeState},
             { "DeleteProfile",       ResultFuncsEnum.DeleteProfile},
         };
+        private static readonly Dictionary<string, EChangingParameter> parameters = new Dictionary<string, EChangingParameter>()
+        {
+            {"Initiative",      EChangingParameter.Initiative },
+            {"WaitingSeconds",  EChangingParameter.WaitingSeconds }
+        };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
             { ResultFuncsEnum.Error,                Error},
@@ -66,7 +71,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.PlayMusic,            PlayMusic },
             { ResultFuncsEnum.OpenFile,             OpenFile},
             { ResultFuncsEnum.OpenFact,             OpenFact},
-            { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
+            { ResultFuncsEnum.ChangeParameter,      ChangeParameter},
 
             { ResultFuncsEnum.ActivateObject,       ActivateObject},
 
@@ -334,13 +339,15 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartMiniGame, input);
         }
 
-        private static void ChangeInitiative(List<string> input)
+        private static void ChangeParameter(List<string> input)
         {
-            string dialogId = input[0];
-            int init = int.Parse(input[1]);
-            CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
-            if (init == 1)
-                ActivateDialogue(new List<string>() { input[0] });
+            var parameter = parameters[input[0]];
+            string dialogId = input[1];
+            int init = int.Parse(input[2]);
+            CoreController.DialogueManager.ChangeParameter(parameter, input[1], int.Parse(input[2]));
+            if (parameter == EChangingParameter.Initiative)
+                if (init == 1)
+                    ActivateDialogue(new List<string>() { input[0] });
         }
 
         private static void OpenFact(List<string> input)

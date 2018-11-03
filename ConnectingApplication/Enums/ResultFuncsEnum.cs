@@ -9,7 +9,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Enums
     public enum ResultFuncsEnum
     {
         Error, NextSlot, ActivateBusiness, ActivateDialogue, StartMiniGame,
-        PlayMusic, OpenFile, OpenFact, ChangeInitiative, ActivateCharacter,
+        PlayMusic, OpenFile, OpenFact, ChangeParameter, ActivateCharacter,
         TryToStartDialogue, ActivateObject, EndOfDialog, StartBusiness,
         GetChoose, MoveCharacter, AddToContactList, AddToFlype, AddToFF,
         DeleteContact, DeleteContactFF, DeactivateBusiness, ActivateMiniGame,
