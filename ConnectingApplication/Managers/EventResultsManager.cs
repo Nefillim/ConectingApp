@@ -235,15 +235,21 @@ namespace ConnectingApplication.Managers
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                if (dialogue == null)
+
+                if (string.IsNullOrEmpty(dialogue.BusinessId) || ConnectingAppManager.BusinessManager.GetActualBusinessId().Equals(dialogue.BusinessId))
                 {
-                    foreach (var dg in CoreController.DialogueManager.GetDialoguesGroup(d))
+                    if (dialogue == null)
                     {
-                        var dialog = CoreController.DialogueManager.GetDialogue(d);
-                        SaveDialog(dialog);
+                        foreach (var dg in CoreController.DialogueManager.GetDialoguesGroup(d))
+                        {
+                            var dialog = CoreController.DialogueManager.GetDialogue(d);
+                            SaveDialog(dialog);
+                        }
                     }
+                    else SaveDialog(dialogue);
                 }
-                else SaveDialog(dialogue);
+                else Debug.Log($"Попытка активировать диалог, доступный только в занятии: {dialogue.BusinessId}\n" +
+                               $"А сейчас занятие: {ConnectingAppManager.BusinessManager.GetActualBusinessId()}");
             }
         }
 
