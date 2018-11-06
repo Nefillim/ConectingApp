@@ -121,6 +121,7 @@ namespace ConnectingApplication.Managers
         public void AddDiscussion(Dialog dialog)
         {
             discussions.Add(dialog);
+            StartDialog(dialog.Participants.First(), dialog.Format, dialog.Id);
         }
 
         public void SetResultsForNode(DialogueNode dialogueNode)
