@@ -336,8 +336,7 @@ namespace ConnectingApplication.Managers
         {
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
-            CoreController.TimeModule.MoveSlot(slotsCount);
-            ShowCoreAndConnectingAppEntities.Instance.Date = ConnectingAppManager.Date;
+            ShowCoreAndConnectingAppEntities.Instance.Date = CoreController.TimeModule.MoveSlot(slotsCount);
         }
 
         private static void StartMiniGame(List<string> input)
@@ -353,7 +352,7 @@ namespace ConnectingApplication.Managers
             CoreController.DialogueManager.ChangeParameter(parameter, input[1], int.Parse(input[2]));
             if (parameter == EChangingParameter.Initiative)
                 if (init == 1)
-                    ActivateDialogue(new List<string>() { input[0] });
+                    ActivateDialogue(new List<string>() { input[1] });
         }
 
         private static void OpenFact(List<string> input)
