@@ -55,7 +55,11 @@ namespace ConnectingApplication.Managers
             var nextNodes = curDialog.TakeNextNodes(nodeId);
 
             if (nextNodes.Count == 0)
+            {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
+                SetResultsForDialog(curDialog);
                 dialogs[charId].Remove(curDialog);
+            }
             return nextNodes;
         }
 
@@ -118,10 +122,10 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 
-        public void AddDiscussion(Dialog dialog)
+        public void AddDiscussion(Dialog d)
         {
-            discussions.Add(dialog);
-            StartDialog(dialog.Participants.First(), dialog.Format, dialog.Id);
+            discussions.Add(d);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartDialogue, new List<string>() { d.Participants.First(), d.Id, ((int)d.Format).ToString() });
         }
 
         public void SetResultsForNode(DialogueNode dialogueNode)
