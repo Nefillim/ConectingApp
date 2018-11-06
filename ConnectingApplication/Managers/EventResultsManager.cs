@@ -24,7 +24,7 @@ namespace ConnectingApplication.Managers
             { "PlayMusic",           ResultFuncsEnum.PlayMusic},
             { "OpenFile",            ResultFuncsEnum.OpenFile},
             { "OpenFact",            ResultFuncsEnum.OpenFact},
-            { "ChangeInitiative",    ResultFuncsEnum.ChangeParameter},
+            { "ChangeParameter",     ResultFuncsEnum.ChangeParameter},
 
             { "ActivateObject",      ResultFuncsEnum.ActivateObject},
 
