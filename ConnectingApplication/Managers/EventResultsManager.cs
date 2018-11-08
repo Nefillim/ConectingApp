@@ -6,6 +6,7 @@ using ConnectingApplication.Entity;
 using Core;
 using Core.Dialogues;
 using Core.Dialogues.DialogueBlock;
+using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace ConnectingApplication.Managers
             { "OpenFact",            ResultFuncsEnum.OpenFact},
             { "ChangeParameter",     ResultFuncsEnum.ChangeParameter},
 
+            { "TryToStartDialogue",  ResultFuncsEnum.TryToStartDialogue},
             { "ActivateObject",      ResultFuncsEnum.ActivateObject},
 
             { "StartBusiness",       ResultFuncsEnum.StartBusiness},
@@ -73,6 +75,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.OpenFact,             OpenFact},
             { ResultFuncsEnum.ChangeParameter,      ChangeParameter},
 
+            { ResultFuncsEnum.TryToStartDialogue,   TryToStartDialogue},
             { ResultFuncsEnum.ActivateObject,       ActivateObject},
 
             { ResultFuncsEnum.StartBusiness,        StartBusiness},
@@ -230,6 +233,14 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateMiniGame, input);
         }
 
+        private static void TryToStartDialogue(List<string> input)
+        {
+            FormatDialogue mode = (FormatDialogue)Int32.Parse(input[2]);
+            var dialogue = ConnectingAppManager.CharacterManager.GetNPC(input[0]).GetDialog(mode, input[1]);
+            if (dialogue != null)
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, input);
+        }
+
         private static void ActivateDialogue(List<string> dialogues)
         {
             foreach (var d in dialogues)
@@ -350,9 +361,6 @@ namespace ConnectingApplication.Managers
             string dialogId = input[1];
             int init = int.Parse(input[2]);
             CoreController.DialogueManager.ChangeParameter(parameter, input[1], int.Parse(input[2]));
-            if (parameter == EChangingParameter.Initiative)
-                if (init == 1)
-                    ActivateDialogue(new List<string>() { input[1] });
         }
 
         private static void OpenFact(List<string> input)
