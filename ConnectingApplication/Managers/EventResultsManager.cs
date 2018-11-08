@@ -237,7 +237,7 @@ namespace ConnectingApplication.Managers
         {
             FormatDialogue mode = (FormatDialogue)Int32.Parse(input[2]);
             var dialogue = ConnectingAppManager.CharacterManager.GetNPC(input[0]).GetDialog(mode, input[1]);
-            if (dialogue != null)
+            if (dialogue != null && !ConnectingAppManager.DialogManager.ActiveDialogs.Contains(dialogue))
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, input);
         }
 
