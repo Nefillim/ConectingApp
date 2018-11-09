@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Helpers;
+﻿using Assets.ConectingApp.ConnectingApplication.Managers;
+using Assets.Scripts.Helpers;
 using Core;
 using Core.TimeMachine;
 using System;
@@ -19,6 +20,7 @@ namespace ConnectingApplication.Managers
         public static EventResultsManager EventResultsManager { get; private set; }
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
+        public static CutsceneFactory CutsceneFactory { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
         [Obsolete("Don't use outside the DownloadManager.")]
         public static bool SaveMode { get; set; }
@@ -41,6 +43,7 @@ namespace ConnectingApplication.Managers
             DialogManager = new DialogManager();
             DownloadManager = new DownloadManager();
             EventResultsManager = new EventResultsManager();
+            CutsceneFactory = new CutsceneFactory();
             FlagManager = new FlagManager();
             SaveManager = new SaveManager();
 #pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
