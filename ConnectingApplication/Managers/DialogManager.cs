@@ -57,7 +57,6 @@ namespace ConnectingApplication.Managers
             if (nextNodes.Count == 0)
             {
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
-                SetResultsForDialog(curDialog);
                 dialogs[charId].Remove(curDialog);
             }
             return nextNodes;
@@ -87,7 +86,6 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-                SetResultsForDialog(curDialog);
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
@@ -154,6 +152,11 @@ namespace ConnectingApplication.Managers
             else return new List<DialogueNode>();
         }
 
+        public List<DialogueNode> StartDiscussion(string dialogueId)
+        {
+            return discussions.Find(d => d.Id == dialogueId).TakeNextNodes();
+        }
+
         public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EBreakingResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
@@ -168,9 +171,33 @@ namespace ConnectingApplication.Managers
                 ActivateResultsForDialogBreak(ActualDialog, breakingType);
         }
 
-        public List<DialogueNode> ContinueDisscussion(string dialogId)
+        public List<DialogueNode> ContinueDisscussion(string dialogId, DialogueNode dialogueNode = null)
         {
-            return discussions.Find(d => d.Id == dialogId).TakeNextNodes();
+            int nodeId = -1;
+
+            if (discussions.Count == 0)
+                return new List<DialogueNode>();
+
+            Dialog curDialog = discussions.Find(d => d.Id == dialogId);
+            if (dialogueNode != null)
+            {
+                //SetResultsForNode(dialogueNode);
+                nodeId = dialogueNode.Id;
+            }
+            else
+            {
+                if (curDialog.currentNode != null)
+                    nodeId = curDialog.currentNode.Id;
+            }
+
+            var nextNodes = curDialog.TakeNextNodes(nodeId);
+
+            if (nextNodes.Count == 0)
+            {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
+                discussions.Remove(curDialog);
+            }
+            return nextNodes;
         }
 
         public bool IsLonelyDialog(Dialog dialog)
