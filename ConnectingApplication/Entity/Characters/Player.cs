@@ -19,7 +19,11 @@ namespace ConnectingApplication.Characters
     {
         public enum ContactType
         {
-            Phone, Flype, FF
+            Phone, Flype, FF, Email
+        }
+        public enum MessageType
+        {
+            Sms, Email
         }
 
 
@@ -34,6 +38,7 @@ namespace ConnectingApplication.Characters
             contacts = new Dictionary<ContactType, List<string>>()
             {
                 { ContactType.Phone,    new List<string>()},
+                { ContactType.Email,    new List<string>()},
                 { ContactType.Flype,    new List<string>()},
                 { ContactType.FF,       new List<string>()},
             };
@@ -42,11 +47,13 @@ namespace ConnectingApplication.Characters
         }
 
 
-        public Queue<DialogueNode> GetMessageHistory(string charId)
+        public Queue<DialogueNode> GetMessageHistory(string charId, MessageType messageType)
         {
-            if (!textMessages.ContainsKey(charId))
+            var temp = messageType == MessageType.Sms ? textMessages : emailMessages;
+
+            if (!temp.ContainsKey(charId))
                 return new Queue<DialogueNode>();
-            return new Queue<DialogueNode>(textMessages[charId]);
+            return new Queue<DialogueNode>(temp[charId]);
         }
 
         public void SaveMessageHistory(BinaryWriter writer)
