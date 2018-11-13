@@ -44,6 +44,7 @@ namespace ConnectingApplication.Characters
             };
             files = new List<string>();
             textMessages = new Dictionary<string, Queue<DialogueNode>>();
+            emailMessages = new Queue<DialogueNode>();
         }
 
 
