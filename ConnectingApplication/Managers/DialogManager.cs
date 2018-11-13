@@ -123,7 +123,9 @@ namespace ConnectingApplication.Managers
         public void AddDiscussion(Dialog d)
         {
             discussions.Add(d);
-            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartDialogue, new List<string>() { d.Participants.First(), d.Id, ((int)d.Format).ToString() });
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartDialogue, new List<string>() { d.Participants.First(),
+                                                                                                  d.Id, ((int)d.Format).ToString(),
+                                                                                                  ((int)d.CharacterOfDialogue).ToString() });
         }
 
         public void SetResultsForNode(DialogueNode dialogueNode)
