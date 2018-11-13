@@ -49,7 +49,7 @@ namespace ConnectingApplication.Managers
                 nodeId = dialogueNode.Id;
 
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
-                player.AddMessage(charId, dialogueNode, mode);
+                player.AddMessage(charId, dialogueNode, Characters.Player.MessageType.Sms);
             }
 
             var nextNodes = curDialog.TakeNextNodes(nodeId);
