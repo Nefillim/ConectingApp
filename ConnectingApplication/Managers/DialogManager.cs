@@ -11,7 +11,6 @@ using UnityEngine;
 
 namespace ConnectingApplication.Managers
 {
-
     public class DialogManager
     {
         private readonly List<Dialog> activeDialogs;
@@ -49,7 +48,7 @@ namespace ConnectingApplication.Managers
                 nodeId = dialogueNode.Id;
 
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
-                player.AddMessage(charId, dialogueNode, Characters.Player.MessageType.Sms);
+                player.AddMessage(charId, dialogueNode, mode == FormatDialogue.sms ? Characters.Player.MessageType.Sms : Characters.Player.MessageType.Email);
             }
 
             var nextNodes = curDialog.TakeNextNodes(nodeId);
