@@ -67,7 +67,7 @@ namespace ConnectingApplication.Managers
 					{
 						player.AddContact(reader.ReadString(), Characters.Player.ContactType.Phone);
 					}
-					//player.DownloadMessageHistory(reader);
+					player.DownloadMessageHistory(reader);
 				}
 				//TODO: smth else to download?
 			}
@@ -94,7 +94,7 @@ namespace ConnectingApplication.Managers
 					{
 						writer.Write(contact);
 					}
-					//ConnectingAppManager.CharacterManager.GetPlayer().SaveMessageHistory(writer);
+					ConnectingAppManager.CharacterManager.GetPlayer().SaveMessageHistory(writer);
 				}
 			}
 		}
