@@ -35,11 +35,9 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers.PathManagerImpls
             return string.Concat(PATH_TO_DATA, PATH_TO_CONFIG_FILES);
         }
 
-        public static string GetPathToMiniGamesConfigFile(string miniGameId)
+        public static string GetPathToMiniGameFilesFolder()
         {
-            var directory = string.Concat(GetPathToConfigFiles(), PATH_TO_MINI_GAME_FILES);
-            string dir = Directory.GetFiles(directory).ToList().Find(s => s.Contains(miniGameId) && !s.Contains(".meta"));
-            return dir;
+            return string.Concat(GetPathToConfigFiles(), PATH_TO_MINI_GAME_FILES);
         }
 
 		public static string GetPathToSaveFilesDirectory()

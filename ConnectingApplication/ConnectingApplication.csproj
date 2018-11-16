@@ -54,6 +54,8 @@
     <Compile Include="Managers\BusinessManager.cs" />
     <Compile Include="Managers\CharacterManager.cs" />
     <Compile Include="Managers\ConnectingAppManager.cs" />
+    <Compile Include="Managers\CutsceneFactory.cs" />
+    <Compile Include="Managers\DefaultValues.cs" />
     <Compile Include="Managers\DialogManager.cs" />
     <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Managers\EventResultsManager.cs" />

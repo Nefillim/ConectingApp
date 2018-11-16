@@ -1,10 +1,12 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using ConnectingApplication.Characters;
 using ConnectingApplication.Entity;
 using Core;
 using Core.Dialogues;
 using Core.Dialogues.DialogueBlock;
+using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,8 +25,9 @@ namespace ConnectingApplication.Managers
             { "PlayMusic",           ResultFuncsEnum.PlayMusic},
             { "OpenFile",            ResultFuncsEnum.OpenFile},
             { "OpenFact",            ResultFuncsEnum.OpenFact},
-            { "ChangeInitiative",    ResultFuncsEnum.ChangeInitiative},
+            { "ChangeParameter",     ResultFuncsEnum.ChangeParameter},
 
+            { "TryToStartDialogue",  ResultFuncsEnum.TryToStartDialogue},
             { "ActivateObject",      ResultFuncsEnum.ActivateObject},
 
             { "StartBusiness",       ResultFuncsEnum.StartBusiness},
@@ -51,6 +54,14 @@ namespace ConnectingApplication.Managers
             { "ShowTask",            ResultFuncsEnum.ShowTask},
             { "CloseTask",           ResultFuncsEnum.CloseTask},
             { "ShowSubtitles",       ResultFuncsEnum.ShowSubtitles},
+            { "ShowNotification",    ResultFuncsEnum.ShowNotification},
+            { "ChangeState",         ResultFuncsEnum.ChangeState},
+            { "DeleteProfile",       ResultFuncsEnum.DeleteProfile},
+        };
+        private static readonly Dictionary<string, EChangingParameter> parameters = new Dictionary<string, EChangingParameter>()
+        {
+            {"Initiative",      EChangingParameter.Initiative },
+            {"WaitingSeconds",  EChangingParameter.WaitingSeconds }
         };
         private static readonly Dictionary<ResultFuncsEnum, Action<List<string>>> ResultFuncs = new Dictionary<ResultFuncsEnum, Action<List<string>>>()
         {
@@ -62,8 +73,9 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.PlayMusic,            PlayMusic },
             { ResultFuncsEnum.OpenFile,             OpenFile},
             { ResultFuncsEnum.OpenFact,             OpenFact},
-            { ResultFuncsEnum.ChangeInitiative,     ChangeInitiative},
+            { ResultFuncsEnum.ChangeParameter,      ChangeParameter},
 
+            { ResultFuncsEnum.TryToStartDialogue,   TryToStartDialogue},
             { ResultFuncsEnum.ActivateObject,       ActivateObject},
 
             { ResultFuncsEnum.StartBusiness,        StartBusiness},
@@ -74,7 +86,6 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.AddToFF,              AddToFF},
             { ResultFuncsEnum.DeleteContact,        DeleteContact},
             { ResultFuncsEnum.DeleteContactFF,      DeleteFF},
-
             { ResultFuncsEnum.DeactivateBusiness,   DeactivateBusiness},
             { ResultFuncsEnum.ActivateMiniGame,     ActivateMiniGame},
             { ResultFuncsEnum.DeactivateMiniGame,   DeactivateMiniGame},
@@ -91,6 +102,9 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ShowTask,             ShowTask},
             { ResultFuncsEnum.CloseTask,            CloseTask},
             { ResultFuncsEnum.ShowSubtitles,        ShowSubtitles},
+            { ResultFuncsEnum.ShowNotification,     ShowNotification},
+            { ResultFuncsEnum.ChangeState,          ChangeState},
+            { ResultFuncsEnum.DeleteProfile,        DeleteProfile},
         };
 
 
@@ -121,6 +135,17 @@ namespace ConnectingApplication.Managers
         private static void ShowSubtitles(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowSubtitles, input);
+        }
+
+        private static void ChangeState(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.GetNPC(input[0]).SetIdModificator(input[1]);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeState, input);
+        }
+
+        private static void ShowNotification(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowNotification, input);
         }
 
         private static void CloseTask(List<string> input)
@@ -208,20 +233,34 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateMiniGame, input);
         }
 
+        private static void TryToStartDialogue(List<string> input)
+        {
+            FormatDialogue mode = (FormatDialogue)Int32.Parse(input[2]);
+            var dialogue = ConnectingAppManager.CharacterManager.GetNPC(input[0]).GetDialog(mode, input[1]);
+            if (dialogue != null && !ConnectingAppManager.DialogManager.ActiveDialogs.Contains(dialogue))
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.TryToStartDialogue, input);
+        }
+
         private static void ActivateDialogue(List<string> dialogues)
         {
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                if (dialogue == null)
+
+                if (string.IsNullOrEmpty(dialogue.BusinessId) || ConnectingAppManager.BusinessManager.GetActualBusinessId().Equals(dialogue.BusinessId))
                 {
-                    foreach (var dg in CoreController.DialogueManager.GetDialoguesGroup(d))
+                    if (dialogue == null)
                     {
-                        var dialog = CoreController.DialogueManager.GetDialogue(d);
-                        SaveDialog(dialog);
+                        foreach (var dg in CoreController.DialogueManager.GetDialoguesGroup(d))
+                        {
+                            var dialog = CoreController.DialogueManager.GetDialogue(d);
+                            SaveDialog(dialog);
+                        }
                     }
+                    else SaveDialog(dialogue);
                 }
-                else SaveDialog(dialogue);
+                else Debug.Log($"Попытка активировать диалог, доступный только в занятии: {dialogue.BusinessId}\n" +
+                               $"А сейчас занятие: {ConnectingAppManager.BusinessManager.GetActualBusinessId()}");
             }
         }
 
@@ -236,8 +275,12 @@ namespace ConnectingApplication.Managers
             foreach (var d in dialogues)
             {
                 var dialogue = CoreController.DialogueManager.GetDialogue(d);
-                Dialog dialog = new Dialog(dialogue);
-                ConnectingAppManager.CharacterManager.RemoveDialog(dialog, dialog.Participants.First());
+                if (dialogue != null)
+                {
+                    Dialog dialog = new Dialog(dialogue);
+                    ConnectingAppManager.CharacterManager.RemoveDialog(dialog, dialog.Participants.First());
+                }
+                else Debug.LogError($"Попытка деактивировать несуществующий диалог с id: \"{d}\"");
             }
         }
 
@@ -304,7 +347,7 @@ namespace ConnectingApplication.Managers
         {
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
-            CoreController.TimeModule.MoveSlot(slotsCount);
+            ShowCoreAndConnectingAppEntities.Instance.Date = CoreController.TimeModule.MoveSlot(slotsCount);
         }
 
         private static void StartMiniGame(List<string> input)
@@ -312,19 +355,24 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartMiniGame, input);
         }
 
-        private static void ChangeInitiative(List<string> input)
+        private static void ChangeParameter(List<string> input)
         {
-            string dialogId = input[0];
-            int init = int.Parse(input[1]);
-            CoreController.DialogueManager.ChangeInitiative(input[0], int.Parse(input[1]));
-            if (init == 1)
-                ActivateDialogue(new List<string>() { input[1] });
+            var parameter = parameters[input[0]];
+            string dialogId = input[1];
+            int init = int.Parse(input[2]);
+            CoreController.DialogueManager.ChangeParameter(parameter, input[1], int.Parse(input[2]));
         }
 
         private static void OpenFact(List<string> input)
         {
             ConnectingAppManager.CharacterManager.GetNPC(input[0]).AddFact(input[1]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.OpenFact, input);
+        }
+
+        private static void DeleteProfile(List<string> input)
+        {
+            ConnectingAppManager.CharacterManager.DeleteFile(input[0]);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeleteProfile, input);
         }
 
         private static void OpenFile(List<string> input)

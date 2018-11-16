@@ -1,5 +1,6 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
 using Assets.Scripts;
+using Assets.Scripts.Helpers;
 using ConnectingApplication.Entity;
 using Core.Dialogues;
 using Core.Dialogues.DialogueParameters;
@@ -26,6 +27,8 @@ namespace ConnectingApplication.Managers
         public DialogManager()
         {
             activeDialogs = new List<Dialog>();
+            ShowCoreAndConnectingAppEntities.Instance.ActiveDialogues = activeDialogs;
+
             activeMessageDialogs = new Dictionary<string, List<Dialog>>();
             activeEmailDialogs = new Dictionary<string, List<Dialog>>();
             discussions = new List<Dialog>();
@@ -42,17 +45,20 @@ namespace ConnectingApplication.Managers
             Dialog curDialog = dialogs[charId].Last();
             if (dialogueNode != null)
             {
-                SetResultsForNode(dialogueNode);
+                //SetResultsForNode(dialogueNode);
                 nodeId = dialogueNode.Id;
 
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
-                player.AddMessage(charId, dialogueNode, mode);
+                player.AddMessage(charId, dialogueNode, Characters.Player.MessageType.Sms);
             }
 
             var nextNodes = curDialog.TakeNextNodes(nodeId);
 
             if (nextNodes.Count == 0)
+            {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 dialogs[charId].Remove(curDialog);
+            }
             return nextNodes;
         }
 
@@ -80,7 +86,6 @@ namespace ConnectingApplication.Managers
             }
             else
             {
-				SetResultsForDialog(curDialog);
                 TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
                 activeDialogs.Remove(curDialog);
                 if (curDialog.currentBlock == Core.Dialogues.DialogueBlock.BlockType.bye)
@@ -115,9 +120,12 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 
-        public void AddDiscussion(Dialog dialog)
+        public void AddDiscussion(Dialog d)
         {
-            discussions.Add(dialog);
+            discussions.Add(d);
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.StartDialogue, new List<string>() { d.Participants.First(),
+                                                                                                  d.Id, ((int)d.Format).ToString(),
+                                                                                                  ((int)d.CharacterOfDialogue).ToString() });
         }
 
         public void SetResultsForNode(DialogueNode dialogueNode)
@@ -146,13 +154,18 @@ namespace ConnectingApplication.Managers
             else return new List<DialogueNode>();
         }
 
+        public List<DialogueNode> StartDiscussion(string dialogueId)
+        {
+            return discussions.Find(d => d.Id == dialogueId).TakeNextNodes();
+        }
+
         public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EBreakingResultType breakingType)
         {
             var npc = ConnectingAppManager.CharacterManager.GetNPC(character);
             var dialog = npc.GetAvailableDialogs(dialogueMode).ToList().Find(s => s.Id.Equals(dialogId));
             if (dialog != null)
                 ActivateResultsForDialogBreak(dialog, breakingType);
-        }
+        }  
 
         public void BreakingDialog(EBreakingResultType breakingType)
         {
@@ -160,9 +173,33 @@ namespace ConnectingApplication.Managers
                 ActivateResultsForDialogBreak(ActualDialog, breakingType);
         }
 
-        public List<DialogueNode> ContinueDisscussion(string dialogId)
+        public List<DialogueNode> ContinueDisscussion(string dialogId, DialogueNode dialogueNode = null)
         {
-            return discussions.Find(d => d.Id == dialogId).TakeNextNodes();
+            int nodeId = -1;
+
+            if (discussions.Count == 0)
+                return new List<DialogueNode>();
+
+            Dialog curDialog = discussions.Find(d => d.Id == dialogId);
+            if (dialogueNode != null)
+            {
+                //SetResultsForNode(dialogueNode);
+                nodeId = dialogueNode.Id;
+            }
+            else
+            {
+                if (curDialog.currentNode != null)
+                    nodeId = curDialog.currentNode.Id;
+            }
+
+            var nextNodes = curDialog.TakeNextNodes(nodeId);
+
+            if (nextNodes.Count == 0)
+            {
+                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, new List<string> { curDialog.Id, curDialog.Format.ToString() });
+                discussions.Remove(curDialog);
+            }
+            return nextNodes;
         }
 
         public bool IsLonelyDialog(Dialog dialog)

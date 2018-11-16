@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace ConnectingApplication.Entity.Characters
 {
+    [Serializable]
 	public class Character
 	{
 		public readonly string Id;

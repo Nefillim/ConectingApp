@@ -1,6 +1,10 @@
-﻿using Core;
+﻿using Assets.ConectingApp.ConnectingApplication.Managers;
+using Assets.Scripts.Helpers;
+using Core;
+using Core.TimeMachine;
 using System;
 using UnityEngine;
+using static Core.TimeMachine.TimeModule;
 
 namespace ConnectingApplication.Managers
 {
@@ -9,8 +13,6 @@ namespace ConnectingApplication.Managers
         private static bool _saveMode = false;
 
 
-        public static readonly string PLAYER_ID = "charPlayer";
-
         public static BusinessManager BusinessManager { get; private set; }
         public static CharacterManager CharacterManager { get; private set; }
         public static DialogManager DialogManager { get; private set; }
@@ -18,14 +20,18 @@ namespace ConnectingApplication.Managers
         public static EventResultsManager EventResultsManager { get; private set; }
         public static FlagManager FlagManager { get; private set; }
         public static SaveManager SaveManager { get; private set; }
+        public static CutsceneFactory CutsceneFactory { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
-		[Obsolete("Don't use outside the DownloadManager.")]
-		public static bool SaveMode { get; set; }
+        [Obsolete("Don't use outside the DownloadManager.")]
+        public static bool SaveMode { get; set; }
 
 
-        private static void ExceptionListener(string message)
+        private static void ExceptionListener(string message, EMessageType messageType)
         {
-            Debug.LogError(message);
+            if (messageType == EMessageType.Error)
+                Debug.LogError(message);
+            else
+                Debug.Log($"{messageType.ToString()}:\n {message}");
         }
 
 
@@ -37,6 +43,7 @@ namespace ConnectingApplication.Managers
             DialogManager = new DialogManager();
             DownloadManager = new DownloadManager();
             EventResultsManager = new EventResultsManager();
+            CutsceneFactory = new CutsceneFactory();
             FlagManager = new FlagManager();
             SaveManager = new SaveManager();
 #pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
@@ -44,6 +51,8 @@ namespace ConnectingApplication.Managers
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);
+            ShowCoreAndConnectingAppEntities.Instance.Date = Date;
+
             return parseResult;
         }
 
