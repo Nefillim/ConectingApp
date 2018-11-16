@@ -17,6 +17,10 @@ namespace ConnectingApplication.Entity
     {
         private List<DialogueNode> selectableNodes;
 
+		public struct MessNode {
+			public DialogueNode node;
+			public int date;
+		}
 
         public DialogueNode currentNode;
         public Core.Dialogues.DialogueBlock.BlockType currentBlock;
