@@ -131,24 +131,42 @@ namespace ConnectingApplication.Characters
                     else
                     {
 						Queue<DialogueNode> temp = new Queue<DialogueNode>(textMessages[charId].Reverse());
-                        tempNode = temp.Peek();
-                        if (tempNode.Id != dialogueNode.Id)
-                        {
-                            textMessages[charId].Enqueue(dialogueNode);
-                        }
-                    }
+						if (temp.Count > 0)
+						{
+							tempNode = temp.Peek();
+							if (tempNode.Id != dialogueNode.Id)
+							{
+								textMessages[charId].Enqueue(dialogueNode);
+							}
+						}
+						else
+							textMessages[charId].Enqueue(dialogueNode);
+					}
                     break;
                 case MessageType.Email:
 					Queue<MessNode> tempQ = new Queue<MessNode>(emailMessages.Reverse());
-                    tempNode = tempQ.Peek().node;
-                    if (tempNode.Id != dialogueNode.Id)
-                    {
-						MessNode mes = new MessNode() {
+					if (tempQ.Count > 0)
+					{
+						tempNode = tempQ.Peek().node;
+						if (tempNode.Id != dialogueNode.Id)
+						{
+							MessNode mes = new MessNode()
+							{
+								node = dialogueNode,
+								date = CoreController.TimeModule.GetDate()
+							};
+							emailMessages.Enqueue(mes);
+						}
+					}
+					else
+					{
+						MessNode mes = new MessNode()
+						{
 							node = dialogueNode,
 							date = CoreController.TimeModule.GetDate()
 						};
-                        emailMessages.Enqueue(mes);
-                    }
+						emailMessages.Enqueue(mes);
+					}
                     break;
                 default:
                     break;
