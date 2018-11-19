@@ -60,7 +60,7 @@
     <Compile Include="Managers\DownloadManager.cs" />
     <Compile Include="Managers\EventResultsManager.cs" />
     <Compile Include="Managers\FlagManager.cs" />
-    <Compile Include="Managers\PathManagerImpls\ELanguage.cs" />
+    <Compile Include="Managers\PathManagerImpls\LocalizationType.cs" />
     <Compile Include="Managers\PathManagerImpls\PathManager.cs" />
     <Compile Include="Managers\SaveManager.cs" />
     <Compile Include="Navigation\AStarAI.cs" />
