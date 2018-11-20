@@ -139,7 +139,7 @@ namespace ConnectingApplication.Managers
 
         private static void ChangeState(List<string> input)
         {
-            ConnectingAppManager.CharacterManager.GetNPC(input[0]).SetIdModificator(input[1]);
+            ConnectingAppManager.CharacterManager.GetNPC(input[0]).SetIdModificator(input.Count == 1 ? string.Empty : input[1]);
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeState, input);
         }
 
