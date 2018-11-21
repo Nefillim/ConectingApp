@@ -155,7 +155,7 @@ namespace ConnectingApplication.Managers
 
         public List<DialogueNode> StartDiscussion(string dialogueId)
         {
-            return discussions.Find(d => d.Id == dialogueId).TakeNextNodes();
+            return discussions.Find(d => d.Id == dialogueId).TakeNextNodes(-1);
         }
 
         public void BreakingDialog(string character, string dialogId, FormatDialogue dialogueMode, EBreakingResultType breakingType)
