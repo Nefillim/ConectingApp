@@ -119,10 +119,9 @@ namespace ConnectingApplication.Managers
             ConnectingAppManager.FlagManager.SetFlags(resultFlags);
         }
 
-        public void SetResultsForDialog(string dialogId)
+        public Dialog GetDiscussion(string id)
         {
-            var resultFlags = discussions.Find(s => s.Id.Equals(dialogId)).GetDialogueResults();
-            ConnectingAppManager.FlagManager.SetFlags(resultFlags);
+            return discussions.Find(s => s.Id.Equals(id));
         }
 
         public void AddDiscussion(Dialog d)
