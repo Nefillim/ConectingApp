@@ -348,6 +348,21 @@ namespace ConnectingApplication.Managers
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
             ShowCoreAndConnectingAppEntities.Instance.Date = CoreController.TimeModule.MoveSlot(slotsCount);
+            CoreController.ChangeHealth(-slotsCount);
+            switch (CoreController.Health)
+            {
+                case 0:
+                    Debug.LogError("Game over! Because player health is zero.");
+                    break;
+
+                case 5:
+                case 7:
+                    Debug.Log($"Info: The player health are equal: {CoreController.Health}");
+                    break;
+
+                default:
+                    break;
+            }
         }
 
         private static void StartMiniGame(List<string> input)

@@ -1,4 +1,5 @@
 ﻿using Assets.Scripts.Helpers;
+using Core;
 using Core.Business;
 using Startuper.Devices.Menus;
 using System;
@@ -87,8 +88,9 @@ namespace ConnectingApplication.Managers
                 if (actualBusinessInfo != null)
                 {
                     NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
-                    if (!actualBusinessInfo.Location.Equals(actualBusinessInfo.Location))
-                        Core.CoreController.ChangeBalance((float)Math.Round(random.NextDouble() * 4 + 3, 2));
+                    if (!actualBusinessInfo.Location.Equals(newBusinessInfo.Location))
+                        CoreController.ChangeBalance(-(float)Math.Round(random.NextDouble() * 4 + 3, 2));
+                    Debug.Log($"Info: The player balance are equal: {CoreController.Balance}");
                 }
                 actualBusinessInfo = newBusinessInfo;
                 ShowCoreAndConnectingAppEntities.Instance.ActualBusinessInfo = actualBusinessInfo;
