@@ -57,6 +57,7 @@ namespace ConnectingApplication.Managers
             { "ShowNotification",    ResultFuncsEnum.ShowNotification},
             { "ChangeState",         ResultFuncsEnum.ChangeState},
             { "DeleteProfile",       ResultFuncsEnum.DeleteProfile},
+            { "ActivateDevice",      ResultFuncsEnum.ActivateDevice},
         };
         private static readonly Dictionary<string, EChangingParameter> parameters = new Dictionary<string, EChangingParameter>()
         {
@@ -105,6 +106,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ShowNotification,     ShowNotification},
             { ResultFuncsEnum.ChangeState,          ChangeState},
             { ResultFuncsEnum.DeleteProfile,        DeleteProfile},
+            { ResultFuncsEnum.ActivateDevice,       ActivateDevice},
         };
 
 
@@ -156,6 +158,11 @@ namespace ConnectingApplication.Managers
         private static void ShowTask(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowTask, input);
+        }
+
+        private static void ActivateDevice(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateDevice, input);
         }
 
         private static void AddChar(List<string> input)
