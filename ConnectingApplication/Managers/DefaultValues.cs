@@ -16,6 +16,6 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers
         public static readonly KeyCode OPEN_TASKS_KEY = KeyCode.Tab;
         public static readonly int WAITING_SECONDS_BEFORE_CALL = 10;
         public static readonly int SEARCHING_DISTANCE = 10;
-        public static readonly int MIN_DISTANCE_FOR_INTERACTION = 1;
+        public static readonly int MIN_DISTANCE_FOR_INTERACTION = 2;
     }
 }
