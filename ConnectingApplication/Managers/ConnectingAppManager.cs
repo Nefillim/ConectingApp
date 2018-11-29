@@ -22,6 +22,8 @@ namespace ConnectingApplication.Managers
         public static SaveManager SaveManager { get; private set; }
         public static CutsceneFactory CutsceneFactory { get; private set; }
         public static int Date { get { return CoreController.TimeModule.GetDate(); } }
+        public static float Balance { get { return CoreController.Balance; } }
+        public static int Health { get { return CoreController.Health; } }
         [Obsolete("Don't use outside the DownloadManager.")]
         public static bool SaveMode { get; set; }
 
