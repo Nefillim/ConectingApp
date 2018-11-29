@@ -70,13 +70,13 @@ namespace ConnectingApplication.Managers
         public IList<Business> GetBusiness(bool forCalendar)
         {
             var businesses = availableBusiness;
-			if (forCalendar)
+            if (forCalendar)
             {
                 businesses = new List<string>();
                 businesses.AddRange(availableBusiness);
                 businesses.AddRange(impossibleBusinesses);
             }
-            return Core.CoreController.BusinessManager.GetBusinesses(businesses, forCalendar).AsReadOnly();
+            return CoreController.BusinessManager.GetBusinesses(businesses, forCalendar).AsReadOnly();
         }
 
         public BusinessInfo GetBusinessInfo(string businessId)
@@ -110,6 +110,9 @@ namespace ConnectingApplication.Managers
         {
             if (availableBusiness.Contains(business))
                 availableBusiness.Remove(business);
+            else if (impossibleBusinesses.Contains(business))
+                impossibleBusinesses.Remove(business);
+            else Debug.LogError($"Попытка деактивировать неактивированное занятие с id: {business}");
         }
 
         public void SetFlagsWhenBusinessStart(BusinessInfo business)

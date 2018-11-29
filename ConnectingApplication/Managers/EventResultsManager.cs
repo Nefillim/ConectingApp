@@ -326,7 +326,6 @@ namespace ConnectingApplication.Managers
             foreach (var b in businesses)
             {
                 ConnectingAppManager.BusinessManager.RemoveAvailableBusiness(b);
-                TriangleManager.InvokeResultFuncs(ResultFuncsEnum.DeactivateBusiness, businesses);
             }
         }
 
