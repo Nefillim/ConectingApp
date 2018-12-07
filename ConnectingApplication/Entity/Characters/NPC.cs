@@ -127,10 +127,10 @@ namespace ConnectingApplication.Characters
             // Удаление такого же диалога, и запись нового(тип начать с начала).
             //if (availableDialogs[d.Format].Exists(s => s.Id.Equals(d.Id)))
             //availableDialogs[d.Format].RemoveAll(s => s.Id.Equals(d.Id));
-
+            var isContains = availableDialogs[d.Format].Contains(d);
             if (d.CharacterOfDialogue == CharacterOfDialogue.express || d.Outgoing)
             {
-                if (!availableDialogs[d.Format].Contains(d))
+                if (!isContains)
                 {
                     availableDialogs[d.Format].Insert(0, d);
                 }
@@ -140,7 +140,7 @@ namespace ConnectingApplication.Characters
                     TryToStartDialog(d);
                 }
             }
-            else if (!availableDialogs[d.Format].Contains(d)) { availableDialogs[d.Format].Add(d); }
+            else if (!isContains) { availableDialogs[d.Format].Add(d); }
 
             if (d.Outgoing)
                 TryToStartDialog(d);
