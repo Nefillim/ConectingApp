@@ -52,6 +52,8 @@ namespace ConnectingApplication.Managers
 
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
+
+            return true;
         }
 
         public static bool StartCore(string pathToConfigFiles, string stepName)
