@@ -23,6 +23,7 @@ namespace ConnectingApplication.Managers
             saveQueue = new Queue<Flag>();
         }
 
+
         public void EnqueueFlag(Flag flag)
         {
             saveQueue.Enqueue(flag);
@@ -33,9 +34,9 @@ namespace ConnectingApplication.Managers
             iteratorPosition = saveQueue.Count;
         }
 
-		public void Download()
+		public void Download(int type)
 		{
-			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{DefaultValues.PLAYER_ID}", FileMode.Open))
+			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{DefaultValues.PLAYER_ID}{type}", FileMode.Open))
 			{
 				var player = ConnectingAppManager.CharacterManager.GetPlayer();
 #pragma warning disable CS0618 // Type or member is obsolete
@@ -73,10 +74,10 @@ namespace ConnectingApplication.Managers
 			}
 		}
 
-		public void Save()
+		public void Save(int type)
 		{
 
-			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{DefaultValues.PLAYER_ID}", FileMode.OpenOrCreate))
+			using (FileStream stream = new FileStream($"{PathManager.GetPathToSaveFilesDirectory()}{DefaultValues.PLAYER_ID}{type}", FileMode.OpenOrCreate))
 			{
 				using (BinaryWriter writer = new BinaryWriter(stream))
 				{
