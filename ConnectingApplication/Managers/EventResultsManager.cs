@@ -1,4 +1,5 @@
 ﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+using Assets.ConectingApp.ConnectingApplication.Managers;
 using Assets.Scripts;
 using Assets.Scripts.Helpers;
 using ConnectingApplication.Characters;
@@ -353,7 +354,7 @@ namespace ConnectingApplication.Managers
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
             ShowCoreAndConnectingAppEntities.Instance.Date = CoreController.TimeModule.MoveSlot(slotsCount);
-            CoreController.ChangeHealth(-slotsCount);
+            CoreController.ChangeHealth(-slotsCount * DefaultValues.DECREMENT_HEALTH_FOR_ONE_SLOT_MOVE);
             switch (CoreController.Health)
             {
                 case 0:
