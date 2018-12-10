@@ -37,9 +37,9 @@ namespace ConnectingApplication.Managers
         }
 
 
-        public static bool StartAppAndCore(string pathToConfigFiles, string stepName)
+        public static bool StartApp()
         {
-#pragma warning disable CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
+            #pragma warning disable CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
             BusinessManager = new BusinessManager();
             CharacterManager = new CharacterManager();
             DialogManager = new DialogManager();
@@ -48,10 +48,14 @@ namespace ConnectingApplication.Managers
             CutsceneFactory = new CutsceneFactory();
             FlagManager = new FlagManager();
             SaveManager = new SaveManager();
-#pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
+            #pragma warning restore CS0618 // Не придумал другой защиты от создания новых экземпляров классов.
 
             CoreController.ResultMethod += EventResultsManager.CoreEventsResult;
             CoreController.ExceptionMethod += ExceptionListener;
+        }
+
+        public static bool StartCore(string pathToConfigFiles, string stepName)
+        {
             var parseResult = CoreController.StartCore(pathToConfigFiles, stepName);
             ShowCoreAndConnectingAppEntities.Instance.Date = Date;
 
