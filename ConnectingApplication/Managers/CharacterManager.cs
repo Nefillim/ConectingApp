@@ -43,9 +43,7 @@ namespace ConnectingApplication.Managers
             if (Characters[character] is NPC)
             {
                 if (dialog.CharacterOfDialogue == CharacterOfDialogue.discuss)
-                {
                     ConnectingAppManager.DialogManager.AddDiscussion(dialog);
-                }
                 else ((NPC)Characters[character]).AddDialog(dialog);
             }
             else Debug.LogError("Trying to add dialog to player");
