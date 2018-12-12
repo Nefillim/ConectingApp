@@ -59,6 +59,9 @@ namespace ConnectingApplication.Managers
             { "ChangeState",         ResultFuncsEnum.ChangeState},
             { "DeleteProfile",       ResultFuncsEnum.DeleteProfile},
             { "ActivateDevice",      ResultFuncsEnum.ActivateDevice},
+            { "ChangeBalance",       ResultFuncsEnum.ChangeBalance},
+            { "ChangeHealth",        ResultFuncsEnum.ChangeHealth},
+            { "GameOver",            ResultFuncsEnum.GameOver},
         };
         private static readonly Dictionary<string, EChangingParameter> parameters = new Dictionary<string, EChangingParameter>()
         {
@@ -108,6 +111,9 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ChangeState,          ChangeState},
             { ResultFuncsEnum.DeleteProfile,        DeleteProfile},
             { ResultFuncsEnum.ActivateDevice,       ActivateDevice},
+            { ResultFuncsEnum.ChangeBalance,        ChangeBalance},
+            { ResultFuncsEnum.ChangeHealth,         ChangeHealth},
+            { ResultFuncsEnum.GameOver,             GameOver},
         };
 
 
@@ -155,9 +161,26 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.CloseTask, input);
         }
 
+        private static void ChangeBalance(List<string> input)
+        {
+            CoreController.ChangeBalance(float.Parse(input[0]));
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeBalance, input);
+        }
+
+        private static void ChangeHealth(List<string> input)
+        {
+            CoreController.ChangeHealth(int.Parse(input[0]));
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeHealth, input);
+        }
+
         private static void ShowTask(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ShowTask, input);
+        }
+
+        private static void GameOver(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.GameOver, input);
         }
 
         private static void ActivateDevice(List<string> input)
@@ -354,21 +377,7 @@ namespace ConnectingApplication.Managers
             int slotsCount = 0;
             slotsCount = input.Count == 0 ? ConnectingAppManager.BusinessManager.GetCountOfSlotsForActualBusinessInfo() : int.Parse(input.First());
             ShowCoreAndConnectingAppEntities.Instance.Date = CoreController.TimeModule.MoveSlot(slotsCount);
-            CoreController.ChangeHealth(-slotsCount * DefaultValues.DECREMENT_HEALTH_FOR_ONE_SLOT_MOVE);
-            switch (CoreController.Health)
-            {
-                case 0:
-                    Debug.LogError("Game over! Because player health is zero.");
-                    break;
-
-                case 5:
-                case 7:
-                    Debug.Log($"Info: The player health are equal: {CoreController.Health}");
-                    break;
-
-                default:
-                    break;
-            }
+            ChangeHealth(new List<string> { (-slotsCount * DefaultValues.DECREMENT_HEALTH_FOR_ONE_SLOT_MOVE).ToString() });
         }
 
         private static void StartMiniGame(List<string> input)

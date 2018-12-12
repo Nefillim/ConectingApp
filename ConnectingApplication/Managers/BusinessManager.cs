@@ -89,8 +89,8 @@ namespace ConnectingApplication.Managers
                 {
                     NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
                     if (!actualBusinessInfo.Location.Equals(newBusinessInfo.Location))
-                        CoreController.ChangeBalance(-(float)Math.Round(random.NextDouble() * 4 + 3, 2));
-                    Debug.Log($"Info: The player balance are equal: {CoreController.Balance}");
+                        ConnectingAppManager.EventResultsManager.CoreEventsResult("ChangeBalance", 
+                                                                                  new List<string> { (-(float)Math.Round(random.NextDouble() * 4 + 3, 2)).ToString() });
                 }
                 actualBusinessInfo = newBusinessInfo;
                 ShowCoreAndConnectingAppEntities.Instance.ActualBusinessInfo = actualBusinessInfo;
