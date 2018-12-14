@@ -90,7 +90,7 @@ namespace ConnectingApplication.Managers
                     NewBusiness.Invoke(actualBusinessInfo.BusinessId, newBusinessInfo.BusinessId);
                     if (!actualBusinessInfo.Location.Equals(newBusinessInfo.Location))
                         ConnectingAppManager.EventResultsManager.CoreEventsResult("ChangeBalance", 
-                                                                                  new List<string> { "transTaxi", (-(float)Math.Round(random.NextDouble() * 4 + 3, 2)).ToString() });
+                                                                                  new List<string> { "tranBlubber", (-(float)Math.Round(random.NextDouble() * 4 + 3, 2)).ToString() });
                 }
                 actualBusinessInfo = newBusinessInfo;
                 ShowCoreAndConnectingAppEntities.Instance.ActualBusinessInfo = actualBusinessInfo;
