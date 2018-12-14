@@ -15,7 +15,7 @@ namespace Assets.ConectingApp.ConnectingApplication.Managers
         public static readonly KeyCode INTERACTION_KEY = KeyCode.F;
         public static readonly KeyCode OPEN_TASKS_KEY = KeyCode.Tab;
         public static readonly int WAITING_SECONDS_BEFORE_CALL = 10;
-        public static readonly int DECREMENT_HEALTH_FOR_ONE_SLOT_MOVE = 1;
+        public static readonly int DECREMENT_HEALTH_FOR_ONE_SLOT_MOVE = 2;
         public static readonly int SEARCHING_DISTANCE = 10;
         public static readonly int MIN_DISTANCE_FOR_INTERACTION = 2;
     }
