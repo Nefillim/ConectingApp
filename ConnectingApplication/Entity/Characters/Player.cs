@@ -1,4 +1,5 @@
-﻿using Assets.ConectingApp.ConnectingApplication.Enums;
+﻿using Assets.ConectingApp.ConnectingApplication.Entity;
+using Assets.ConectingApp.ConnectingApplication.Enums;
 using ConnectingApplication.Entity;
 using ConnectingApplication.Entity.Characters;
 using Core;
@@ -28,10 +29,11 @@ namespace ConnectingApplication.Characters
         }
 		
 
-        private Dictionary<string, Queue<DialogueNode>> textMessages;
-        private Queue<MessNode> emailMessages;
-        private Dictionary<ContactType, List<string>> contacts;
-        private List<string> files;
+        private readonly Dictionary<string, Queue<DialogueNode>> textMessages;
+        private readonly Queue<MessNode> emailMessages;
+        private readonly Dictionary<ContactType, List<string>> contacts;
+        private readonly List<string> files;
+        private readonly Queue<Transaction> transactionsHistory;
 
 
         public Player()
@@ -46,6 +48,7 @@ namespace ConnectingApplication.Characters
             files = new List<string>();
             textMessages = new Dictionary<string, Queue<DialogueNode>>();
             emailMessages = new Queue<MessNode>();
+            transactionsHistory = new Queue<Transaction>();
         }
 
 
@@ -54,6 +57,11 @@ namespace ConnectingApplication.Characters
             if (!textMessages.ContainsKey(charId))
                 return new Queue<DialogueNode>();
             return new Queue<DialogueNode>(textMessages[charId]);
+        }
+
+        public void SaveTransaction(string transactionId, float value)
+        {
+            transactionsHistory.Enqueue(new Transaction(transactionId, value));
         }
 
         public Queue<MessNode> GetEmailsHistory()
@@ -101,7 +109,6 @@ namespace ConnectingApplication.Characters
 			for (int j = 0; j < smsCount; j++)
 			{
 				int emailQueueCount = reader.ReadInt32();
-				emailMessages = new Queue<MessNode>();
 				for (int i = 0; i < emailQueueCount; i++)
 				{
 					int nodeId = reader.ReadInt32();
@@ -181,6 +188,11 @@ namespace ConnectingApplication.Characters
         public IList<string> GetFiles()
         {
             return files.AsReadOnly();
+        }
+
+        public Queue<Transaction> GetTransactions()
+        {
+            return new Queue<Transaction>(transactionsHistory);
         }
 
         public void AddContact(string character, ContactType contactType)
