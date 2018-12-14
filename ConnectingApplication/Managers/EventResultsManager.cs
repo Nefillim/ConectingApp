@@ -163,16 +163,8 @@ namespace ConnectingApplication.Managers
 
         private static void ChangeBalance(List<string> input)
         {
-            if (input.Count == 2)
-            {
-                CoreController.ChangeBalance(float.Parse(input[1]));
-                ConnectingAppManager.CharacterManager.GetPlayer().SaveTransaction(input[0], float.Parse(input[1]));
-            }
-            else
-            {
-                CoreController.ChangeBalance(float.Parse(input[0]));
-                ConnectingAppManager.CharacterManager.GetPlayer().SaveTransaction("noName", float.Parse(input[0]));
-            }
+            CoreController.ChangeBalance(float.Parse(input[1]));
+            ConnectingAppManager.CharacterManager.GetPlayer().SaveTransaction(input[0], float.Parse(input[1]));
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ChangeBalance, input);
         }
 
