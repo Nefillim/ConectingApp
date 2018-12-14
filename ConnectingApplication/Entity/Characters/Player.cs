@@ -8,6 +8,7 @@ using Core.Dialogues.DialogueBlock;
 using Core.Dialogues.DialogueParameters;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,27 +17,33 @@ using static ConnectingApplication.Entity.Dialog;
 
 namespace ConnectingApplication.Characters
 {
-    [Serializable]
-    public class Player : Character
-    {
-        public enum ContactType
-        {
-            Phone, Flype, FF, Email
-        }
-        public enum MessageType
-        {
-            Sms, Email
-        }
-		
+	[Serializable]
+	public class Player : Character
+	{
+		public enum ContactType
+		{
+			Phone, Flype, FF, Email
+		}
+		public enum MessageType
+		{
+			Sms, Email
+		}
 
-        private readonly Dictionary<string, Queue<DialogueNode>> textMessages;
-        private readonly Queue<MessNode> emailMessages;
-        private readonly Dictionary<ContactType, List<string>> contacts;
-        private readonly List<string> files;
-        private readonly Queue<Transaction> transactionsHistory;
+		public struct TextMes
+		{
+			public DialogueNode node;
+			public string dialogId;
+		}
 
+		private readonly Dictionary<string, Queue<TextMes>> TextMessages;
+		private readonly Queue<MessNode> emailMessages;
+		private readonly Dictionary<ContactType, List<string>> contacts;
+		private readonly List<string> files;
+		private readonly Queue<Transaction> transactionsHistory;
 
-        public Player()
+		private readonly Dictionary<string, Queue<DialogueNode>> textMessages;
+
+		public Player()
         {
             contacts = new Dictionary<ContactType, List<string>>()
             {
@@ -46,6 +53,7 @@ namespace ConnectingApplication.Characters
                 { ContactType.FF,       new List<string>()},
             };
             files = new List<string>();
+			TextMessages = new Dictionary<string, Queue<TextMes>>();
             textMessages = new Dictionary<string, Queue<DialogueNode>>();
             emailMessages = new Queue<MessNode>();
             transactionsHistory = new Queue<Transaction>();
@@ -71,14 +79,15 @@ namespace ConnectingApplication.Characters
 
 		public void SaveMessageHistory(BinaryWriter writer)
 		{
-			writer.Write(textMessages.Count);
-			foreach (string name in textMessages.Keys)
+			writer.Write(TextMessages.Count);
+			foreach (string name in TextMessages.Keys)
 			{
 				writer.Write(name);
-				writer.Write(textMessages[name].Count);
-				foreach (DialogueNode mes in textMessages[name])
+				writer.Write(TextMessages[name].Count);
+				foreach (TextMes mes in TextMessages[name])
 				{
-					writer.Write(mes.Id);
+					writer.Write(mes.node.Id);
+					writer.Write(mes.dialogId);
 				}
 			}
 			writer.Write(emailMessages.Count);
@@ -98,11 +107,16 @@ namespace ConnectingApplication.Characters
 				string contact = reader.ReadString();
 				int smsQueueCount = reader.ReadInt32();
 				textMessages.Add(contact, new Queue<DialogueNode>());
+				TextMessages.Add(contact, new Queue<TextMes>());
 				for (int i = 0; i < smsQueueCount; i++)
 				{
 					int nodeId = reader.ReadInt32();
-					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(Id, BlockType.body, EGetDialogueNodeType.next, nodeId);
-					textMessages[contact].Enqueue(nodes.Find(n => n.Id == nodeId));
+					string DialogId = reader.ReadString();
+					List<DialogueNode> nodes = CoreController.DialogueManager.GetNodesForDialogue(DialogId, BlockType.body, EGetDialogueNodeType.next, nodeId);
+					DialogueNode tempNode = nodes.Find(n => n.Id == nodeId);
+					TextMes tempMes = new TextMes() { node = tempNode, dialogId = DialogId};
+					textMessages[contact].Enqueue(tempNode);
+					TextMessages[contact].Enqueue(tempMes);
 				}
 			}
 			int emailCount = reader.ReadInt32();
@@ -124,30 +138,43 @@ namespace ConnectingApplication.Characters
 			}
 		}
 
-		public void AddMessage(string charId, DialogueNode dialogueNode, MessageType mode)
+		public void AddMessage(string charId, DialogueNode dialogueNode, MessageType mode, string dialogId)
         {
             DialogueNode tempNode;
+			TextMes tempSms;
             switch (mode)
             {
                 case MessageType.Sms:
-                    if (!textMessages.ContainsKey(charId))
-                    {
-                        textMessages.Add(charId, new Queue<DialogueNode>());
-                        textMessages[charId].Enqueue(dialogueNode);
-                    }
-                    else
-                    {
+					TextMes tempMess = new TextMes();
+					tempMess.node = dialogueNode;
+					tempMess.dialogId = dialogId;
+
+					if (!textMessages.ContainsKey(charId))
+					{
+						textMessages.Add(charId, new Queue<DialogueNode>());
+						textMessages[charId].Enqueue(dialogueNode);
+						TextMessages.Add(charId, new Queue<TextMes>());
+						TextMessages[charId].Enqueue(tempMess);
+					}
+					else
+					{
 						Queue<DialogueNode> temp = new Queue<DialogueNode>(textMessages[charId].Reverse());
+						Queue<TextMes> tempText = new Queue<TextMes>(TextMessages[charId].Reverse());
 						if (temp.Count > 0)
 						{
 							tempNode = temp.Peek();
+							tempSms = tempText.Peek();
 							if (tempNode.Id != dialogueNode.Id)
 							{
 								textMessages[charId].Enqueue(dialogueNode);
+								TextMessages[charId].Enqueue(tempMess);
 							}
 						}
 						else
+						{
 							textMessages[charId].Enqueue(dialogueNode);
+							TextMessages[charId].Enqueue(tempMess);
+						}
 					}
                     break;
                 case MessageType.Email:
