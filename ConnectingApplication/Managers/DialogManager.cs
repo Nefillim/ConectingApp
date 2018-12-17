@@ -48,7 +48,7 @@ namespace ConnectingApplication.Managers
                 nodeId = dialogueNode.Id;
 
                 var player = ConnectingAppManager.CharacterManager.GetPlayer();
-                player.AddMessage(charId, dialogueNode, mode == FormatDialogue.sms ? Characters.Player.MessageType.Sms : Characters.Player.MessageType.Email);
+                player.AddMessage(charId, dialogueNode, mode == FormatDialogue.sms ? Characters.Player.MessageType.Sms : Characters.Player.MessageType.Email, curDialog.Id);
             }
 
             var nextNodes = curDialog.TakeNextNodes(nodeId);
