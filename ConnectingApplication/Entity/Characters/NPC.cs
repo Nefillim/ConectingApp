@@ -161,7 +161,10 @@ namespace ConnectingApplication.Characters
             if (availableDialogs.ContainsKey(dialogueMode) && availableDialogs[dialogueMode].Count > 0)
             {
                 if (dialogId.Equals(""))
-                    return availableDialogs[dialogueMode].First();
+                {
+                    var notRepeatableDialog = availableDialogs[dialogueMode].Find(s => !s.Reusable);
+                    return notRepeatableDialog == null ? availableDialogs[dialogueMode].First() : notRepeatableDialog;
+                }
                 else return availableDialogs[dialogueMode].Find(s => s.Id.Equals(dialogId));
             }
             else return null;
