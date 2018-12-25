@@ -30,7 +30,7 @@ namespace ConnectingApplication.Managers
 
             { "TryToStartDialogue",  ResultFuncsEnum.TryToStartDialogue},
             { "ActivateObject",      ResultFuncsEnum.ActivateObject},
-
+            { "EndOfDialog",         ResultFuncsEnum.EndOfDialog},
             { "StartBusiness",       ResultFuncsEnum.StartBusiness},
             { "GetChoose",           ResultFuncsEnum.GetChoose},
 
@@ -62,6 +62,7 @@ namespace ConnectingApplication.Managers
             { "ChangeBalance",       ResultFuncsEnum.ChangeBalance},
             { "ChangeHealth",        ResultFuncsEnum.ChangeHealth},
             { "GameOver",            ResultFuncsEnum.GameOver},
+            { "SetBlock",            ResultFuncsEnum.SetBlock},
         };
         private static readonly Dictionary<string, EChangingParameter> parameters = new Dictionary<string, EChangingParameter>()
         {
@@ -82,7 +83,7 @@ namespace ConnectingApplication.Managers
 
             { ResultFuncsEnum.TryToStartDialogue,   TryToStartDialogue},
             { ResultFuncsEnum.ActivateObject,       ActivateObject},
-
+            { ResultFuncsEnum.EndOfDialog,          EndOfDialog},
             { ResultFuncsEnum.StartBusiness,        StartBusiness},
             { ResultFuncsEnum.GetChoose,            GetChoose},
 
@@ -114,6 +115,7 @@ namespace ConnectingApplication.Managers
             { ResultFuncsEnum.ChangeBalance,        ChangeBalance},
             { ResultFuncsEnum.ChangeHealth,         ChangeHealth},
             { ResultFuncsEnum.GameOver,             GameOver},
+            { ResultFuncsEnum.SetBlock,             SetBlock},
         };
 
 
@@ -161,6 +163,11 @@ namespace ConnectingApplication.Managers
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.CloseTask, input);
         }
 
+        private static void SetBlock(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.SetBlock, input);
+        }
+
         private static void ChangeBalance(List<string> input)
         {
             CoreController.ChangeBalance(float.Parse(input[1]));
@@ -187,6 +194,11 @@ namespace ConnectingApplication.Managers
         private static void ActivateDevice(List<string> input)
         {
             TriangleManager.InvokeResultFuncs(ResultFuncsEnum.ActivateDevice, input);
+        }
+
+        private static void EndOfDialog(List<string> input)
+        {
+            TriangleManager.InvokeResultFuncs(ResultFuncsEnum.EndOfDialog, input);
         }
 
         private static void AddChar(List<string> input)

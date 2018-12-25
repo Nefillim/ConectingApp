@@ -16,6 +16,6 @@ namespace Assets.ConectingApp.ConnectingApplication.Enums
         DeactivateMiniGame, DeactivateDialogue, StartDialogue, AddChar, GoTo,
         AddTask, SayReplic, Fade, ChangeLocState, Change, Teleport, ShowTask,
         CloseTask, ShowSubtitles, ShowNotification, ChangeState, DeleteProfile,
-        ActivateDevice, ChangeBalance, ChangeHealth, GameOver
+        ActivateDevice, ChangeBalance, ChangeHealth, GameOver, SetBlock
     }
 }
